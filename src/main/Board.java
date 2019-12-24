@@ -16,7 +16,10 @@ public class Board {
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
 //                if (i % 2 == 0 && j % 2 == 0) {
-                    board[i][j] = new EmptyPiece(i,j);
+                int colourOfPiece;
+                // TODO: check this
+                if (i % 2 == 0 || j % 2 == 0)
+                    board[i][j] = new EmptyPiece(i,j, );
 //                } else {
 //                    board[i][j] = 1;
 //                }
