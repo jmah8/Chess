@@ -1,6 +1,7 @@
 package main.pieces;
 
 import main.Position;
+import org.omg.PortableServer.POA;
 
 import java.util.*;
 
@@ -20,7 +21,38 @@ public abstract class ChessPiece {
 
     public abstract void updatePossibleMoves();
 
-    public void movePiece() {
+    public void movePiece(int index) {
 
     }
+
+    public PieceName getPieceID() {
+        return pieceID;
+    }
+
+    public int getTeam() {
+        return team;
+    }
+
+    public Position getPosition() {
+        return position;
+    }
+
+    public List<Position> getPossibleMoves() {
+        return possibleMoves;
+    }
+
+//    @Override
+//    public boolean equals(Object o) {
+//        if (this == o) return true;
+//        if (!(o instanceof ChessPiece)) return false;
+//        ChessPiece that = (ChessPiece) o;
+//        return team == that.team &&
+//                pieceID == that.pieceID &&
+//                position.equals(that.position);
+//    }
+//
+//    @Override
+//    public int hashCode() {
+//        return Objects.hash(team, pieceID, position);
+//    }
 }

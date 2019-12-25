@@ -13,6 +13,11 @@ public class Pawn extends ChessPiece{
     public void updatePossibleMoves() {
         int x = position.getXcoord();
         int y = position.getYcoord();
-        possibleMoves.add(new Position(x, y-1));
+        // TODO: make this method team specific
+        if (team == 0) {
+            possibleMoves.add(new Position(x, y - 1));
+        } else {
+            possibleMoves.add(new Position(x, y + 1));
+        }
     }
 }

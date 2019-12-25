@@ -1,5 +1,7 @@
 package main.pieces;
 
+import main.Position;
+
 public class Rook extends ChessPiece {
 
     public Rook(int xcoord, int ycoord, int team) {
@@ -9,11 +11,13 @@ public class Rook extends ChessPiece {
 
     @Override
     public void updatePossibleMoves() {
-
-    }
-
-    @Override
-    public void movePiece() {
-
+        int x = position.getXcoord();
+        int y = position.getYcoord();
+        for (int i = 0; i < 8; i++) {
+            possibleMoves.add(new Position(x, i));
+        }
+        for (int j = 0; j < 8; j++) {
+            possibleMoves.add(new Position(j, y));
+        }
     }
 }
