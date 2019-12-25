@@ -2,6 +2,7 @@ package test;
 
 import main.Position;
 import main.pieces.Pawn;
+import main.pieces.PieceName;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -22,12 +23,23 @@ public class PawnTest {
         assertEquals(1, pawn.getPosition().getXcoord());
         assertEquals(0, pawn.getPosition().getYcoord());
         assertEquals(1, pawn.getTeam());
+        assertEquals(PieceName.PAWN, pawn.getPieceID());
     }
 
     @Test
-    public void updatePossibleMovesTest() {
+    public void updatePossibleMovesTestBlack() {
         pawn.updatePossibleMoves();
         List<Position> moves = pawn.getPossibleMoves();
-        assertTrue(pawn.g);
+        assertEquals(new Position(1, 1), moves.get(0));
+        assertEquals(1, moves.size());
+    }
+
+    @Test
+    public void updatePossibleMovesTestWhite() {
+        pawn = new Pawn(2, 6, 0);
+        pawn.updatePossibleMoves();
+        List<Position> moves = pawn.getPossibleMoves();
+        assertEquals(new Position(2, 5), moves.get(0));
+        assertEquals(1, moves.size());
     }
 }

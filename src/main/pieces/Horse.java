@@ -14,6 +14,13 @@ public class Horse extends ChessPiece {
         int x = position.getXcoord();
         int y = position.getXcoord();
         possibleMoves.add(new Position(x+2, y+1));
-        possibleMoves.add(new Position(x+2, y+1));
+        possibleMoves.add(new Position(x+2, y-1));
+        possibleMoves.add(new Position(x-2, y+1));
+        possibleMoves.add(new Position(x-2, y-1));
+
+        possibleMoves.add(new Position(x-1, y-2));
+        possibleMoves.add(new Position(x-1, y+2));
+        possibleMoves.add(new Position(x+1, y-2));
+        possibleMoves.add(new Position(x+1, y+2));
     }
 }
