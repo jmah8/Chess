@@ -9,6 +9,7 @@ public class Queen extends ChessPiece {
 
     @Override
     public void updatePossibleMoves() {
-
+        updatePossibleMovesStraight();
+        updatePossibleMovesDiagonal();
     }
 }

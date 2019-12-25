@@ -19,12 +19,13 @@ public class Board {
         int boardIndex = 0;
         for (int i = 0; i < board.length; i++) {
             for (int j = 0; j < board[i].length; j++) {
-                // TODO: check this
-                if (boardIndex % 2 == 0) {
-                    board[i][j] = new EmptyPiece(i, j, 0);
-                } else {
-                    board[i][j] = new EmptyPiece(i, j, 1);
-                }
+//                // TODO: leave this in if you want pieces to have different team values
+//                if (boardIndex % 2 == 0) {
+//                    board[i][j] = new EmptyPiece(i, j, 0);
+//                } else {
+//                    board[i][j] = new EmptyPiece(i, j, 1);
+//                }
+                board[i][j] = new EmptyPiece(i, j);
             }
         }
     }
