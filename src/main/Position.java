@@ -7,6 +7,7 @@ public class Position {
     private int xcoord;
     private int ycoord;
 
+    // REQUIRES: xcoord and ycoord 0 <= x <= 7
     public Position(int xcoord, int ycoord) {
         this.xcoord = xcoord;
         this.ycoord = ycoord;
