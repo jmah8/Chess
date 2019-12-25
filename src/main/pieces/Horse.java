@@ -12,7 +12,7 @@ public class Horse extends ChessPiece {
     @Override
     public void updatePossibleMoves() {
         int x = position.getXcoord();
-        int y = position.getXcoord();
+        int y = position.getYcoord();
         possibleMoves.add(new Position(x+2, y+1));
         possibleMoves.add(new Position(x+2, y-1));
         possibleMoves.add(new Position(x-2, y+1));

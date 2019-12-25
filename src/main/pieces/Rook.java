@@ -14,14 +14,18 @@ public class Rook extends ChessPiece {
         int x = position.getXcoord();
         int y = position.getYcoord();
         for (int i = 0; i < 8; i++) {
-            if (!possibleMoves.contains(new Position(x, i))) {
-                possibleMoves.add(new Position(x, i));
+            Position p = new Position(x, i);
+            if (!possibleMoves.contains(p) && p != position) {
+                possibleMoves.add(p);
             }
         }
         for (int j = 0; j < 8; j++) {
-            if (!possibleMoves.contains(new Position(j, y))) {
+            Position p = new Position(j, y);
+            if (!possibleMoves.contains(p) && p != position) {
                 possibleMoves.add(new Position(j, y));
             }
         }
+        // TODO: find out why i need this to pass test
+        possibleMoves.remove(position);
     }
 }

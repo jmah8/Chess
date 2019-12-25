@@ -1,6 +1,7 @@
 package test;
 
 import main.Position;
+import main.pieces.ChessPiece;
 import main.pieces.Pawn;
 import main.pieces.PieceName;
 import org.junit.jupiter.api.BeforeEach;
@@ -11,7 +12,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class PawnTest {
-    private Pawn pawn;
+    private ChessPiece pawn;
 
     @BeforeEach
     public void setUp() {

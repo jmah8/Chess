@@ -2,6 +2,7 @@ package test;
 
 import javafx.geometry.Pos;
 import main.Position;
+import main.pieces.ChessPiece;
 import main.pieces.Horse;
 import main.pieces.PieceName;
 import org.junit.jupiter.api.BeforeEach;
@@ -12,7 +13,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class HorseTest {
-    private Horse horse;
+    private ChessPiece horse;
 
     @BeforeEach
     public void setUp() {
@@ -32,13 +33,13 @@ public class HorseTest {
         horse.updatePossibleMoves();
         List<Position> moves = horse.getPossibleMoves();
         assertEquals(8, moves.size());
-        assertTrue(moves.contains(new Position(4, 2)));
-        assertTrue(moves.contains(new Position(5, 3)));
-        assertTrue(moves.contains(new Position(2, 2)));
         assertTrue(moves.contains(new Position(1, 3)));
-        assertTrue(moves.contains(new Position(4, 6)));
-        assertTrue(moves.contains(new Position(5, 5)));
-        assertTrue(moves.contains(new Position(2, 6)));
         assertTrue(moves.contains(new Position(1, 5)));
+        assertTrue(moves.contains(new Position(2, 2)));
+        assertTrue(moves.contains(new Position(2, 6)));
+        assertTrue(moves.contains(new Position(4, 2)));
+        assertTrue(moves.contains(new Position(4, 6)));
+        assertTrue(moves.contains(new Position(5, 3)));
+        assertTrue(moves.contains(new Position(5, 5)));
     }
 }
