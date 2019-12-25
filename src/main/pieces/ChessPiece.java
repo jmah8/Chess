@@ -19,6 +19,8 @@ public abstract class ChessPiece {
         possibleMoves = new ArrayList<>();
     }
 
+    // MODIFIES: this
+    // EFFECT: update possible move list depending on the piece
     public abstract void updatePossibleMoves();
 
     public void movePiece(int index) {
@@ -39,6 +41,62 @@ public abstract class ChessPiece {
 
     public List<Position> getPossibleMoves() {
         return possibleMoves;
+    }
+
+    // TODO: check for collisions so that a rook/queen/bishop cant go past a piece
+
+    // MODIFIES: this
+    // EFFECT: update possible move list with all possible diagonal positions
+    protected void updatePossibleMovesDiagonal() {
+        int x = position.getXcoord();
+        int y = position.getYcoord();
+        int newX = x;
+        int newY = y;
+        while (newX > 0 && newY > 0) {
+            newX--;
+            newY--;
+            possibleMoves.add(new Position(newX, newY));
+        }
+        newX = x;
+        newY = y;
+        while (newX > 0 && newY < 7) {
+            newX--;
+            newY++;
+            possibleMoves.add(new Position(newX, newY));
+        }
+        newX = x;
+        newY = y;
+        while (newX < 7 && newY > 0) {
+            newX++;
+            newY--;
+            possibleMoves.add(new Position(newX, newY));
+        }
+        newX = x;
+        newY = y;
+        while (newX < 7 && newY < 7) {
+            newX++;
+            newY++;
+            possibleMoves.add(new Position(newX, newY));
+        }
+    }
+
+    // MODIFIES: this
+    // EFFECT: updates possible move list with all possible vertical and horizontal positions
+    protected void updatePossibleMovesStraight() {
+        int x = position.getXcoord();
+        int y = position.getYcoord();
+        for (int i = 0; i < 8; i++) {
+            Position p = new Position(x, i);
+            if (!possibleMoves.contains(p) && !p.equals(position)) {
+                possibleMoves.add(p);
+            }
+        }
+        for (int j = 0; j < 8; j++) {
+            Position p = new Position(j, y);
+            if (!possibleMoves.contains(p) && !p.equals(position)) {
+                possibleMoves.add(p);
+            }
+        }
     }
 
 //    @Override

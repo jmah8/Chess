@@ -10,36 +10,9 @@ public class Bishop extends ChessPiece {
     }
 
     @Override
+    // MODIFIES: this
+    // EFFECT: updates possible move list with all possible diagonal positions
     public void updatePossibleMoves() {
-        int x = position.getXcoord();
-        int y = position.getYcoord();
-        int newX = x;
-        int newY = y;
-        while (newX > 0 && newY > 0) {
-            newX--;
-            newY--;
-            possibleMoves.add(new Position(newX, newY));
-        }
-        newX = x;
-        newY = y;
-        while (newX > 0 && newY < 7) {
-            newX--;
-            newY++;
-            possibleMoves.add(new Position(newX, newY));
-        }
-        newX = x;
-        newY = y;
-        while (newX < 7 && newY > 0) {
-            newX++;
-            newY--;
-            possibleMoves.add(new Position(newX, newY));
-        }
-        newX = x;
-        newY = y;
-        while (newX < 7 && newY < 7) {
-            newX++;
-            newY++;
-            possibleMoves.add(new Position(newX, newY));
-        }
+        updatePossibleMovesDiagonal();
     }
 }

@@ -52,7 +52,21 @@ public class BishopTest {
     }
 
     @Test
-    public void updatePossibleMovesAmountTest() {
+    public void updatePossibleMovesDifferentAmountTest() {
+        bishop = new Bishop(3, 1, 1);
+        bishop.updatePossibleMoves();
+        List<Position> moves = bishop.getPossibleMoves();
+        assertEquals(9, moves.size());
+        assertTrue(moves.contains(new Position(2, 0)));
+        assertTrue(moves.contains(new Position(4, 0)));
 
+        assertTrue(moves.contains(new Position(2, 2)));
+        assertTrue(moves.contains(new Position(1, 3)));
+        assertTrue(moves.contains(new Position(0, 4)));
+
+        assertTrue(moves.contains(new Position(4, 2)));
+        assertTrue(moves.contains(new Position(5, 3)));
+        assertTrue(moves.contains(new Position(6, 4)));
+        assertTrue(moves.contains(new Position(7, 5)));
     }
 }
