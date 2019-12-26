@@ -23,8 +23,16 @@ public abstract class ChessPiece {
     // EFFECT: update possible move list depending on the piece
     public abstract void updatePossibleMoves();
 
-    public void movePiece(int index) {
-
+    // MODIFIES: this
+    // EFFECT: if position is in possibleMoves, then move piece to position and return true,
+    // else return false
+    public boolean movePiece(Position position) {
+        if (possibleMoves.contains(position)) {
+            this.position = position;
+            // TODO: should i include updatePossibleMoves here to update it without calling it
+            return true;
+        }
+        return false;
     }
 
     public PieceName getPieceID() {
