@@ -1,6 +1,6 @@
-package main;
+package main.model;
 
-import main.pieces.*;
+import main.model.pieces.*;
 
 public class Board {
     private ChessPiece[][] board;

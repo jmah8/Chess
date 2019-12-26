@@ -1,6 +1,4 @@
-package main.pieces;
-
-import main.Position;
+package main.model.pieces;
 
 public class Bishop extends ChessPiece {
 

@@ -1,7 +1,6 @@
-package main.pieces;
+package main.model.pieces;
 
-import main.Position;
-import org.omg.PortableServer.POA;
+import main.model.Position;
 
 import java.util.*;
 

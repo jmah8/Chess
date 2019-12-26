@@ -1,10 +1,9 @@
 package test;
 
-import javafx.geometry.Pos;
-import main.Position;
-import main.pieces.ChessPiece;
-import main.pieces.Horse;
-import main.pieces.PieceName;
+import main.model.Position;
+import main.model.pieces.ChessPiece;
+import main.model.pieces.Horse;
+import main.model.pieces.PieceName;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

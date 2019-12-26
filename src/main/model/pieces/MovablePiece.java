@@ -1,4 +1,4 @@
-package main.pieces;
+package main.model.pieces;
 
 public class MovablePiece {
 }

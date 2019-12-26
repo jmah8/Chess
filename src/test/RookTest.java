@@ -1,9 +1,9 @@
 package test;
 
-import main.Position;
-import main.pieces.ChessPiece;
-import main.pieces.PieceName;
-import main.pieces.Rook;
+import main.model.Position;
+import main.model.pieces.ChessPiece;
+import main.model.pieces.PieceName;
+import main.model.pieces.Rook;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

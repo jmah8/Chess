@@ -1,7 +1,7 @@
 package test;
 
-import main.Board;
-import main.pieces.PieceName;
+import main.model.Board;
+import main.model.pieces.PieceName;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

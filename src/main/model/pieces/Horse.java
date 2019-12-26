@@ -1,6 +1,6 @@
-package main.pieces;
+package main.model.pieces;
 
-import main.Position;
+import main.model.Position;
 
 public class Horse extends ChessPiece {
 

@@ -1,9 +1,8 @@
 package test;
 
-import javafx.geometry.Pos;
-import main.Position;
-import main.pieces.Bishop;
-import main.pieces.PieceName;
+import main.model.Position;
+import main.model.pieces.Bishop;
+import main.model.pieces.PieceName;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
