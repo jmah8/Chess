@@ -1,6 +1,9 @@
 package main.model;
 
+import javafx.geometry.Pos;
 import main.model.pieces.*;
+
+import java.util.List;
 
 public class Board {
     private ChessPiece[][] board;
@@ -55,9 +58,41 @@ public class Board {
         }
     }
 
-    public boolean eatPiece(Position position) {
-        int i = position.getYcoord();
-        int j = position.getXcoord();
+//    public boolean eatPiece(ChessPiece movingPiece, ChessPiece eatenPiece) {
+//        Position movingPosition = movingPiece.getPosition();
+//        Position eatenPosition = eatenPiece.getPosition();
+//        List<Position> movingMoves = movingPiece.getPossibleMoves();
+//        List<Position> eatenMoves = eatenPiece.getPossibleMoves();
+//        int i = position.getYcoord();
+//        int j = position.getXcoord();
+//        return false;
+//    }
+
+    // TODO: see if pieceAtPosition is better as position or as a piece (type of parameter)
+    // MODIFIES: this
+    //
+    public boolean movePiece(Position pieceAtPosition, Position moveToPosition) {
+        int x = pieceAtPosition.getXcoord();
+        int y = pieceAtPosition.getYcoord();
+        ChessPiece piece = board[y][x];
+        List<Position> pieceMoves = piece.getPossibleMoves();
+        if (pieceMoves.contains(moveToPosition)) {
+            piece.setPosition(moveToPosition);
+            board[y][x] = new EmptyPiece(x, y);
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    // TODO: maybe make this for rooks/bishops/queen where not all squares are lighting up
+    public boolean eatPiece(Position moveToPosition) {
+        int x = moveToPosition.getXcoord();
+        int y = moveToPosition.getYcoord();
+        ChessPiece piece = board[y][x];
+        if (piece.getPieceID() != PieceName.EMPTY) {
+
+        }
         return false;
     }
 }

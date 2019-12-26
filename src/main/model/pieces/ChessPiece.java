@@ -50,6 +50,22 @@ public abstract class ChessPiece {
         return possibleMoves;
     }
 
+    public void setTeam(int team) {
+        this.team = team;
+    }
+
+    public void setPieceID(PieceName pieceID) {
+        this.pieceID = pieceID;
+    }
+
+    public void setPosition(Position position) {
+        this.position = position;
+    }
+
+    public void setPossibleMoves(List<Position> possibleMoves) {
+        this.possibleMoves = possibleMoves;
+    }
+
     // TODO: check for collisions so that a rook/queen/bishop cant go past a piece
 
     // MODIFIES: this
