@@ -10,6 +10,8 @@ public class King extends ChessPiece {
     }
 
     @Override
+    // MODIFIES: this
+    // EFFECT: updates possible move list with all possible 1 space move
     public void updatePossibleMoves() {
         int x = position.getXcoord();
         int y = position.getYcoord();

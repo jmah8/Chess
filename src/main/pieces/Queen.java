@@ -8,6 +8,8 @@ public class Queen extends ChessPiece {
     }
 
     @Override
+    // MODIFIES: this
+    // EFFECT: updates possible move list with all possible diagonal and straight moves
     public void updatePossibleMoves() {
         updatePossibleMovesStraight();
         updatePossibleMovesDiagonal();

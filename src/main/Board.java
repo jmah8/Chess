@@ -54,4 +54,10 @@ public class Board {
             teamColour = 0;
         }
     }
+
+    public boolean eatPiece(Position position) {
+        int i = position.getYcoord();
+        int j = position.getXcoord();
+        return false;
+    }
 }

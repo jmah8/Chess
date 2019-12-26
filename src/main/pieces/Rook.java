@@ -10,6 +10,8 @@ public class Rook extends ChessPiece {
     }
 
     @Override
+    // MODIFIES: this
+    // EFFECT: updates possible move list with all possible straight moves
     public void updatePossibleMoves() {
         updatePossibleMovesStraight();
     }

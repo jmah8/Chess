@@ -10,6 +10,9 @@ public class Pawn extends ChessPiece{
     }
 
     @Override
+    // TODO: make it so that it can move diagonal 1 space if piece is present
+    // MODIFIES: this
+    // EFFECT: updates possible move list with 1 space forward move
     public void updatePossibleMoves() {
         int x = position.getXcoord();
         int y = position.getYcoord();

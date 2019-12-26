@@ -10,6 +10,8 @@ public class Horse extends ChessPiece {
     }
 
     @Override
+    // MODIFIES: this
+    // EFFECT: updates possible move list with all possible L moves
     public void updatePossibleMoves() {
         int x = position.getXcoord();
         int y = position.getYcoord();
