@@ -71,8 +71,9 @@ public class ChessBoard extends JFrame {
                                         for (Position p : possibleMoves) {
                                             int x = p.getXcoord();
                                             int y = p.getYcoord();
-                                            int index = getComponentZOrder(buttons[y][x]);
-                                            chessPanel.remove(buttons[y][x]);
+                                            // TODO: index for some reason is -1
+                                            int index = (y * 8) + x;
+                                            chessPanel.remove(index);
                                             JButton movablePosition = new JButton();
                                             movablePosition.setBackground(Color.YELLOW);
                                             chessPanel.add(movablePosition, index);
