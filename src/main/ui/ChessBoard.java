@@ -14,7 +14,7 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.util.List;
 
-public class ChessBoard extends JFrame {
+public class ChessBoard {
     private JPanel cardPanel;
     private JPanel chessPanel;
 
@@ -88,6 +88,10 @@ public class ChessBoard extends JFrame {
                 }
             }
         }
+    }
+
+    public void setBoardForPieceMovement() {
+
     }
 
 //    @Override

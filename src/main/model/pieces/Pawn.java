@@ -18,9 +18,13 @@ public class Pawn extends ChessPiece{
         int y = position.getYcoord();
         // TODO: make this method team specific
         if (team == 0) {
-            possibleMoves.add(new Position(x, y - 1));
+            if (y - 1 >= 0) {
+                possibleMoves.add(new Position(x, y - 1));
+            }
         } else {
-            possibleMoves.add(new Position(x, y + 1));
+            if (y + 1 <= 7) {
+                possibleMoves.add(new Position(x, y + 1));
+            }
         }
     }
 }
