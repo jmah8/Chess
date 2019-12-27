@@ -16,6 +16,10 @@ public class Board {
         return board;
     }
 
+    public ChessPiece getPiece(int xcoord, int ycoord) {
+        return board[ycoord][xcoord];
+    }
+
     // MODIFIES: this
     // EFFECT: fills board with no null value
     public void makeBoard() {
