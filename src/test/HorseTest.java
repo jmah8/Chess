@@ -41,4 +41,12 @@ public class HorseTest {
         assertTrue(moves.contains(new Position(5, 3)));
         assertTrue(moves.contains(new Position(5, 5)));
     }
+
+    @Test
+    public void updatePossibleMovesTestAtEdge() {
+        horse = new Horse(7, 7, 1);
+        horse.updatePossibleMoves();
+        List<Position> moves = horse.getPossibleMoves();
+        assertEquals(2, moves.size());
+    }
 }

@@ -15,14 +15,30 @@ public class Horse extends ChessPiece {
     public void updatePossibleMoves() {
         int x = position.getXcoord();
         int y = position.getYcoord();
-        possibleMoves.add(new Position(x+2, y+1));
-        possibleMoves.add(new Position(x+2, y-1));
-        possibleMoves.add(new Position(x-2, y+1));
-        possibleMoves.add(new Position(x-2, y-1));
+        if (x - 2 >= 0 && y - 1 >= 0) {
+            possibleMoves.add(new Position(x-2, y-1));
+        }
+        if (x - 2 >= 0 && y + 1 <= 7) {
+            possibleMoves.add(new Position(x-2, y+1));
+        }
+        if (x + 2 <= 7 && y + 1 <= 7) {
+            possibleMoves.add(new Position(x+2, y+1));
+        }
+        if (x + 2 <= 7 && y - 1 >= 0) {
+            possibleMoves.add(new Position(x+2, y-1));
+        }
 
-        possibleMoves.add(new Position(x-1, y-2));
-        possibleMoves.add(new Position(x-1, y+2));
-        possibleMoves.add(new Position(x+1, y-2));
-        possibleMoves.add(new Position(x+1, y+2));
+        if (x - 1 >= 0 && y - 2 >= 0) {
+            possibleMoves.add(new Position(x-1, y-2));
+        }
+        if (x - 1 >= 0 && y + 2 <= 7) {
+            possibleMoves.add(new Position(x-1, y+2));
+        }
+        if (x + 1 <= 7 && y + 2 <= 7) {
+            possibleMoves.add(new Position(x+1, y+2));
+        }
+        if (x + 1 <= 7 && y - 2 >= 0) {
+            possibleMoves.add(new Position(x+1, y-2));
+        }
     }
 }

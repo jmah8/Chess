@@ -32,7 +32,7 @@ public class Board {
 //                } else {
 //                    board[i][j] = new EmptyPiece(i, j, 1);
 //                }
-                board[i][j] = new EmptyPiece(i, j);
+                board[i][j] = new EmptyPiece(j, i);
             }
         }
     }
@@ -44,20 +44,20 @@ public class Board {
         for (int i = 1; i < 7; i += 5) {
             for (int j = 0; j < 8; j++) {
                 // Makes row of black pawns first, than row of white pawns
-                board[i][j] = new Pawn(i, j, teamColour);
+                board[i][j] = new Pawn(j, i, teamColour);
             }
             teamColour = 0;
         }
         teamColour = 1;
         for (int i = 0; i < 8; i += 7) {
-            board[i][0] = new Rook(i,0, teamColour);
-            board[i][1] = new Horse(i,0, teamColour);
-            board[i][2] = new Bishop(i,0, teamColour);
-            board[i][3] = new King(i,0, teamColour);
-            board[i][4] = new Queen(i,0, teamColour);
-            board[i][5] = new Bishop(i,0, teamColour);
-            board[i][6] = new Horse(i,0, teamColour);
-            board[i][7] = new Rook(i,0, teamColour);
+            board[i][0] = new Rook(0, i, teamColour);
+            board[i][1] = new Horse(1, i, teamColour);
+            board[i][2] = new Bishop(2, i, teamColour);
+            board[i][3] = new King(3, i, teamColour);
+            board[i][4] = new Queen(4, i, teamColour);
+            board[i][5] = new Bishop(5, i, teamColour);
+            board[i][6] = new Horse(6, i, teamColour);
+            board[i][7] = new Rook(7, i, teamColour);
             teamColour = 0;
         }
     }
