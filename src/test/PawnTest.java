@@ -43,4 +43,12 @@ public class PawnTest {
         assertEquals(new Position(2, 5), moves.get(0));
         assertEquals(1, moves.size());
     }
+
+    @Test
+    public void updatePossibleMovesTestEdge() {
+        pawn.setPosition(new Position(6, 7));
+        pawn.updatePossibleMoves();
+        List<Position> moves = pawn.getPossibleMoves();
+        assertEquals(0, moves.size());
+    }
 }

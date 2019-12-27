@@ -42,4 +42,17 @@ public class KingTest {
         assertTrue(moves.contains(new Position(6, 4)));
         assertTrue(moves.contains(new Position(6, 2)));
     }
+
+    @Test
+    public void updatePossibleMovesTestEdge() {
+        king.setPosition(new Position(6, 7));
+        king.updatePossibleMoves();
+        List<Position> moves = king.getPossibleMoves();
+        assertEquals(5, moves.size());
+        assertTrue(moves.contains(new Position(5, 7)));
+        assertTrue(moves.contains(new Position(5, 6)));
+        assertTrue(moves.contains(new Position(6, 6)));
+        assertTrue(moves.contains(new Position(7, 6)));
+        assertTrue(moves.contains(new Position(7, 7)));
+    }
 }
