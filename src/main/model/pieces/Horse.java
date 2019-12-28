@@ -16,30 +16,45 @@ public class Horse extends ChessPiece {
         removePossibleMoves();
         int x = position.getXcoord();
         int y = position.getYcoord();
-        if (x - 2 >= 0 && y - 1 >= 0) {
-            possibleMoves.add(new Position(x-2, y-1));
+        int nextXCoord = x - 2;
+        int nextYCoord = y - 1;
+        if (nextXCoord >= 0 && nextYCoord >= 0 && checkForEmptyOrEnemy(nextXCoord, nextYCoord)) {
+            possibleMoves.add(new Position(nextXCoord, nextYCoord));
         }
-        if (x - 2 >= 0 && y + 1 <= 7) {
-            possibleMoves.add(new Position(x-2, y+1));
+        nextYCoord = y + 1;
+        if (nextXCoord >= 0 && nextYCoord <= 7 && checkForEmptyOrEnemy(nextXCoord, nextYCoord)) {
+            possibleMoves.add(new Position(nextXCoord, nextYCoord));
         }
-        if (x + 2 <= 7 && y + 1 <= 7) {
-            possibleMoves.add(new Position(x+2, y+1));
+        nextXCoord = x + 2;
+        if (nextXCoord <= 7 && nextYCoord <= 7 && checkForEmptyOrEnemy(nextXCoord, nextYCoord)) {
+            possibleMoves.add(new Position(nextXCoord, nextYCoord));
         }
-        if (x + 2 <= 7 && y - 1 >= 0) {
-            possibleMoves.add(new Position(x+2, y-1));
+        nextYCoord = y - 1;
+        if (x + 2 <= 7 && nextYCoord >= 0 && checkForEmptyOrEnemy(nextXCoord, nextYCoord)) {
+            possibleMoves.add(new Position(nextXCoord, nextYCoord));
         }
 
-        if (x - 1 >= 0 && y - 2 >= 0) {
-            possibleMoves.add(new Position(x-1, y-2));
+        nextXCoord = x - 1;
+        nextYCoord = y - 2;
+        if (nextXCoord >= 0 && nextYCoord >= 0 && checkForEmptyOrEnemy(nextXCoord, nextYCoord)) {
+            possibleMoves.add(new Position(nextXCoord, nextYCoord));
         }
-        if (x - 1 >= 0 && y + 2 <= 7) {
-            possibleMoves.add(new Position(x-1, y+2));
+        nextYCoord = y + 2;
+        if (nextXCoord >= 0 && nextYCoord <= 7 && checkForEmptyOrEnemy(nextXCoord, nextYCoord)) {
+            possibleMoves.add(new Position(nextXCoord, nextYCoord));
         }
-        if (x + 1 <= 7 && y + 2 <= 7) {
-            possibleMoves.add(new Position(x+1, y+2));
+        nextXCoord = x + 1;
+        if (nextXCoord <= 7 && nextYCoord <= 7 && checkForEmptyOrEnemy(nextXCoord, nextYCoord)) {
+            possibleMoves.add(new Position(nextXCoord, nextYCoord));
         }
-        if (x + 1 <= 7 && y - 2 >= 0) {
-            possibleMoves.add(new Position(x+1, y-2));
+        nextYCoord = y - 2;
+        if (nextXCoord <= 7 && nextYCoord >= 0 && checkForEmptyOrEnemy(nextXCoord, nextYCoord)) {
+            possibleMoves.add(new Position(nextXCoord, nextYCoord));
         }
+    }
+
+    private boolean checkForEmptyOrEnemy(int x, int y) {
+        ChessPiece piece = board.getPiece(x, y);
+        return piece.checkIfNoTeam() || checkOppositeTeam(piece);
     }
 }
