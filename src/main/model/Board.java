@@ -62,6 +62,16 @@ public class Board {
         }
     }
 
+    // EFFECT: sets the board field for every piece to be this
+    public void setBoardFieldForPieces() {
+        for (int i = 0; i < board.length; i++) {
+            for (int j = 0; j < board[i].length; j++) {
+                ChessPiece cp = board[i][j];
+                cp.setBoard(this);
+            }
+        }
+    }
+
 //    public boolean eatPiece(ChessPiece movingPiece, ChessPiece eatenPiece) {
 //        Position movingPosition = movingPiece.getPosition();
 //        Position eatenPosition = eatenPiece.getPosition();

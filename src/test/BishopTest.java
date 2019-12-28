@@ -1,5 +1,6 @@
 package test;
 
+import main.model.Board;
 import main.model.Position;
 import main.model.pieces.Bishop;
 import main.model.pieces.PieceName;
@@ -10,7 +11,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class BishopTest {
+public class BishopTest extends ChessPieceTest{
     private Bishop bishop;
 
     @BeforeEach

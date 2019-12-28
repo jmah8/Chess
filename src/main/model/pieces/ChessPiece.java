@@ -1,5 +1,6 @@
 package main.model.pieces;
 
+import main.model.Board;
 import main.model.Position;
 
 import java.util.*;
@@ -12,10 +13,20 @@ public abstract class ChessPiece {
     protected Position position;
     protected List<Position> possibleMoves;
 
+    // TODO: check if i should do bidirectional association
+    protected Board board;
+
     public ChessPiece(int xcoord, int ycoord, int team) {
         this.position = new Position(xcoord, ycoord);
         this.team = team;
         possibleMoves = new ArrayList<>();
+    }
+
+    public ChessPiece(int xcoord, int ycoord, int team, Board board) {
+        this.position = new Position(xcoord, ycoord);
+        this.team = team;
+        possibleMoves = new ArrayList<>();
+        this.board = board;
     }
 
     // MODIFIES: this
@@ -32,6 +43,14 @@ public abstract class ChessPiece {
             return true;
         }
         return false;
+    }
+
+    public void setBoard(Board board) {
+        this.board = board;
+    }
+
+    public Board getBoard() {
+        return board;
     }
 
     public PieceName getPieceID() {
@@ -64,6 +83,21 @@ public abstract class ChessPiece {
         }
     }
 
+    // EFFECT: returns true if the piece is of the opposite team (empty doesn't count)
+    public boolean checkOppositeTeam(ChessPiece piece) {
+        return (piece.getTeam() != -1 && this.team != piece.getTeam());
+    }
+
+    // EFFECT: returns true if piece is of the same team
+    public boolean checkSameTeam(ChessPiece piece) {
+        return this.team == piece.getTeam();
+    }
+
+    // EFFECT: returns true if this is empty piece
+    public boolean checkIfNoTeam() {
+        return this.team == -1;
+    }
+
     public void setPossibleMoves(List<Position> possibleMoves) {
         this.possibleMoves = possibleMoves;
     }
@@ -84,28 +118,64 @@ public abstract class ChessPiece {
         while (newX > 0 && newY > 0) {
             newX--;
             newY--;
-            possibleMoves.add(new Position(newX, newY));
+            ChessPiece pieceUpLeft = board.getPiece(newX, newY);
+            if (pieceUpLeft.checkIfNoTeam()) {
+                possibleMoves.add(new Position(newX, newY));
+            } else if (checkSameTeam(pieceUpLeft)) {
+                // Do nothing
+                break;
+            } else if (checkOppositeTeam(pieceUpLeft)) {
+                possibleMoves.add(new Position(newX, newY));
+                break;
+            }
         }
         newX = x;
         newY = y;
         while (newX > 0 && newY < 7) {
             newX--;
             newY++;
-            possibleMoves.add(new Position(newX, newY));
+            ChessPiece pieceDownLeft = board.getPiece(newX, newY);
+            if (pieceDownLeft.checkIfNoTeam()) {
+                possibleMoves.add(new Position(newX, newY));
+            } else if (checkSameTeam(pieceDownLeft)) {
+                // Do nothing
+                break;
+            } else if (checkOppositeTeam(pieceDownLeft)) {
+                possibleMoves.add(new Position(newX, newY));
+                break;
+            }
         }
         newX = x;
         newY = y;
         while (newX < 7 && newY > 0) {
             newX++;
             newY--;
-            possibleMoves.add(new Position(newX, newY));
+            ChessPiece pieceUpRight = board.getPiece(newX, newY);
+            if (pieceUpRight.checkIfNoTeam()) {
+                possibleMoves.add(new Position(newX, newY));
+            } else if (checkSameTeam(pieceUpRight)) {
+                // Do nothing
+                break;
+            } else if (checkOppositeTeam(pieceUpRight)) {
+                possibleMoves.add(new Position(newX, newY));
+                break;
+            }
         }
         newX = x;
         newY = y;
         while (newX < 7 && newY < 7) {
             newX++;
             newY++;
-            possibleMoves.add(new Position(newX, newY));
+            ChessPiece pieceDownRight = board.getPiece(newX, newY);
+            if (pieceDownRight.checkIfNoTeam()) {
+                possibleMoves.add(new Position(newX, newY));
+            } else if (checkSameTeam(pieceDownRight)) {
+                // Do nothing
+                break;
+            } else if (checkOppositeTeam(pieceDownRight)) {
+                possibleMoves.add(new Position(newX, newY));
+                break;
+            }
         }
     }
 

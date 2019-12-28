@@ -26,6 +26,7 @@ public class ChessBoard {
         board = new Board();
         board.makeBoard();
         board.fillBoard();
+        board.setBoardFieldForPieces();
         cardPanel = new JPanel(new CardLayout());
         chessPanel = new JPanel(new GridLayout(8, 8));
         cardPanel.add(chessPanel, "ChessBoard");
