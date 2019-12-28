@@ -19,54 +19,51 @@ public class Pawn extends ChessPiece {
         int y = position.getYcoord();
         if (team == 0) {
             if (y == 6) {
-                ChessPiece piece = board.getPiece(x, y - 2);
-                if (piece.checkIfNoTeam()) {
-                    possibleMoves.add(new Position(x, y - 2));
-                }
+                moveUpEmptyPiece(x, y, 2);
             }
             if (y - 1 >= 0) {
-                ChessPiece piece = board.getPiece(x, y - 1);
-                if (piece.checkIfNoTeam()) {
-                    possibleMoves.add(new Position(x, y - 1));
-                }
+                moveUpEmptyPiece(x, y, 1);
             }
             if (x - 1 >= 0) {
-                ChessPiece piece = board.getPiece(x - 1, y - 1);
-                if (checkOppositeTeam(piece)) {
-                    possibleMoves.add(new Position(x - 1, y - 1));
-                }
+                eatDiagonalPiece(x - 1, y - 1);
             }
             if (x + 1 <= 7) {
-                ChessPiece piece = board.getPiece(x + 1, y - 1);
-                if (checkOppositeTeam(piece)) {
-                    possibleMoves.add(new Position(x + 1, y - 1));
-                }
+                eatDiagonalPiece(x + 1, y - 1);
             }
         } else {
             if (y == 1) {
-                ChessPiece piece = board.getPiece(x, y + 2);
-                if (piece.checkIfNoTeam()) {
-                    possibleMoves.add(new Position(x, y + 2));
-                }
+                moveDownEmptyPiece(x, y, 2);
             }
             if (y + 1 <= 7) {
-                ChessPiece piece = board.getPiece(x, y + 1);
-                if (piece.checkIfNoTeam()) {
-                    possibleMoves.add(new Position(x, y + 1));
-                }
+                moveDownEmptyPiece(x, y, 1);
             }
             if (x - 1 >= 0) {
-                ChessPiece piece = board.getPiece(x - 1, y + 1);
-                if (checkOppositeTeam(piece)) {
-                    possibleMoves.add(new Position(x - 1, y + 1));
-                }
+                eatDiagonalPiece(x - 1, y + 1);
             }
             if (x + 1 <= 7) {
-                ChessPiece piece = board.getPiece(x + 1, y + 1);
-                if (checkOppositeTeam(piece)) {
-                    possibleMoves.add(new Position(x + 1, y + 1));
-                }
+                eatDiagonalPiece(x + 1, y + 1);
             }
+        }
+    }
+
+    protected void eatDiagonalPiece(int x, int y) {
+        ChessPiece piece = board.getPiece(x, y);
+        if (checkOppositeTeam(piece)) {
+            possibleMoves.add(new Position(x, y));
+        }
+    }
+
+    protected void moveDownEmptyPiece(int x, int y, int i) {
+        ChessPiece piece = board.getPiece(x, y + i);
+        if (piece.checkIfNoTeam()) {
+            possibleMoves.add(new Position(x, y + i));
+        }
+    }
+
+    protected void moveUpEmptyPiece(int x, int y, int i) {
+        ChessPiece piece = board.getPiece(x, y - i);
+        if (piece.checkIfNoTeam()) {
+            possibleMoves.add(new Position(x, y - i));
         }
     }
 }

@@ -118,14 +118,7 @@ public abstract class ChessPiece {
         while (newX > 0 && newY > 0) {
             newX--;
             newY--;
-            ChessPiece pieceUpLeft = board.getPiece(newX, newY);
-            if (pieceUpLeft.checkIfNoTeam()) {
-                possibleMoves.add(new Position(newX, newY));
-            } else if (checkSameTeam(pieceUpLeft)) {
-                // Do nothing
-                break;
-            } else if (checkOppositeTeam(pieceUpLeft)) {
-                possibleMoves.add(new Position(newX, newY));
+            if (makingMoveBasedOnPieceDiagonalTo(newX, newY)) {
                 break;
             }
         }
@@ -134,14 +127,7 @@ public abstract class ChessPiece {
         while (newX > 0 && newY < 7) {
             newX--;
             newY++;
-            ChessPiece pieceDownLeft = board.getPiece(newX, newY);
-            if (pieceDownLeft.checkIfNoTeam()) {
-                possibleMoves.add(new Position(newX, newY));
-            } else if (checkSameTeam(pieceDownLeft)) {
-                // Do nothing
-                break;
-            } else if (checkOppositeTeam(pieceDownLeft)) {
-                possibleMoves.add(new Position(newX, newY));
+            if (makingMoveBasedOnPieceDiagonalTo(newX, newY)) {
                 break;
             }
         }
@@ -150,14 +136,7 @@ public abstract class ChessPiece {
         while (newX < 7 && newY > 0) {
             newX++;
             newY--;
-            ChessPiece pieceUpRight = board.getPiece(newX, newY);
-            if (pieceUpRight.checkIfNoTeam()) {
-                possibleMoves.add(new Position(newX, newY));
-            } else if (checkSameTeam(pieceUpRight)) {
-                // Do nothing
-                break;
-            } else if (checkOppositeTeam(pieceUpRight)) {
-                possibleMoves.add(new Position(newX, newY));
+            if (makingMoveBasedOnPieceDiagonalTo(newX, newY)) {
                 break;
             }
         }
@@ -166,17 +145,24 @@ public abstract class ChessPiece {
         while (newX < 7 && newY < 7) {
             newX++;
             newY++;
-            ChessPiece pieceDownRight = board.getPiece(newX, newY);
-            if (pieceDownRight.checkIfNoTeam()) {
-                possibleMoves.add(new Position(newX, newY));
-            } else if (checkSameTeam(pieceDownRight)) {
-                // Do nothing
-                break;
-            } else if (checkOppositeTeam(pieceDownRight)) {
-                possibleMoves.add(new Position(newX, newY));
+            if (makingMoveBasedOnPieceDiagonalTo(newX, newY)) {
                 break;
             }
         }
+    }
+
+    private boolean makingMoveBasedOnPieceDiagonalTo(int newX, int newY) {
+        ChessPiece pieceUpLeft = board.getPiece(newX, newY);
+        if (pieceUpLeft.checkIfNoTeam()) {
+            possibleMoves.add(new Position(newX, newY));
+        } else if (checkSameTeam(pieceUpLeft)) {
+            // Do nothing
+            return true;
+        } else if (checkOppositeTeam(pieceUpLeft)) {
+            possibleMoves.add(new Position(newX, newY));
+            return true;
+        }
+        return false;
     }
 
     // MODIFIES: this
