@@ -115,6 +115,7 @@ public abstract class ChessPiece {
         int y = position.getYcoord();
         int newX = x;
         int newY = y;
+        // Checks diagonally up and left
         while (newX > 0 && newY > 0) {
             newX--;
             newY--;
@@ -122,6 +123,7 @@ public abstract class ChessPiece {
                 break;
             }
         }
+        // Checks diagonally down and left
         newX = x;
         newY = y;
         while (newX > 0 && newY < 7) {
@@ -131,6 +133,7 @@ public abstract class ChessPiece {
                 break;
             }
         }
+        // Checks diagonally up and right
         newX = x;
         newY = y;
         while (newX < 7 && newY > 0) {
@@ -140,6 +143,7 @@ public abstract class ChessPiece {
                 break;
             }
         }
+        // Checks diagonally down and right
         newX = x;
         newY = y;
         while (newX < 7 && newY < 7) {
@@ -151,37 +155,57 @@ public abstract class ChessPiece {
         }
     }
 
+    // MODIFIES: this
+    // EFFECT: updates possible move list with all possible vertical and horizontal positions
+    protected void updatePossibleMovesStraight() {
+        int currentXCoord = position.getXcoord();
+        int currentYCoord = position.getYcoord();
+        int newX = currentXCoord;
+        int newY = currentYCoord;
+        // Checks to the left of piece
+        while (newX > 0) {
+            newX--;
+            if (makingMoveBasedOnPieceDiagonalTo(newX, currentYCoord)) {
+                break;
+            }
+        }
+        // Checks to the right of piece
+        newX = currentXCoord;
+        while (newX < 7) {
+            newX++;
+            if (makingMoveBasedOnPieceDiagonalTo(newX, currentYCoord)) {
+                break;
+            }
+        }
+        // Checks above the piece
+        while (newY > 0) {
+            newY--;
+            if (makingMoveBasedOnPieceDiagonalTo(currentXCoord, newY)) {
+                break;
+            }
+        }
+        // Checks below the piece
+        newY = currentYCoord;
+        while (newY < 7) {
+            newY++;
+            if (makingMoveBasedOnPieceDiagonalTo(currentXCoord, newY)) {
+                break;
+            }
+        }
+    }
+
     private boolean makingMoveBasedOnPieceDiagonalTo(int newX, int newY) {
-        ChessPiece pieceUpLeft = board.getPiece(newX, newY);
-        if (pieceUpLeft.checkIfNoTeam()) {
+        ChessPiece piece = board.getPiece(newX, newY);
+        if (piece.checkIfNoTeam()) {
             possibleMoves.add(new Position(newX, newY));
-        } else if (checkSameTeam(pieceUpLeft)) {
+        } else if (checkSameTeam(piece)) {
             // Do nothing
             return true;
-        } else if (checkOppositeTeam(pieceUpLeft)) {
+        } else if (checkOppositeTeam(piece)) {
             possibleMoves.add(new Position(newX, newY));
             return true;
         }
         return false;
-    }
-
-    // MODIFIES: this
-    // EFFECT: updates possible move list with all possible vertical and horizontal positions
-    protected void updatePossibleMovesStraight() {
-        int x = position.getXcoord();
-        int y = position.getYcoord();
-        for (int i = 0; i < 8; i++) {
-            Position p = new Position(x, i);
-            if (!possibleMoves.contains(p) && !p.equals(position)) {
-                possibleMoves.add(p);
-            }
-        }
-        for (int j = 0; j < 8; j++) {
-            Position p = new Position(j, y);
-            if (!possibleMoves.contains(p) && !p.equals(position)) {
-                possibleMoves.add(p);
-            }
-        }
     }
 
     @Override
