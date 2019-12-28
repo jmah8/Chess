@@ -74,7 +74,8 @@ public class Board {
 
     // TODO: see if pieceAtPosition is better as position or as a piece (type of parameter)
     // MODIFIES: this
-    //
+    // EFFECT: moves pieceAtPosition to moveToPosition. If another piece is already there from other team
+    // eat the piece
     public boolean movePiece(Position pieceAtPosition, Position moveToPosition) {
         int x = pieceAtPosition.getXcoord();
         int y = pieceAtPosition.getYcoord();

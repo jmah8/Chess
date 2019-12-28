@@ -13,6 +13,7 @@ public class Horse extends ChessPiece {
     // MODIFIES: this
     // EFFECT: updates possible move list with all possible L moves
     public void updatePossibleMoves() {
+        removePossibleMoves();
         int x = position.getXcoord();
         int y = position.getYcoord();
         if (x - 2 >= 0 && y - 1 >= 0) {

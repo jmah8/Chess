@@ -11,6 +11,7 @@ public class Rook extends ChessPiece {
     // MODIFIES: this
     // EFFECT: updates possible move list with all possible straight moves
     public void updatePossibleMoves() {
+        removePossibleMoves();
         updatePossibleMovesStraight();
     }
 }

@@ -11,6 +11,7 @@ public class Bishop extends ChessPiece {
     // MODIFIES: this
     // EFFECT: updates possible move list with all possible diagonal positions
     public void updatePossibleMoves() {
+        removePossibleMoves();
         updatePossibleMovesDiagonal();
     }
 }

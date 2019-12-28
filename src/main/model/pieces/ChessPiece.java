@@ -66,6 +66,10 @@ public abstract class ChessPiece {
         this.possibleMoves = possibleMoves;
     }
 
+    public void removePossibleMoves() {
+        possibleMoves = new ArrayList<>();
+    }
+
     // TODO: check for collisions so that a rook/queen/bishop cant go past a piece
 
     // MODIFIES: this

@@ -11,6 +11,7 @@ public class Queen extends ChessPiece {
     // MODIFIES: this
     // EFFECT: updates possible move list with all possible diagonal and straight moves
     public void updatePossibleMoves() {
+        removePossibleMoves();
         updatePossibleMovesStraight();
         updatePossibleMovesDiagonal();
     }

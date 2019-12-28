@@ -14,9 +14,9 @@ public class Pawn extends ChessPiece{
     // MODIFIES: this
     // EFFECT: updates possible move list with 1 space forward move
     public void updatePossibleMoves() {
+        removePossibleMoves();
         int x = position.getXcoord();
         int y = position.getYcoord();
-        // TODO: make this method team specific
         if (team == 0) {
             if (y - 1 >= 0) {
                 possibleMoves.add(new Position(x, y - 1));

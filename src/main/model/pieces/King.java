@@ -13,6 +13,7 @@ public class King extends ChessPiece {
     // MODIFIES: this
     // EFFECT: updates possible move list with all possible 1 space move
     public void updatePossibleMoves() {
+        removePossibleMoves();
         int x = position.getXcoord();
         int y = position.getYcoord();
         if (x - 1 >= 0) {
