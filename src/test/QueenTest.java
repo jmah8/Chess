@@ -1,5 +1,6 @@
 package test;
 
+import main.model.Board;
 import main.model.Position;
 import main.model.pieces.PieceName;
 import main.model.pieces.Queen;
@@ -15,7 +16,9 @@ public class QueenTest {
 
     @BeforeEach
     public void setUp() {
-        queen = new Queen(3, 4, 1);
+        Board board = new Board();
+        board.makeBoard();
+        queen = new Queen(3, 4, 1, board);
     }
 
     @Test

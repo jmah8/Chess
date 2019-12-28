@@ -16,7 +16,9 @@ public class BishopTest extends ChessPieceTest{
 
     @BeforeEach
     public void setUp() {
-        bishop = new Bishop(3, 3, 0);
+        Board board = new Board();
+        board.makeBoard();
+        bishop = new Bishop(3, 3, 0, board);
     }
 
     @Test
@@ -53,7 +55,9 @@ public class BishopTest extends ChessPieceTest{
 
     @Test
     public void updatePossibleMovesDifferentAmountTest() {
-        bishop = new Bishop(3, 1, 1);
+        Board board = new Board();
+        board.makeBoard();
+        bishop = new Bishop(3, 1, 1, board);
         bishop.updatePossibleMoves();
         List<Position> moves = bishop.getPossibleMoves();
         assertEquals(9, moves.size());

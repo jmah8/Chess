@@ -1,11 +1,17 @@
 package main.model.pieces;
 
+import main.model.Board;
 import main.model.Position;
 
 public class Pawn extends ChessPiece {
 
-    public Pawn(int xcoord, int ycoord, int team) {
-        super(xcoord, ycoord, team);
+//    public Pawn(int xcoord, int ycoord, int team) {
+//        super(xcoord, ycoord, team);
+//        pieceID = PieceName.PAWN;
+//    }
+
+    public Pawn(int xcoord, int ycoord, int team, Board board) {
+        super(xcoord, ycoord, team, board);
         pieceID = PieceName.PAWN;
     }
 
@@ -24,10 +30,10 @@ public class Pawn extends ChessPiece {
             if (y - 1 >= 0) {
                 moveUpEmptyPiece(x, y, 1);
             }
-            if (x - 1 >= 0) {
+            if (x - 1 >= 0 && y - 1 <= 7) {
                 eatDiagonalPiece(x - 1, y - 1);
             }
-            if (x + 1 <= 7) {
+            if (x + 1 <= 7 && y - 1 <= 7) {
                 eatDiagonalPiece(x + 1, y - 1);
             }
         } else {
@@ -37,10 +43,10 @@ public class Pawn extends ChessPiece {
             if (y + 1 <= 7) {
                 moveDownEmptyPiece(x, y, 1);
             }
-            if (x - 1 >= 0) {
+            if (x - 1 >= 0 && y + 1 <= 7) {
                 eatDiagonalPiece(x - 1, y + 1);
             }
-            if (x + 1 <= 7) {
+            if (x + 1 <= 7 && y + 1 <= 7) {
                 eatDiagonalPiece(x + 1, y + 1);
             }
         }

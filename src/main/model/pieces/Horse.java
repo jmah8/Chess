@@ -1,11 +1,17 @@
 package main.model.pieces;
 
+import main.model.Board;
 import main.model.Position;
 
 public class Horse extends ChessPiece {
 
-    public Horse(int xcoord, int ycoord, int team) {
-        super(xcoord, ycoord, team);
+//    public Horse(int xcoord, int ycoord, int team) {
+//        super(xcoord, ycoord, team);
+//        pieceID = PieceName.HORSE;
+//    }
+
+    public Horse(int xcoord, int ycoord, int team, Board board) {
+        super(xcoord, ycoord, team, board);
         pieceID = PieceName.HORSE;
     }
 

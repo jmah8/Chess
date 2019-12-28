@@ -1,9 +1,16 @@
 package main.model.pieces;
 
+import main.model.Board;
+
 public class Rook extends ChessPiece {
 
-    public Rook(int xcoord, int ycoord, int team) {
-        super(xcoord, ycoord, team);
+//    public Rook(int xcoord, int ycoord, int team) {
+//        super(xcoord, ycoord, team);
+//        pieceID = PieceName.ROOK;
+//    }
+
+    public Rook(int xcoord, int ycoord, int team, Board board) {
+        super(xcoord, ycoord, team, board);
         pieceID = PieceName.ROOK;
     }
 

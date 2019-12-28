@@ -16,11 +16,11 @@ public abstract class ChessPiece {
     // TODO: check if i should do bidirectional association
     protected Board board;
 
-    public ChessPiece(int xcoord, int ycoord, int team) {
-        this.position = new Position(xcoord, ycoord);
-        this.team = team;
-        possibleMoves = new ArrayList<>();
-    }
+//    public ChessPiece(int xcoord, int ycoord, int team) {
+//        this.position = new Position(xcoord, ycoord);
+//        this.team = team;
+//        possibleMoves = new ArrayList<>();
+//    }
 
     public ChessPiece(int xcoord, int ycoord, int team, Board board) {
         this.position = new Position(xcoord, ycoord);

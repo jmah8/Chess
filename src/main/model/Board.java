@@ -32,7 +32,7 @@ public class Board {
 //                } else {
 //                    board[i][j] = new EmptyPiece(i, j, 1);
 //                }
-                board[i][j] = new EmptyPiece(j, i);
+                board[i][j] = new EmptyPiece(j, i, this);
             }
         }
     }
@@ -44,20 +44,20 @@ public class Board {
         for (int i = 1; i < 7; i += 5) {
             for (int j = 0; j < 8; j++) {
                 // Makes row of black pawns first, than row of white pawns
-                board[i][j] = new Pawn(j, i, teamColour);
+                board[i][j] = new Pawn(j, i, teamColour, this);
             }
             teamColour = 0;
         }
         teamColour = 1;
         for (int i = 0; i < 8; i += 7) {
-            board[i][0] = new Rook(0, i, teamColour);
-            board[i][1] = new Horse(1, i, teamColour);
-            board[i][2] = new Bishop(2, i, teamColour);
-            board[i][3] = new King(3, i, teamColour);
-            board[i][4] = new Queen(4, i, teamColour);
-            board[i][5] = new Bishop(5, i, teamColour);
-            board[i][6] = new Horse(6, i, teamColour);
-            board[i][7] = new Rook(7, i, teamColour);
+            board[i][0] = new Rook(0, i, teamColour, this);
+            board[i][1] = new Horse(1, i, teamColour, this);
+            board[i][2] = new Bishop(2, i, teamColour, this);
+            board[i][3] = new King(3, i, teamColour, this);
+            board[i][4] = new Queen(4, i, teamColour, this);
+            board[i][5] = new Bishop(5, i, teamColour, this);
+            board[i][6] = new Horse(6, i, teamColour, this);
+            board[i][7] = new Rook(7, i, teamColour, this);
             teamColour = 0;
         }
     }
@@ -98,7 +98,7 @@ public class Board {
         if (pieceMoves.contains(moveToPosition)) {
             board[yNew][xNew] = pieceAtPosition;
             pieceAtPosition.setPosition(moveToPosition);
-            board[yCoord][xCoord] = new EmptyPiece(xCoord, yCoord);
+            board[yCoord][xCoord] = new EmptyPiece(xCoord, yCoord, this);
             return true;
         } else {
             return false;

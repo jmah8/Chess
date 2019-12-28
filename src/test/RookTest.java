@@ -1,5 +1,6 @@
 package test;
 
+import main.model.Board;
 import main.model.Position;
 import main.model.pieces.ChessPiece;
 import main.model.pieces.PieceName;
@@ -16,7 +17,9 @@ public class RookTest {
 
     @BeforeEach
     public void setUp() {
-        rook = new Rook(7, 7, 0);
+        Board board = new Board();
+        board.makeBoard();
+        rook = new Rook(7, 7, 0, board);
     }
 
     @Test
@@ -29,7 +32,9 @@ public class RookTest {
 
     @Test
     public void updatePossibleMovesTest() {
-        rook = new Rook(5, 2, 0);
+        Board board = new Board();
+        board.makeBoard();
+        rook = new Rook(5, 2, 0, board);
         rook.updatePossibleMoves();
         List<Position> moves = rook.getPossibleMoves();
         assertEquals(14, moves.size());
@@ -48,16 +53,5 @@ public class RookTest {
         assertTrue(moves.contains(new Position(5, 5)));
         assertTrue(moves.contains(new Position(5, 6)));
         assertTrue(moves.contains(new Position(5, 7)));
-
-//        for (int j = 0; j < 8; j++) {
-//            if (j != 5) {
-//                assertTrue(moves.contains(new Position(j, 2)));
-//            }
-//        }
-//        for (int i = 0; i < 8; i++) {
-//            if (i != 2) {
-//                assertTrue(moves.contains(new Position(5, i)));
-//            }
-//        }
     }
 }

@@ -1,5 +1,6 @@
 package test;
 
+import main.model.Board;
 import main.model.Position;
 import main.model.pieces.ChessPiece;
 import main.model.pieces.King;
@@ -16,7 +17,9 @@ public class KingTest {
 
     @BeforeEach
     public void setUp() {
-        king = new King(5, 3, 0);
+        Board board = new Board();
+        board.makeBoard();
+        king = new King(5, 3, 0, board);
     }
 
     @Test

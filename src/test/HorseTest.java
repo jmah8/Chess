@@ -1,5 +1,6 @@
 package test;
 
+import main.model.Board;
 import main.model.Position;
 import main.model.pieces.ChessPiece;
 import main.model.pieces.Horse;
@@ -16,7 +17,9 @@ public class HorseTest {
 
     @BeforeEach
     public void setUp() {
-        horse = new Horse(3, 4, 0);
+        Board board = new Board();
+        board.makeBoard();
+        horse = new Horse(3, 4, 0, board);
     }
 
     @Test
@@ -44,7 +47,9 @@ public class HorseTest {
 
     @Test
     public void updatePossibleMovesTestAtEdge() {
-        horse = new Horse(7, 7, 1);
+        Board board = new Board();
+        board.makeBoard();
+        horse = new Horse(7, 7, 1, board);
         horse.updatePossibleMoves();
         List<Position> moves = horse.getPossibleMoves();
         assertEquals(2, moves.size());

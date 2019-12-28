@@ -4,11 +4,10 @@ import main.model.Board;
 import org.junit.jupiter.api.BeforeEach;
 
 public class ChessPieceTest {
-    private Board board;
+    protected Board board;
 
-    private void setBoard() {
+    protected void setBoard() {
         board = new Board();
-        board.fillBoard();
-
+        board.makeBoard();
     }
 }

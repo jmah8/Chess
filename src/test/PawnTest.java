@@ -1,5 +1,6 @@
 package test;
 
+import main.model.Board;
 import main.model.Position;
 import main.model.pieces.ChessPiece;
 import main.model.pieces.Pawn;
@@ -16,7 +17,9 @@ public class PawnTest {
 
     @BeforeEach
     public void setUp() {
-        pawn = new Pawn(1, 0, 1);
+        Board board = new Board();
+        board.makeBoard();
+        pawn = new Pawn(1, 0, 1, board);
     }
 
     @Test
@@ -36,12 +39,15 @@ public class PawnTest {
     }
 
     @Test
-    public void updatePossibleMovesTestWhite() {
-        pawn = new Pawn(2, 6, 0);
+    public void updatePossibleMovesTestWhiteWithDoubleMovement() {
+        Board board = new Board();
+        board.makeBoard();
+        pawn = new Pawn(2, 6, 0, board);
         pawn.updatePossibleMoves();
         List<Position> moves = pawn.getPossibleMoves();
-        assertEquals(new Position(2, 5), moves.get(0));
-        assertEquals(1, moves.size());
+        assertEquals(new Position(2, 4), moves.get(0));
+        assertEquals(new Position(2, 5), moves.get(1));
+        assertEquals(2, moves.size());
     }
 
     @Test
