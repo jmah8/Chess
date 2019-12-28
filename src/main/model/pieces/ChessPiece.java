@@ -59,7 +59,9 @@ public abstract class ChessPiece {
     }
 
     public void setPosition(Position position) {
-        this.position = position;
+        if (!position.equals(this.position)) {
+            this.position = position;
+        }
     }
 
     public void setPossibleMoves(List<Position> possibleMoves) {
@@ -126,18 +128,18 @@ public abstract class ChessPiece {
         }
     }
 
-//    @Override
-//    public boolean equals(Object o) {
-//        if (this == o) return true;
-//        if (!(o instanceof ChessPiece)) return false;
-//        ChessPiece that = (ChessPiece) o;
-//        return team == that.team &&
-//                pieceID == that.pieceID &&
-//                position.equals(that.position);
-//    }
-//
-//    @Override
-//    public int hashCode() {
-//        return Objects.hash(team, pieceID, position);
-//    }
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof ChessPiece)) return false;
+        ChessPiece that = (ChessPiece) o;
+        return team == that.team &&
+                pieceID == that.pieceID &&
+                position.equals(that.position);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(team, pieceID, position);
+    }
 }

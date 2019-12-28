@@ -44,45 +44,16 @@ public class ChessBoard {
                 if (chessPiece.getPieceID() == PieceName.EMPTY) {
                     buttons[i][j] = new JButton();
                     buttons[i][j].setEnabled(false);
-                    if ((i + j) % 2 == 0) {
-                        buttons[i][j].setBackground(Color.WHITE);
-                    } else {
-                        buttons[i][j].setBackground(Color.BLACK);
-                    }
+                    setBlackOrWhite(i, j);
                     chessPanel.add(buttons[i][j]);
                 } else {
                     buttons[i][j] = new JButton(String.valueOf(chessPiece.getPieceID()));
-                    if ((i + j) % 2 == 0) {
-                        buttons[i][j].setBackground(Color.WHITE);
-                    } else {
-                        buttons[i][j].setBackground(Color.BLACK);
-                    }
+                    setBlackOrWhite(i, j);
                     chessPanel.add(buttons[i][j]);
                     buttons[i][j].addActionListener(new ActionListener() {
                         @Override
                         public void actionPerformed(ActionEvent e) {
-                            Object o = e.getSource();
-                            for (int i = 0; i < board.getBoard().length; i++) {
-                                for (int j = 0; j < board.getBoard()[i].length; j++) {
-                                    if (buttons[i][j] == o) {
-                                        ChessPiece pieceClicked = board.getPiece(j, i);
-                                        pieceClicked.updatePossibleMoves();
-                                        List<Position> possibleMoves = pieceClicked.getPossibleMoves();
-                                        for (Position p : possibleMoves) {
-                                            int x = p.getXcoord();
-                                            int y = p.getYcoord();
-                                            // TODO: index for some reason is -1
-                                            int index = (y * 8) + x;
-                                            chessPanel.remove(index);
-                                            JButton movablePosition = new JButton();
-                                            movablePosition.setBackground(Color.YELLOW);
-                                            chessPanel.add(movablePosition, index);
-                                        }
-                                    }
-                                }
-                            }
-                            chessPanel.repaint();
-                            chessPanel.revalidate();
+                            setBoardForPieceMovement(e);
                         }
                     });
                 }
@@ -90,8 +61,110 @@ public class ChessBoard {
         }
     }
 
-    public void setBoardForPieceMovement() {
+    protected void setBlackOrWhite(int i, int j) {
+        if ((i + j) % 2 == 0) {
+            buttons[i][j].setBackground(Color.WHITE);
+        } else {
+            buttons[i][j].setBackground(Color.BLACK);
+        }
+    }
 
+    public void setBoardForPieceMovement(ActionEvent e) {
+        Object o = e.getSource();
+        for (int i = 0; i < board.getBoard().length; i++) {
+            for (int j = 0; j < board.getBoard()[i].length; j++) {
+                if (buttons[i][j] == o) {
+                    ChessPiece pieceClicked = board.getPiece(j, i);
+                    pieceClicked.updatePossibleMoves();
+                    List<Position> possibleMoves = pieceClicked.getPossibleMoves();
+                    for (Position p : possibleMoves) {
+                        int x = p.getXcoord();
+                        int y = p.getYcoord();
+                        int index = (y * 8) + x;
+                        chessPanel.remove(index);
+                        JButton movablePosition = new JButton();
+                        movablePosition.setBackground(Color.YELLOW);
+                        chessPanel.add(movablePosition, index);
+                    }
+                }
+            }
+        }
+        chessPanel.repaint();
+        chessPanel.revalidate();
+    }
+
+    public void setUpBoard() {
+        for (int i = 0; i < board.getBoard().length; i++) {
+            for (int j = 0; j < board.getBoard()[i].length; j++) {
+                ChessPiece chessPiece = board.getPiece(j, i);
+                if (chessPiece.getPieceID() == PieceName.EMPTY) {
+                    buttons[i][j] = new JButton();
+                    buttons[i][j].setEnabled(false);
+                    setBlackOrWhite(i, j);
+                    chessPanel.add(buttons[i][j]);
+                } else {
+                    buttons[i][j] = new JButton(String.valueOf(chessPiece.getPieceID()));
+                    buttons[i][j].setEnabled(false);
+                    setBlackOrWhite(i, j);
+                    chessPanel.add(buttons[i][j]);
+                }
+            }
+        }
+    }
+
+    public void makeClickablePieces() {
+        for (int i = 0; i < board.getBoard().length; i++) {
+            for (int j = 0; j < board.getBoard()[i].length; j++) {
+                ChessPiece chessPiece = board.getPiece(j, i);
+                if (chessPiece.getPieceID() != PieceName.EMPTY) {
+                    buttons[i][j].setEnabled(true);
+                }
+                buttons[i][j].addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        setUpBoardForMovement(e);
+                    }
+                });
+            }
+        }
+    }
+
+    public void setUpBoardForMovement(ActionEvent e) {
+        Object o = e.getSource();
+//        chessPanel.removeAll();
+//        setUpBoard();
+//        chessPanel.repaint();
+//        chessPanel.revalidate();
+//        JButton button = (JButton) o;
+        for (int i = 0; i < board.getBoard().length; i++) {
+            for (int j = 0; j < board.getBoard()[i].length; j++) {
+                if (buttons[i][j] == o) {
+                    ChessPiece pieceClicked = board.getPiece(j, i);
+                    pieceClicked.updatePossibleMoves();
+                    List<Position> possibleMoves = pieceClicked.getPossibleMoves();
+                    for (Position p : possibleMoves) {
+                        int x = p.getXcoord();
+                        int y = p.getYcoord();
+//                        int index = (y * 8) + x;
+                        buttons[y][x].setEnabled(true);
+                        buttons[y][x].setBackground(Color.YELLOW);
+                        buttons[y][x].addActionListener(new ActionListener() {
+                            @Override
+                            public void actionPerformed(ActionEvent e) {
+                                board.movePiece(pieceClicked, new Position(x, y));
+                                chessPanel.removeAll();
+                                setUpBoard();
+                                makeClickablePieces();
+                                chessPanel.repaint();
+                                chessPanel.revalidate();
+                            }
+                        });
+                    }
+                }
+            }
+        }
+        chessPanel.repaint();
+        chessPanel.revalidate();
     }
 
 //    @Override

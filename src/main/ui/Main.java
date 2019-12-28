@@ -12,7 +12,8 @@ public class Main {
         JFrame frame = new JFrame("Chess");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         ChessBoard chessBoard = new ChessBoard();
-        chessBoard.addPieces();
+        chessBoard.setUpBoard();
+        chessBoard.makeClickablePieces();
         chessBoard.addComponentToPane(frame.getContentPane());
         frame.setVisible(true);
         frame.pack();

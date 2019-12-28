@@ -76,14 +76,19 @@ public class Board {
     // MODIFIES: this
     // EFFECT: moves pieceAtPosition to moveToPosition. If another piece is already there from other team
     // eat the piece
-    public boolean movePiece(Position pieceAtPosition, Position moveToPosition) {
-        int x = pieceAtPosition.getXcoord();
-        int y = pieceAtPosition.getYcoord();
-        ChessPiece piece = board[y][x];
-        List<Position> pieceMoves = piece.getPossibleMoves();
+    public boolean movePiece(ChessPiece pieceAtPosition, Position moveToPosition) {
+//        int x = pieceAtPosition.getXcoord();
+//        int y = pieceAtPosition.getYcoord();
+//        ChessPiece piece = board[y][x];
+        int xCoord = pieceAtPosition.getPosition().getXcoord();
+        int yCoord = pieceAtPosition.getPosition().getYcoord();
+        int xNew = moveToPosition.getXcoord();
+        int yNew = moveToPosition.getYcoord();
+        List<Position> pieceMoves = pieceAtPosition.getPossibleMoves();
         if (pieceMoves.contains(moveToPosition)) {
-            piece.setPosition(moveToPosition);
-            board[y][x] = new EmptyPiece(x, y);
+            board[yNew][xNew] = pieceAtPosition;
+            pieceAtPosition.setPosition(moveToPosition);
+            board[yCoord][xCoord] = new EmptyPiece(xCoord, yCoord);
             return true;
         } else {
             return false;
