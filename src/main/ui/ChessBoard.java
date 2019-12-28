@@ -132,9 +132,10 @@ public class ChessBoard {
 
     public void setUpBoardForMovement(ActionEvent e) {
         Object o = e.getSource();
-//        makeButtonsUnclickableExceptClickedButton(o);
 //        chessPanel.removeAll();
 //        setUpBoard();
+//        chessPanel.repaint();
+//        chessPanel.revalidate();
 //        JButton button = (JButton) o;
         for (int i = 0; i < board.getBoard().length; i++) {
             for (int j = 0; j < board.getBoard()[i].length; j++) {
@@ -160,21 +161,6 @@ public class ChessBoard {
                             }
                         });
                     }
-                }
-                break;
-            }
-        }
-        chessPanel.repaint();
-        chessPanel.revalidate();
-    }
-
-    public void makeButtonsUnclickableExceptClickedButton(Object o) {
-        for (int i = 0; i < board.getBoard().length; i++) {
-            for (int j = 0; j < board.getBoard().length; j++) {
-                if (buttons[i][j] == o) {
-                    buttons[i][j].setEnabled(true);
-                } else {
-                    buttons[i][j].setEnabled(false);
                 }
             }
         }
