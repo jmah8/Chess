@@ -30,10 +30,10 @@ public class Pawn extends ChessPiece {
             if (y - 1 >= 0) {
                 moveUpEmptyPiece(x, y, 1);
             }
-            if (x - 1 >= 0 && y - 1 <= 7) {
+            if (x - 1 >= 0 && y - 1 >= 0) {
                 eatDiagonalPiece(x - 1, y - 1);
             }
-            if (x + 1 <= 7 && y - 1 <= 7) {
+            if (x + 1 <= 7 && y - 1 >= 0) {
                 eatDiagonalPiece(x + 1, y - 1);
             }
         } else {
