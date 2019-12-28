@@ -119,7 +119,7 @@ public abstract class ChessPiece {
         while (newX > 0 && newY > 0) {
             newX--;
             newY--;
-            if (makingMoveBasedOnPieceDiagonalTo(newX, newY)) {
+            if (makingMoveBasedOnPieceInGivenXandY(newX, newY)) {
                 break;
             }
         }
@@ -129,7 +129,7 @@ public abstract class ChessPiece {
         while (newX > 0 && newY < 7) {
             newX--;
             newY++;
-            if (makingMoveBasedOnPieceDiagonalTo(newX, newY)) {
+            if (makingMoveBasedOnPieceInGivenXandY(newX, newY)) {
                 break;
             }
         }
@@ -139,7 +139,7 @@ public abstract class ChessPiece {
         while (newX < 7 && newY > 0) {
             newX++;
             newY--;
-            if (makingMoveBasedOnPieceDiagonalTo(newX, newY)) {
+            if (makingMoveBasedOnPieceInGivenXandY(newX, newY)) {
                 break;
             }
         }
@@ -149,7 +149,7 @@ public abstract class ChessPiece {
         while (newX < 7 && newY < 7) {
             newX++;
             newY++;
-            if (makingMoveBasedOnPieceDiagonalTo(newX, newY)) {
+            if (makingMoveBasedOnPieceInGivenXandY(newX, newY)) {
                 break;
             }
         }
@@ -165,7 +165,7 @@ public abstract class ChessPiece {
         // Checks to the left of piece
         while (newX > 0) {
             newX--;
-            if (makingMoveBasedOnPieceDiagonalTo(newX, currentYCoord)) {
+            if (makingMoveBasedOnPieceInGivenXandY(newX, currentYCoord)) {
                 break;
             }
         }
@@ -173,14 +173,14 @@ public abstract class ChessPiece {
         newX = currentXCoord;
         while (newX < 7) {
             newX++;
-            if (makingMoveBasedOnPieceDiagonalTo(newX, currentYCoord)) {
+            if (makingMoveBasedOnPieceInGivenXandY(newX, currentYCoord)) {
                 break;
             }
         }
         // Checks above the piece
         while (newY > 0) {
             newY--;
-            if (makingMoveBasedOnPieceDiagonalTo(currentXCoord, newY)) {
+            if (makingMoveBasedOnPieceInGivenXandY(currentXCoord, newY)) {
                 break;
             }
         }
@@ -188,13 +188,13 @@ public abstract class ChessPiece {
         newY = currentYCoord;
         while (newY < 7) {
             newY++;
-            if (makingMoveBasedOnPieceDiagonalTo(currentXCoord, newY)) {
+            if (makingMoveBasedOnPieceInGivenXandY(currentXCoord, newY)) {
                 break;
             }
         }
     }
 
-    private boolean makingMoveBasedOnPieceDiagonalTo(int newX, int newY) {
+    private boolean makingMoveBasedOnPieceInGivenXandY (int newX, int newY) {
         ChessPiece piece = board.getPiece(newX, newY);
         if (piece.checkIfNoTeam()) {
             possibleMoves.add(new Position(newX, newY));
