@@ -47,22 +47,22 @@ public class Pawn extends ChessPiece {
     }
 
     protected void eatDiagonalPiece(int x, int y) {
-        ChessPiece piece = board.getPiece(x, y);
-        if (checkOppositeTeam(piece)) {
+        ChessPiece pieceAtPosXY = board.getPiece(x, y);
+        if (checkOppositeTeam(pieceAtPosXY)) {
             possibleMoves.add(new Position(x, y));
         }
     }
 
     protected void moveDownEmptyPiece(int x, int y, int i) {
-        ChessPiece piece = board.getPiece(x, y + i);
-        if (piece.checkIfNoTeam()) {
+        ChessPiece pieceAtPosXY = board.getPiece(x, y + i);
+        if (pieceAtPosXY.checkIfNoTeam()) {
             possibleMoves.add(new Position(x, y + i));
         }
     }
 
     protected void moveUpEmptyPiece(int x, int y, int i) {
-        ChessPiece piece = board.getPiece(x, y - i);
-        if (piece.checkIfNoTeam()) {
+        ChessPiece pieceAtPosXY = board.getPiece(x, y - i);
+        if (pieceAtPosXY.checkIfNoTeam()) {
             possibleMoves.add(new Position(x, y - i));
         }
     }

@@ -16,29 +16,44 @@ public class King extends ChessPiece {
         removePossibleMoves();
         int x = position.getXcoord();
         int y = position.getYcoord();
+        // Move left
         if (x - 1 >= 0) {
-            possibleMoves.add(new Position(x - 1, y));
+            moveOneSpace(y, x - 1);
         }
+        // Move right
         if (x + 1 <= 7) {
-            possibleMoves.add(new Position(x + 1, y));
+            moveOneSpace(y, x + 1);
         }
+        // Move up
         if (y - 1 >= 0) {
-            possibleMoves.add(new Position(x, y - 1));
+            moveOneSpace(y - 1, x);
         }
+        // Move down
         if (y + 1 <= 7) {
-            possibleMoves.add(new Position(x, y + 1));
+            moveOneSpace(y + 1, x);
         }
+        // Move down and right
         if (x + 1 <= 7 && y + 1 <= 7) {
-            possibleMoves.add(new Position(x + 1, y + 1));
+            moveOneSpace(y + 1, x + 1);
         }
+        // Move up and right
         if (x + 1 <= 7 && y - 1 >= 0) {
-            possibleMoves.add(new Position(x + 1, y - 1));
+            moveOneSpace(y - 1, x + 1);
         }
+        // Move down and left
         if (x - 1 >= 0 && y + 1 <= 7) {
-            possibleMoves.add(new Position(x - 1, y + 1));
+            moveOneSpace(y + 1, x - 1);
         }
+        // Move up and left
         if (x - 1 >= 0 && y - 1 >= 0) {
-            possibleMoves.add(new Position(x - 1, y - 1));
+            moveOneSpace(y - 1, x - 1);
+        }
+    }
+
+    protected void moveOneSpace(int y, int x) {
+        ChessPiece pieceAtPosXY = board.getPiece(x, y);
+        if (!checkSameTeam(pieceAtPosXY)) {
+            possibleMoves.add(new Position(x, y));
         }
     }
 }
