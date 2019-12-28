@@ -1,6 +1,5 @@
 package test;
 
-import javafx.geometry.Pos;
 import main.model.Board;
 import main.model.Position;
 import main.model.pieces.PieceName;
@@ -109,5 +108,10 @@ public class BoardTest {
         assertEquals(new Position(5, 7), board.getBoard()[7][5].getPosition());
         assertEquals(new Position(6, 7), board.getBoard()[7][6].getPosition());
         assertEquals(new Position(7, 7), board.getBoard()[7][7].getPosition());
+    }
+
+    @Test
+    public void checkPosKingWhiteTeamTestTrue() {
+
     }
 }

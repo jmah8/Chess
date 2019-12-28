@@ -73,4 +73,6 @@ public class BishopTest extends ChessPieceTest{
         assertTrue(moves.contains(new Position(6, 4)));
         assertTrue(moves.contains(new Position(7, 5)));
     }
+
+
 }

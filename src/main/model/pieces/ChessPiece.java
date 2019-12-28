@@ -83,6 +83,14 @@ public abstract class ChessPiece {
         }
     }
 
+    // TODO: check if i really need this
+    public void movePosition(Position position) {
+        if (!position.equals(this.position)) {
+            this.position = position;
+            board.movePiece(this, position);
+        }
+    }
+
     // EFFECT: returns true if the piece is of the opposite team (empty doesn't count)
     public boolean checkOppositeTeam(ChessPiece piece) {
         return (piece.getTeam() != -1 && this.team != piece.getTeam());

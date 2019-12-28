@@ -62,6 +62,10 @@ public class Board {
         }
     }
 
+    public void placePiece(ChessPiece piece, int xPos, int yPos) {
+        board[yPos][xPos] = piece;
+    }
+
     // EFFECT: sets the board field for every piece to be this
     public void setBoardFieldForPieces() {
         for (int i = 0; i < board.length; i++) {
@@ -72,17 +76,7 @@ public class Board {
         }
     }
 
-//    public boolean eatPiece(ChessPiece movingPiece, ChessPiece eatenPiece) {
-//        Position movingPosition = movingPiece.getPosition();
-//        Position eatenPosition = eatenPiece.getPosition();
-//        List<Position> movingMoves = movingPiece.getPossibleMoves();
-//        List<Position> eatenMoves = eatenPiece.getPossibleMoves();
-//        int i = position.getYcoord();
-//        int j = position.getXcoord();
-//        return false;
-//    }
 
-    // TODO: see if pieceAtPosition is better as position or as a piece (type of parameter)
     // MODIFIES: this
     // EFFECT: moves pieceAtPosition to moveToPosition. If another piece is already there from other team
     // eat the piece
@@ -97,22 +91,85 @@ public class Board {
         List<Position> pieceMoves = pieceAtPosition.getPossibleMoves();
         if (pieceMoves.contains(moveToPosition)) {
             board[yNew][xNew] = pieceAtPosition;
-            pieceAtPosition.setPosition(moveToPosition);
             board[yCoord][xCoord] = new EmptyPiece(xCoord, yCoord, this);
+            pieceAtPosition.setPosition(moveToPosition);
             return true;
         } else {
             return false;
         }
     }
 
-    // TODO: maybe make this for rooks/bishops/queen where not all squares are lighting up
-    public boolean eatPiece(Position moveToPosition) {
-        int x = moveToPosition.getXcoord();
-        int y = moveToPosition.getYcoord();
-        ChessPiece piece = board[y][x];
-        if (piece.getPieceID() != PieceName.EMPTY) {
-
+    // TODO: make it so that it checks if any piece has a possible move on the opposite teams king and return true if yes
+    public boolean seeIfCheckOccurringForWhiteKing() {
+        Position kingTeamWhite = checkPosKingWhiteTeam();
+        for (int i = 0; i < board.length; i++) {
+            for (int j = 0; j < board.length; j++) {
+                ChessPiece pieceAtPos = board[i][j];
+                if (!pieceAtPos.getPieceID().equals(PieceName.EMPTY) && pieceAtPos.getTeam() == 1) {
+                    List<Position> possibleMoves = pieceAtPos.getPossibleMoves();
+                    if (possibleMoves.contains(kingTeamWhite)) {
+                        return true;
+                    }
+                }
+            }
         }
         return false;
     }
+
+    public boolean seeIfCheckOccurringForBlackKing() {
+        Position kingTeamBlack = checkPosKingBlackTeam();
+        for (int i = 0; i < board.length; i++) {
+            for (int j = 0; j < board.length; j++) {
+                ChessPiece pieceAtPos = board[i][j];
+                if (!pieceAtPos.getPieceID().equals(PieceName.EMPTY) && pieceAtPos.getTeam() == 0) {
+                    List<Position> possibleMoves = pieceAtPos.getPossibleMoves();
+                    if (possibleMoves.contains(kingTeamBlack)) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+
+    // EFFECT: returns position of black king
+    public Position checkPosKingBlackTeam() {
+        Position kingPosition = null;
+        for (int i = 0; i < board.length; i++) {
+            for (int j = 0; j < board[i].length; j++) {
+                ChessPiece piece = board[i][j];
+                if (piece.getPieceID().equals(PieceName.KING) && piece.getTeam() == 1) {
+                    kingPosition = piece.getPosition();
+                    break;
+                }
+            }
+        }
+        return kingPosition;
+    }
+
+    // EFFECT: returns position of white king
+    public Position checkPosKingWhiteTeam() {
+        Position kingPosition = null;
+        for (int i = 0; i < board.length; i++) {
+            for (int j = 0; j < board[i].length; j++) {
+                ChessPiece piece = board[i][j];
+                if (piece.getPieceID().equals(PieceName.KING) && piece.getTeam() == 0) {
+                    kingPosition = piece.getPosition();
+                    break;
+                }
+            }
+        }
+        return kingPosition;
+    }
+
+//    public boolean eatPiece(Position moveToPosition) {
+//        int x = moveToPosition.getXcoord();
+//        int y = moveToPosition.getYcoord();
+//        ChessPiece piece = board[y][x];
+//        if (piece.getPieceID() != PieceName.EMPTY) {
+//
+//        }
+//        return false;
+//    }
 }
