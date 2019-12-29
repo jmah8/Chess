@@ -68,4 +68,7 @@ public class HorseTest {
         assertTrue(moves.contains(new Position(5, 4)));
         assertTrue(moves.contains(new Position(7, 4)));
     }
+
+    @Test
+    public void updatePossibleMovesAllies
 }

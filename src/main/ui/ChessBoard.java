@@ -1,6 +1,5 @@
 package main.ui;
 
-import javafx.geometry.Pos;
 import main.model.Board;
 import main.model.Position;
 import main.model.pieces.ChessPiece;
@@ -10,8 +9,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
 import java.util.List;
 
 public class ChessBoard {
@@ -26,7 +23,6 @@ public class ChessBoard {
         board = new Board();
         board.makeBoard();
         board.fillBoard();
-//        board.setBoardFieldForPieces();
         cardPanel = new JPanel(new CardLayout());
         chessPanel = new JPanel(new GridLayout(8, 8));
         cardPanel.add(chessPanel, "ChessBoard");
@@ -172,15 +168,42 @@ public class ChessBoard {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     board.movePiece(pieceClicked, new Position(x, y));
+//                    pieceClicked.updatePossibleMoves();
+//                    colourCheckingPieces();
                     refreshBoard();
                 }
             });
         }
     }
 
-    private void showPieceCheckingBlackKing() {
+    private void colourCheckingPieces() {
         if (board.checkIfCheckOccurringForBlackKing()) {
-            //board.
+            showPieceCheckingBlackKing();
+        }
+        if (board.checkIfCheckOccurringForWhiteKing()) {
+            showPieceCheckingWhiteKing();
+        }
+    }
+
+    // TODO: make sure to call checkIfBlackKingBeing check is called in if statement then this is placed in if block
+    // TODO: before calling this method make sure to call updatePossibleMoves
+    private void showPieceCheckingBlackKing() {
+        List<ChessPiece> piecesCheckingBlackKing = board.getCheckingPiecesForBlackKing();
+        for (ChessPiece cp : piecesCheckingBlackKing) {
+            int xPos = cp.getPosition().getXcoord();
+            int yPos = cp.getPosition().getYcoord();
+            buttons[yPos][xPos].setBackground(Color.RED);
+        }
+    }
+
+    // TODO: make sure to call checkIfBlackKingBeing check is called in if statement then this is placed in if block
+    // TODO: before calling this method make sure to call updatePossibleMoves
+    private void showPieceCheckingWhiteKing() {
+        List<ChessPiece> piecesCheckingWhiteKing = board.getCheckingPiecesForWhiteKing();
+        for (ChessPiece cp : piecesCheckingWhiteKing) {
+            int xPos = cp.getPosition().getXcoord();
+            int yPos = cp.getPosition().getYcoord();
+            buttons[yPos][xPos].setBackground(Color.RED);
         }
     }
 }

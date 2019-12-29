@@ -103,7 +103,7 @@ public class Board {
         }
     }
 
-    // TODO: make it so that it checks if any piece has a possible move on the opposite teams king and return true if yes
+
     // EFFECT: returns true if black piece has a possible move to eat white king, else false
     public boolean checkIfCheckOccurringForWhiteKing() {
         Position kingTeamWhite = checkPosKingWhiteTeam();
@@ -132,6 +132,8 @@ public class Board {
         return false;
     }
 
+    // REQUIRES: for updatePossibleMoves to be called before
+    // EFFECT: returns true if piece can move to the same position as the king
     private boolean checkIfPieceAtPosCheckingKing(Position kingPos, ChessPiece pieceAtPos, int teamNumber) {
         if (!pieceAtPos.getPieceID().equals(PieceName.EMPTY) && pieceAtPos.getTeam() == teamNumber) {
             List<Position> possibleMoves = pieceAtPos.getPossibleMoves();
@@ -142,13 +144,14 @@ public class Board {
         return false;
     }
 
+    // TODO: implement tests
     // EFFECT: returns white pieces checking black king
-    public List<ChessPiece> getCheckingPieceForBlackKing() {
+    public List<ChessPiece> getCheckingPiecesForBlackKing() {
         return getPiecesThatCanMoveToPosition(checkPosKingBlackTeam(), 0);
     }
 
     // EFFECT: returns black piece checking white king
-    public List<ChessPiece> getCheckingPieceForWhiteKing() {
+    public List<ChessPiece> getCheckingPiecesForWhiteKing() {
         return getPiecesThatCanMoveToPosition(checkPosKingWhiteTeam(), 1);
     }
 
@@ -167,7 +170,6 @@ public class Board {
         }
         return piecesWithPossibleMoveToPos;
     }
-
 
     // EFFECT: returns position of black king
     public Position checkPosKingBlackTeam() {
