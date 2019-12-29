@@ -177,4 +177,10 @@ public class ChessBoard {
             });
         }
     }
+
+    private void showPieceCheckingBlackKing() {
+        if (board.checkIfCheckOccurringForBlackKing()) {
+            //board.
+        }
+    }
 }

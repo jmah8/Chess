@@ -1,8 +1,8 @@
 package main.model;
 
-import javafx.geometry.Pos;
 import main.model.pieces.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Board {
@@ -104,36 +104,68 @@ public class Board {
     }
 
     // TODO: make it so that it checks if any piece has a possible move on the opposite teams king and return true if yes
+    // EFFECT: returns true if black piece has a possible move to eat white king, else false
     public boolean checkIfCheckOccurringForWhiteKing() {
         Position kingTeamWhite = checkPosKingWhiteTeam();
         for (int i = 0; i < board.length; i++) {
             for (int j = 0; j < board.length; j++) {
                 ChessPiece pieceAtPos = board[i][j];
-                if (!pieceAtPos.getPieceID().equals(PieceName.EMPTY) && pieceAtPos.getTeam() == 1) {
-                    List<Position> possibleMoves = pieceAtPos.getPossibleMoves();
-                    if (possibleMoves.contains(kingTeamWhite)) {
-                        return true;
-                    }
+                if (checkIfPieceAtPosCheckingKing(kingTeamWhite, pieceAtPos, 1)) {
+                    return true;
                 }
             }
         }
         return false;
     }
 
+    // EFFECT: returns true if white piece has a possible move to eat black king, else false
     public boolean checkIfCheckOccurringForBlackKing() {
         Position kingTeamBlack = checkPosKingBlackTeam();
         for (int i = 0; i < board.length; i++) {
             for (int j = 0; j < board.length; j++) {
                 ChessPiece pieceAtPos = board[i][j];
-                if (!pieceAtPos.getPieceID().equals(PieceName.EMPTY) && pieceAtPos.getTeam() == 0) {
-                    List<Position> possibleMoves = pieceAtPos.getPossibleMoves();
-                    if (possibleMoves.contains(kingTeamBlack)) {
-                        return true;
-                    }
+                if (checkIfPieceAtPosCheckingKing(kingTeamBlack, pieceAtPos, 0)) {
+                    return true;
                 }
             }
         }
         return false;
+    }
+
+    private boolean checkIfPieceAtPosCheckingKing(Position kingPos, ChessPiece pieceAtPos, int teamNumber) {
+        if (!pieceAtPos.getPieceID().equals(PieceName.EMPTY) && pieceAtPos.getTeam() == teamNumber) {
+            List<Position> possibleMoves = pieceAtPos.getPossibleMoves();
+            if (possibleMoves.contains(kingPos)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    // EFFECT: returns white pieces checking black king
+    public List<ChessPiece> getCheckingPieceForBlackKing() {
+        return getPiecesThatCanMoveToPosition(checkPosKingBlackTeam(), 0);
+    }
+
+    // EFFECT: returns black piece checking white king
+    public List<ChessPiece> getCheckingPieceForWhiteKing() {
+        return getPiecesThatCanMoveToPosition(checkPosKingWhiteTeam(), 1);
+    }
+
+    // EFFECT: return a list of pieces of team teamColourOfEnemy that have a possible move to position
+    private List<ChessPiece> getPiecesThatCanMoveToPosition(Position position, int teamColourOfEnemy) {
+        List<ChessPiece> piecesWithPossibleMoveToPos = new ArrayList<>();
+        Position piecePosition = position;
+        for (int i = 0; i < board.length; i++) {
+            for (int j = 0; j < board[i].length; j++) {
+                ChessPiece pieceAtPos = board[i][j];
+                int teamColour = pieceAtPos.getTeam();
+                if (teamColour == teamColourOfEnemy && checkIfPieceAtPosCheckingKing(piecePosition, pieceAtPos, teamColour)) {
+                    piecesWithPossibleMoveToPos.add(board[i][j]);
+                }
+            }
+        }
+        return piecesWithPossibleMoveToPos;
     }
 
 
