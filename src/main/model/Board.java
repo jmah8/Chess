@@ -62,7 +62,11 @@ public class Board {
         }
     }
 
-    public void placePiece(ChessPiece piece, int xPos, int yPos) {
+    // MODIFIES: this
+    // EFFECT: places piece at piece's position
+    public void placePiece(ChessPiece piece) {
+        int xPos = piece.getPosition().getXcoord();
+        int yPos = piece.getPosition().getYcoord();
         board[yPos][xPos] = piece;
     }
 
@@ -100,7 +104,7 @@ public class Board {
     }
 
     // TODO: make it so that it checks if any piece has a possible move on the opposite teams king and return true if yes
-    public boolean seeIfCheckOccurringForWhiteKing() {
+    public boolean checkIfCheckOccurringForWhiteKing() {
         Position kingTeamWhite = checkPosKingWhiteTeam();
         for (int i = 0; i < board.length; i++) {
             for (int j = 0; j < board.length; j++) {
@@ -116,7 +120,7 @@ public class Board {
         return false;
     }
 
-    public boolean seeIfCheckOccurringForBlackKing() {
+    public boolean checkIfCheckOccurringForBlackKing() {
         Position kingTeamBlack = checkPosKingBlackTeam();
         for (int i = 0; i < board.length; i++) {
             for (int j = 0; j < board.length; j++) {
@@ -162,14 +166,4 @@ public class Board {
         }
         return kingPosition;
     }
-
-//    public boolean eatPiece(Position moveToPosition) {
-//        int x = moveToPosition.getXcoord();
-//        int y = moveToPosition.getYcoord();
-//        ChessPiece piece = board[y][x];
-//        if (piece.getPieceID() != PieceName.EMPTY) {
-//
-//        }
-//        return false;
-//    }
 }
