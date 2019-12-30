@@ -12,13 +12,11 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class KingTest {
+public class KingTest extends ChessPieceTest{
     private ChessPiece king;
 
     @BeforeEach
     public void setUp() {
-        Board board = new Board();
-        board.makeBoard();
         king = new King(5, 3, 0, board);
     }
 
