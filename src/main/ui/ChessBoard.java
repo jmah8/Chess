@@ -136,6 +136,7 @@ public class ChessBoard {
                         @Override
                         public void actionPerformed(ActionEvent e) {
                             refreshBoard();
+                            colourCheckingPieces();
                         }
                     });
                     chessPanel.repaint();
@@ -168,7 +169,6 @@ public class ChessBoard {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     board.movePiece(pieceClicked, new Position(x, y));
-//                    pieceClicked.updatePossibleMoves();
                     refreshBoard();
                     colourCheckingPieces();
                 }
