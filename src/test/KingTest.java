@@ -132,11 +132,11 @@ public class KingTest extends ChessPieceTest{
         board.placePiece(new Rook(6, 1, 1, board));
         king.updatePossibleMoves();
         List<Position> moves = king.getPossibleMoves();
-        assertEquals(0, moves.size());;
+        assertEquals(0, moves.size());
     }
 
     @Test
-    public void updatePossibleMovesTestKingMovingInfrontOfPawn() {
+    public void updatePossibleMovesTestBlackKingMovingInfrontOfPawn() {
         king = new King(4, 3, 1, board);
         board.placePiece(new Pawn(3, 5, 0, board));
         board.placePiece(new Rook(6, 2, 0, board));
@@ -147,6 +147,43 @@ public class KingTest extends ChessPieceTest{
         assertEquals(2, moves.size());
         assertTrue(moves.contains(new Position(3, 3)));
         assertTrue(moves.contains(new Position(3, 4)));
+    }
+
+    @Test
+    public void updatePossibleMovesTestWhiteKingMovingInfrontOfPawn() {
+        king = new King(4, 4, 0, board);
+        board.placePiece(new Pawn(3, 2, 1, board));
+        board.placePiece(new Rook(6, 5, 1, board));
+        board.placePiece(new Rook(5, 6, 1, board));
+        board.placePiece(new Horse(6, 4, 1, board));
+        king.updatePossibleMoves();
+        List<Position> moves = king.getPossibleMoves();
+        assertEquals(2, moves.size());
+        assertTrue(moves.contains(new Position(3, 3)));
+        assertTrue(moves.contains(new Position(3, 4)));
+    }
+
+    @Test
+    public void updatePossibleMovesTestWhiteKingMovingTowardsWhiteKing() {
+        king = new King(0, 0, 0, board);
+        board.placePiece(new King(2, 0, 1, board));
+        king.updatePossibleMoves();
+        List<Position> moves = king.getPossibleMoves();
+        assertEquals(1, moves.size());
+        assertTrue(moves.contains(new Position(0, 1)));
+    }
+
+    @Test
+    public void updatePossibleMovesTestBlackKingMovingTowardsWhiteKing() {
+        board.placePiece(new King(5, 5, 1, board));
+        king.updatePossibleMoves();
+        List<Position> moves = king.getPossibleMoves();
+        assertEquals(5, moves.size());
+        assertTrue(moves.contains(new Position(4, 2)));
+        assertTrue(moves.contains(new Position(5, 2)));
+        assertTrue(moves.contains(new Position(6, 2)));
+        assertTrue(moves.contains(new Position(4, 3)));
+        assertTrue(moves.contains(new Position(6, 3)));
     }
 }
 
