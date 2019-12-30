@@ -100,6 +100,7 @@ public class Board {
         }
     }
 
+    // TODO: see if i need to use delegation to keep cohesion low
     // EFFECT: returns true if black piece has a possible move to eat white king, else false
     public boolean checkIfCheckOccurringForWhiteKing() {
         return checkIfPositionCanBeReachedByAnyPiece(checkPosKingWhiteTeam(), 1);

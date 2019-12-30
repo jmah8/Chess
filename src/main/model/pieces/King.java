@@ -61,7 +61,6 @@ public class King extends ChessPiece {
         }
     }
 
-    // TODO: make this specific to team of king. Most likely by refactoring board methods
     // MODIFIES: this
     // EFFECT: add the move of y and x to possible move
     private void moveOneSpace(int y, int x) {
@@ -80,8 +79,6 @@ public class King extends ChessPiece {
         }
     }
 
-    // TODO: do not make it use != PieceName.KING since this prevents the other king from being taken into account
-    // TODO: make it so it that the other king isnt calling this method also result in an infinite recursion
     // EFFECT: returns true if the move is possible for king with no check occurring after moving
     private boolean checkIfPossibleMoveForKing(Position position, int teamNumber) {
         for (int i = 0; i < board.getBoard().length; i++) {
@@ -107,6 +104,7 @@ public class King extends ChessPiece {
         return true;
     }
 
+    // EFFECT: returns true if piece (only pawn) has a possible move forward 1 or 2 spaces, else return false
     private boolean checkIfPositionSameAsPawnMovingForward(Position position, ChessPiece piece) {
         int pawnXCoord = piece.getPosition().getXcoord();
         int pawnYCoord = piece.getPosition().getYcoord();
