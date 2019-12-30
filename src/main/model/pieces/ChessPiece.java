@@ -114,8 +114,6 @@ public abstract class ChessPiece {
         possibleMoves = new ArrayList<>();
     }
 
-    // TODO: check for collisions so that a rook/queen/bishop cant go past a piece
-
     // MODIFIES: this
     // EFFECT: update possible move list with all possible diagonal positions
     protected void updatePossibleMovesDiagonal() {

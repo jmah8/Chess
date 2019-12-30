@@ -102,16 +102,12 @@ public class Board {
 
     // EFFECT: returns true if black piece has a possible move to eat white king, else false
     public boolean checkIfCheckOccurringForWhiteKing() {
-        Position kingTeamWhite = checkPosKingWhiteTeam();
-        Boolean check = checkIfPositionCanBeReachedByAnyPiece(kingTeamWhite, 1);
-        return check;
+        return checkIfPositionCanBeReachedByAnyPiece(checkPosKingWhiteTeam(), 1);
     }
 
     // EFFECT: returns true if white piece has a possible move to eat black king, else false
     public boolean checkIfCheckOccurringForBlackKing() {
-        Position kingTeamBlack = checkPosKingBlackTeam();
-        Boolean check = checkIfPositionCanBeReachedByAnyPiece(kingTeamBlack, 0);
-        return check;
+        return checkIfPositionCanBeReachedByAnyPiece(checkPosKingBlackTeam(), 0);
     }
 
     // EFFECT: returns true if piecePosition can be reached by piece of team teamNumber, false othewise
@@ -128,7 +124,8 @@ public class Board {
         return check;
     }
 
-    // EFFECT: returns true if pieceAtPos can move to position
+    // REQUIRES: updatePossibleMove be called on pieceAtPos before calling this method
+    // EFFECT: returns true if pieceAtPos can move to position and is of team teamNumber
     private boolean checkIfPieceAtPosCanMoveToPosition(Position position, ChessPiece pieceAtPos, int teamNumber) {
         pieceAtPos.updatePossibleMoves();
         if (!pieceAtPos.getPieceID().equals(PieceName.EMPTY) && pieceAtPos.getTeam() == teamNumber) {
@@ -153,12 +150,11 @@ public class Board {
     // EFFECT: return a list of pieces of team teamColourOfEnemy that have a possible move to position
     private List<ChessPiece> getPiecesThatCanMoveToPosition(Position position, int teamColourOfEnemy) {
         List<ChessPiece> piecesWithPossibleMoveToPos = new ArrayList<>();
-        Position piecePosition = position;
         for (int i = 0; i < board.length; i++) {
             for (int j = 0; j < board[i].length; j++) {
                 ChessPiece pieceAtPos = board[i][j];
                 int teamColour = pieceAtPos.getTeam();
-                if (teamColour == teamColourOfEnemy && checkIfPieceAtPosCanMoveToPosition(piecePosition, pieceAtPos, teamColour)) {
+                if (teamColour == teamColourOfEnemy && checkIfPieceAtPosCanMoveToPosition(position, pieceAtPos, teamColour)) {
                     piecesWithPossibleMoveToPos.add(board[i][j]);
                 }
             }

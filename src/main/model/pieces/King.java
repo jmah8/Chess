@@ -1,5 +1,6 @@
 package main.model.pieces;
 
+import com.sun.org.glassfish.gmbal.ManagedObject;
 import main.model.Board;
 import main.model.Position;
 
@@ -18,6 +19,7 @@ public class King extends ChessPiece {
     }
 
     @Override
+    // TODO: bug where pawns move 2 blocks king from moving past 4 squares
     // MODIFIES: this
     // EFFECT: updates possible move list with all possible 1 space move
     public void updatePossibleMoves() {
@@ -66,29 +68,28 @@ public class King extends ChessPiece {
     private void moveOneSpace(int y, int x) {
         ChessPiece pieceAtPosXY = board.getPiece(x, y);
         Position positionToMoveTo = new Position(x, y);
-        if (!checkSameTeam(pieceAtPosXY)) {
-            possibleMoves.add(positionToMoveTo);
+        if (team == 1) {
+            if (!checkSameTeam(pieceAtPosXY) &&
+                    checkIfPossibleMoveForKing(positionToMoveTo, 0)) {
+                possibleMoves.add(positionToMoveTo);
+            }
+        } else {
+            if (!checkSameTeam(pieceAtPosXY) &&
+                    checkIfPossibleMoveForKing(positionToMoveTo, 1)) {
+                possibleMoves.add(positionToMoveTo);
+            }
         }
-//        if (team == 1) {
-//            if (!checkSameTeam(pieceAtPosXY) &&
-//                    !board.checkIfPositionCanBeReachedByAnyPiece(positionToMoveTo, 0)) {
-//                possibleMoves.add(positionToMoveTo);
-//            }
-//        } else {
-//            if (!checkSameTeam(pieceAtPosXY) &&
-//                    !board.checkIfPositionCanBeReachedByAnyPiece(positionToMoveTo, 1)) {
-//                possibleMoves.add(positionToMoveTo);
-//            }
-//        }
     }
 
+    // TODO: do not make it use != PieceName.KING since this prevents the other king from being taken into account
+    // TODO: make it so it that the other king isnt calling this method also result in an infinite recursion
     // TODO: could add the condition that if the piece is a pawn and the movement is straight, it wont do anything
     // EFFECT: returns true if the move is possible for king with no check occurring after moving
-    private boolean checkIfPossibleMoveForKing(Position position) {
+    private boolean checkIfPossibleMoveForKing(Position position, int teamNumber) {
         for (int i = 0; i < board.getBoard().length; i++) {
             for (int j = 0; j < board.getBoard()[i].length; j++) {
                 ChessPiece piece = board.getBoard()[i][j];
-                if (!piece.getPieceID().equals(PieceName.KING) && !(piece.getTeam() == team)) {
+                if (!piece.getPieceID().equals(PieceName.KING) && piece.getTeam() == teamNumber) {
                     piece.updatePossibleMoves();
                     List<Position> possibleMoves = piece.getPossibleMoves();
 //                    if (piece.getPieceID().equals(PieceName.PAWN)) {
