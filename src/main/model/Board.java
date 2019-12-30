@@ -120,7 +120,7 @@ public class Board {
         for (int i = 0; i < board.length; i++) {
             for (int j = 0; j < board.length; j++) {
                 ChessPiece pieceAtPos = board[i][j];
-                if (checkIfPieceAtPosCheckingKing(piecePosition, pieceAtPos, teamNumber)) {
+                if (checkIfPieceAtPosCanMoveToPosition(piecePosition, pieceAtPos, teamNumber)) {
                     check = true;
                 }
             }
@@ -128,12 +128,12 @@ public class Board {
         return check;
     }
 
-    // EFFECT: returns true if piece can move to the same position as the king
-    private boolean checkIfPieceAtPosCheckingKing(Position kingPos, ChessPiece pieceAtPos, int teamNumber) {
+    // EFFECT: returns true if pieceAtPos can move to position
+    private boolean checkIfPieceAtPosCanMoveToPosition(Position position, ChessPiece pieceAtPos, int teamNumber) {
         pieceAtPos.updatePossibleMoves();
         if (!pieceAtPos.getPieceID().equals(PieceName.EMPTY) && pieceAtPos.getTeam() == teamNumber) {
             List<Position> possibleMoves = pieceAtPos.getPossibleMoves();
-            if (possibleMoves.contains(kingPos)) {
+            if (possibleMoves.contains(position)) {
                 return true;
             }
         }
@@ -158,7 +158,7 @@ public class Board {
             for (int j = 0; j < board[i].length; j++) {
                 ChessPiece pieceAtPos = board[i][j];
                 int teamColour = pieceAtPos.getTeam();
-                if (teamColour == teamColourOfEnemy && checkIfPieceAtPosCheckingKing(piecePosition, pieceAtPos, teamColour)) {
+                if (teamColour == teamColourOfEnemy && checkIfPieceAtPosCanMoveToPosition(piecePosition, pieceAtPos, teamColour)) {
                     piecesWithPossibleMoveToPos.add(board[i][j]);
                 }
             }

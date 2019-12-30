@@ -65,19 +65,23 @@ public class King extends ChessPiece {
     private void moveOneSpace(int y, int x) {
         ChessPiece pieceAtPosXY = board.getPiece(x, y);
         Position positionToMoveTo = new Position(x, y);
-        if (team == 1) {
-            if (!checkSameTeam(pieceAtPosXY) &&
-                    checkIfPossibleMoveForKing(positionToMoveTo)) {
-                possibleMoves.add(positionToMoveTo);
-            }
-        } else {
-            if (!checkSameTeam(pieceAtPosXY) &&
-                    checkIfPossibleMoveForKing(positionToMoveTo)) {
-                possibleMoves.add(positionToMoveTo);
-            }
+        if (!checkSameTeam(pieceAtPosXY)) {
+            possibleMoves.add(positionToMoveTo);
         }
+//        if (team == 1) {
+//            if (!checkSameTeam(pieceAtPosXY) &&
+//                    !board.checkIfPositionCanBeReachedByAnyPiece(positionToMoveTo, 0)) {
+//                possibleMoves.add(positionToMoveTo);
+//            }
+//        } else {
+//            if (!checkSameTeam(pieceAtPosXY) &&
+//                    !board.checkIfPositionCanBeReachedByAnyPiece(positionToMoveTo, 1)) {
+//                possibleMoves.add(positionToMoveTo);
+//            }
+//        }
     }
 
+    // TODO: could add the condition that if the piece is a pawn and the movement is straight, it wont do anything
     // EFFECT: returns true if the move is possible for king with no check occurring after moving
     private boolean checkIfPossibleMoveForKing(Position position) {
         for (int i = 0; i < board.getBoard().length; i++) {
@@ -86,6 +90,12 @@ public class King extends ChessPiece {
                 if (!piece.getPieceID().equals(PieceName.KING) && !(piece.getTeam() == team)) {
                     piece.updatePossibleMoves();
                     List<Position> possibleMoves = piece.getPossibleMoves();
+//                    if (piece.getPieceID().equals(PieceName.PAWN)) {
+//                        int pawnXCoord = piece.getPosition().getXcoord();
+//                        int pawnYCoord = piece.getPosition().getXcoord();
+//                        Position pawnNewPosition = new Position(pawnXCoord, pawnYCoord+1);
+//                        return position.equals(pawnNewPosition);
+//                    }
                     if (possibleMoves.contains(position)) {
                         return false;
                     }
