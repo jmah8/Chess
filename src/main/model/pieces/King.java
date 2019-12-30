@@ -60,6 +60,7 @@ public class King extends ChessPiece {
 
     // TODO: pawns moving forward breaks this kindof. Since the pawn can move forward, but
     //  not eat forward, the king will assume that the pawn can actually eat it
+    // TODO: make this specific to team of king. Most likely by refactoring board methods
     // MODIFIES: this
     // EFFECT: add the move of y and x to possible move
     private void moveOneSpace(int y, int x) {
