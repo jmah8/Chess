@@ -276,22 +276,165 @@ public class BoardTest {
         ChessPiece piece1 = new Rook(2, 4, 0, board);
         ChessPiece piece2 = new Queen(4, 0, 0, board);
         ChessPiece piece3 = new Bishop(7, 7, 0, board);
-        //ChessPiece piece4 = new Horse(6, 7, 0, board);
-//        ChessPiece piece4 = new Pawn(3, 5, 0, board);
+        ChessPiece piece4 = new Horse(3, 6, 0, board);
         piece1.updatePossibleMoves();
         piece2.updatePossibleMoves();
         piece3.updatePossibleMoves();
-//        piece4.updatePossibleMoves();
+        piece4.updatePossibleMoves();
         board.placePiece(piece);
         board.placePiece(piece1);
         board.placePiece(piece2);
         board.placePiece(piece3);
-//        board.placePiece(piece4);
+        board.placePiece(piece4);
         List<ChessPiece> pieces = board.getCheckingPiecesForBlackKing();
-//        assertEquals(4, pieces.size());
+        assertEquals(4, pieces.size());
         assertTrue(pieces.contains(piece1));
         assertTrue(pieces.contains(piece2));
         assertTrue(pieces.contains(piece3));
-//        assertTrue(pieces.contains(piece4));
+        assertTrue(pieces.contains(piece4));
+    }
+
+    @Test
+    public void getCheckingPiecesForBlackKingTest3Pieces() {
+        board.makeBoard();
+        ChessPiece piece = new King(4, 4, 1, board);
+        ChessPiece piece1 = new Rook(2, 4, 0, board);
+        ChessPiece piece2 = new Queen(4, 0, 0, board);
+        ChessPiece piece3 = new Bishop(7, 7, 0, board);
+        ChessPiece piece4 = new Horse(3, 6, 1, board);
+        piece1.updatePossibleMoves();
+        piece2.updatePossibleMoves();
+        piece3.updatePossibleMoves();
+        piece4.updatePossibleMoves();
+        board.placePiece(piece);
+        board.placePiece(piece1);
+        board.placePiece(piece2);
+        board.placePiece(piece3);
+        board.placePiece(piece4);
+        List<ChessPiece> pieces = board.getCheckingPiecesForBlackKing();
+        assertEquals(3, pieces.size());
+        assertTrue(pieces.contains(piece1));
+        assertTrue(pieces.contains(piece2));
+        assertTrue(pieces.contains(piece3));
+    }
+
+    @Test
+    public void getCheckingPiecesForBlackKingTest2Pieces() {
+        board.makeBoard();
+        ChessPiece piece = new King(4, 4, 1, board);
+        ChessPiece piece1 = new Rook(2, 4, 0, board);
+        ChessPiece piece2 = new Queen(4, 0, 1, board);
+        ChessPiece piece3 = new Bishop(7, 7, 0, board);
+        ChessPiece piece4 = new Horse(3, 6, 1, board);
+        piece1.updatePossibleMoves();
+        piece2.updatePossibleMoves();
+        piece3.updatePossibleMoves();
+        piece4.updatePossibleMoves();
+        board.placePiece(piece);
+        board.placePiece(piece1);
+        board.placePiece(piece2);
+        board.placePiece(piece3);
+        board.placePiece(piece4);
+        List<ChessPiece> pieces = board.getCheckingPiecesForBlackKing();
+        assertEquals(2, pieces.size());
+        assertTrue(pieces.contains(piece1));
+        assertTrue(pieces.contains(piece3));
+    }
+
+    @Test
+    public void getCheckingPiecesForWhiteKingTest1Piece() {
+        board.makeBoard();
+        ChessPiece piece = new King(4, 2, 0, board);
+        ChessPiece piece1 = new Bishop(3, 3, 1, board);
+        piece1.updatePossibleMoves();
+        board.placePiece(piece);
+        board.placePiece(piece1);
+        List<ChessPiece> pieces = board.getCheckingPiecesForWhiteKing();
+        assertEquals(1, pieces.size());
+        assertTrue(pieces.contains(piece1));
+    }
+
+    @Test
+    public void getCheckingPiecesForWhiteKingTestNoPieces() {
+        board.makeBoard();
+        ChessPiece piece = new King(3, 3, 0, board);
+        ChessPiece piece1 = new Rook(4, 4, 1, board);
+        piece1.updatePossibleMoves();
+        board.placePiece(piece);
+        board.placePiece(piece1);
+        List<ChessPiece> pieces = board.getCheckingPiecesForWhiteKing();
+        assertEquals(0, pieces.size());
+    }
+
+    @Test
+    public void getCheckingPiecesForWhiteKingTest4Pieces() {
+        board.makeBoard();
+        ChessPiece piece = new King(4, 4, 0, board);
+        ChessPiece piece1 = new Rook(2, 4, 1, board);
+        ChessPiece piece2 = new Queen(4, 0, 1, board);
+        ChessPiece piece3 = new Bishop(7, 7, 1, board);
+        ChessPiece piece4 = new Horse(3, 6, 1, board);
+        piece1.updatePossibleMoves();
+        piece2.updatePossibleMoves();
+        piece3.updatePossibleMoves();
+        piece4.updatePossibleMoves();
+        board.placePiece(piece);
+        board.placePiece(piece1);
+        board.placePiece(piece2);
+        board.placePiece(piece3);
+        board.placePiece(piece4);
+        List<ChessPiece> pieces = board.getCheckingPiecesForWhiteKing();
+        assertEquals(4, pieces.size());
+        assertTrue(pieces.contains(piece1));
+        assertTrue(pieces.contains(piece2));
+        assertTrue(pieces.contains(piece3));
+        assertTrue(pieces.contains(piece4));
+    }
+
+    @Test
+    public void getCheckingPiecesForWhiteKingTest3Pieces() {
+        board.makeBoard();
+        ChessPiece piece = new King(4, 4, 0, board);
+        ChessPiece piece1 = new Rook(2, 4, 1, board);
+        ChessPiece piece2 = new Queen(4, 0, 1, board);
+        ChessPiece piece3 = new Bishop(7, 7, 1, board);
+        ChessPiece piece4 = new Horse(3, 6, 0, board);
+        piece1.updatePossibleMoves();
+        piece2.updatePossibleMoves();
+        piece3.updatePossibleMoves();
+        piece4.updatePossibleMoves();
+        board.placePiece(piece);
+        board.placePiece(piece1);
+        board.placePiece(piece2);
+        board.placePiece(piece3);
+        board.placePiece(piece4);
+        List<ChessPiece> pieces = board.getCheckingPiecesForWhiteKing();
+        assertEquals(3, pieces.size());
+        assertTrue(pieces.contains(piece1));
+        assertTrue(pieces.contains(piece2));
+        assertTrue(pieces.contains(piece3));
+    }
+
+    @Test
+    public void getCheckingPiecesForWhiteKingTest2Pieces() {
+        board.makeBoard();
+        ChessPiece piece = new King(4, 4, 0, board);
+        ChessPiece piece1 = new Rook(2, 4, 1, board);
+        ChessPiece piece2 = new Queen(4, 0, 0, board);
+        ChessPiece piece3 = new Bishop(7, 7, 1, board);
+        ChessPiece piece4 = new Horse(3, 6, 0, board);
+        piece1.updatePossibleMoves();
+        piece2.updatePossibleMoves();
+        piece3.updatePossibleMoves();
+        piece4.updatePossibleMoves();
+        board.placePiece(piece);
+        board.placePiece(piece1);
+        board.placePiece(piece2);
+        board.placePiece(piece3);
+        board.placePiece(piece4);
+        List<ChessPiece> pieces = board.getCheckingPiecesForWhiteKing();
+        assertEquals(2, pieces.size());
+        assertTrue(pieces.contains(piece1));
+        assertTrue(pieces.contains(piece3));
     }
 }
