@@ -1,6 +1,7 @@
 package main.model.pieces;
 
 import com.sun.org.glassfish.gmbal.ManagedObject;
+import javafx.geometry.Pos;
 import main.model.Board;
 import main.model.Position;
 
@@ -92,12 +93,22 @@ public class King extends ChessPiece {
                 if (!piece.getPieceID().equals(PieceName.KING) && piece.getTeam() == teamNumber) {
                     piece.updatePossibleMoves();
                     List<Position> possibleMoves = piece.getPossibleMoves();
-//                    if (piece.getPieceID().equals(PieceName.PAWN)) {
-//                        int pawnXCoord = piece.getPosition().getXcoord();
-//                        int pawnYCoord = piece.getPosition().getXcoord();
-//                        Position pawnNewPosition = new Position(pawnXCoord, pawnYCoord+1);
-//                        return position.equals(pawnNewPosition);
-//                    }
+                    if (piece.getPieceID().equals(PieceName.PAWN)) {
+                        int pawnXCoord = piece.getPosition().getXcoord();
+                        int pawnYCoord = piece.getPosition().getYcoord();
+                        Position pawnNewPosition;
+                        Position pawnNewPosition1;
+                        if (piece.getTeam() == 1) {
+                            pawnNewPosition = new Position(pawnXCoord, pawnYCoord + 1);
+                            pawnNewPosition1 = new Position(pawnXCoord, pawnYCoord + 2);
+                        } else {
+                            pawnNewPosition = new Position(pawnXCoord, pawnYCoord - 1);
+                            pawnNewPosition1 = new Position(pawnXCoord, pawnYCoord - 2);
+                        }
+                        if (position.equals(pawnNewPosition) || position.equals(pawnNewPosition1)) {
+                            return true;
+                        }
+                    }
                     if (possibleMoves.contains(position)) {
                         return false;
                     }

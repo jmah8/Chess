@@ -134,6 +134,20 @@ public class KingTest extends ChessPieceTest{
         List<Position> moves = king.getPossibleMoves();
         assertEquals(0, moves.size());;
     }
+
+    @Test
+    public void updatePossibleMovesTestKingMovingInfrontOfPawn() {
+        king = new King(4, 3, 1, board);
+        board.placePiece(new Pawn(3, 5, 0, board));
+        board.placePiece(new Rook(6, 2, 0, board));
+        board.placePiece(new Rook(5, 1, 0, board));
+        board.placePiece(new Horse(5, 6, 0, board));
+        king.updatePossibleMoves();
+        List<Position> moves = king.getPossibleMoves();
+        assertEquals(2, moves.size());
+        assertTrue(moves.contains(new Position(3, 3)));
+        assertTrue(moves.contains(new Position(3, 4)));
+    }
 }
 
 
