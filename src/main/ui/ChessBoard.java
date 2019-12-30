@@ -169,8 +169,8 @@ public class ChessBoard {
                 public void actionPerformed(ActionEvent e) {
                     board.movePiece(pieceClicked, new Position(x, y));
 //                    pieceClicked.updatePossibleMoves();
-//                    colourCheckingPieces();
                     refreshBoard();
+                    colourCheckingPieces();
                 }
             });
         }
@@ -193,6 +193,8 @@ public class ChessBoard {
             int xPos = cp.getPosition().getXcoord();
             int yPos = cp.getPosition().getYcoord();
             buttons[yPos][xPos].setBackground(Color.RED);
+            chessPanel.repaint();
+            chessPanel.revalidate();
         }
     }
 
@@ -204,6 +206,8 @@ public class ChessBoard {
             int xPos = cp.getPosition().getXcoord();
             int yPos = cp.getPosition().getYcoord();
             buttons[yPos][xPos].setBackground(Color.RED);
+            chessPanel.repaint();
+            chessPanel.revalidate();
         }
     }
 }

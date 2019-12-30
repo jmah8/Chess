@@ -85,9 +85,6 @@ public class Board {
     // EFFECT: moves pieceAtPosition to moveToPosition. If another piece is already there from other team
     // eat the piece
     public boolean movePiece(ChessPiece pieceAtPosition, Position moveToPosition) {
-//        int x = pieceAtPosition.getXcoord();
-//        int y = pieceAtPosition.getYcoord();
-//        ChessPiece piece = board[y][x];
         int xCoord = pieceAtPosition.getPosition().getXcoord();
         int yCoord = pieceAtPosition.getPosition().getYcoord();
         int xNew = moveToPosition.getXcoord();
@@ -103,33 +100,36 @@ public class Board {
         }
     }
 
-
     // EFFECT: returns true if black piece has a possible move to eat white king, else false
     public boolean checkIfCheckOccurringForWhiteKing() {
+        Boolean check = false;
         Position kingTeamWhite = checkPosKingWhiteTeam();
         for (int i = 0; i < board.length; i++) {
             for (int j = 0; j < board.length; j++) {
                 ChessPiece pieceAtPos = board[i][j];
+                pieceAtPos.updatePossibleMoves();
                 if (checkIfPieceAtPosCheckingKing(kingTeamWhite, pieceAtPos, 1)) {
-                    return true;
+                    check = true;
                 }
             }
         }
-        return false;
+        return check;
     }
 
     // EFFECT: returns true if white piece has a possible move to eat black king, else false
     public boolean checkIfCheckOccurringForBlackKing() {
         Position kingTeamBlack = checkPosKingBlackTeam();
+        Boolean check = false;
         for (int i = 0; i < board.length; i++) {
             for (int j = 0; j < board.length; j++) {
                 ChessPiece pieceAtPos = board[i][j];
+                pieceAtPos.updatePossibleMoves();
                 if (checkIfPieceAtPosCheckingKing(kingTeamBlack, pieceAtPos, 0)) {
-                    return true;
+                    check = true;
                 }
             }
         }
-        return false;
+        return check;
     }
 
     // REQUIRES: for updatePossibleMoves to be called before
@@ -144,7 +144,6 @@ public class Board {
         return false;
     }
 
-    // TODO: implement tests
     // EFFECT: returns white pieces checking black king
     public List<ChessPiece> getCheckingPiecesForBlackKing() {
         return getPiecesThatCanMoveToPosition(checkPosKingBlackTeam(), 0);
