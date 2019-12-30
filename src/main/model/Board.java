@@ -114,6 +114,7 @@ public class Board {
         return check;
     }
 
+    // EFFECT: returns true if piecePosition can be reached by piece of team teamNumber, false othewise
     public Boolean checkIfPositionCanBeReachedByAnyPiece(Position piecePosition, int teamNumber) {
         Boolean check = false;
         for (int i = 0; i < board.length; i++) {
