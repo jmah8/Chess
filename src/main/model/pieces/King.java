@@ -3,6 +3,8 @@ package main.model.pieces;
 import main.model.Board;
 import main.model.Position;
 
+import java.util.List;
+
 public class King extends ChessPiece {
 
 //    public King(int xcoord, int ycoord, int team) {
@@ -56,10 +58,40 @@ public class King extends ChessPiece {
         }
     }
 
-    protected void moveOneSpace(int y, int x) {
+    // TODO: pawns moving forward breaks this kindof. Since the pawn can move forward, but
+    //  not eat forward, the king will assume that the pawn can actually eat it
+    // MODIFIES: this
+    // EFFECT: add the move of y and x to possible move
+    private void moveOneSpace(int y, int x) {
         ChessPiece pieceAtPosXY = board.getPiece(x, y);
-        if (!checkSameTeam(pieceAtPosXY)) {
-            possibleMoves.add(new Position(x, y));
+        Position positionToMoveTo = new Position(x, y);
+        if (team == 1) {
+            if (!checkSameTeam(pieceAtPosXY) &&
+                    checkIfPossibleMoveForKing(positionToMoveTo)) {
+                possibleMoves.add(positionToMoveTo);
+            }
+        } else {
+            if (!checkSameTeam(pieceAtPosXY) &&
+                    checkIfPossibleMoveForKing(positionToMoveTo)) {
+                possibleMoves.add(positionToMoveTo);
+            }
         }
+    }
+
+    // EFFECT: returns true if the move is possible for king with no check occurring after moving
+    private boolean checkIfPossibleMoveForKing(Position position) {
+        for (int i = 0; i < board.getBoard().length; i++) {
+            for (int j = 0; j < board.getBoard()[i].length; j++) {
+                ChessPiece piece = board.getBoard()[i][j];
+                if (!piece.getPieceID().equals(PieceName.KING) && !(piece.getTeam() == team)) {
+                    piece.updatePossibleMoves();
+                    List<Position> possibleMoves = piece.getPossibleMoves();
+                    if (possibleMoves.contains(position)) {
+                        return false;
+                    }
+                }
+            }
+        }
+        return true;
     }
 }

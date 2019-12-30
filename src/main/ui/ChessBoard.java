@@ -185,8 +185,6 @@ public class ChessBoard {
         }
     }
 
-    // TODO: make sure to call checkIfBlackKingBeing check is called in if statement then this is placed in if block
-    // TODO: before calling this method make sure to call updatePossibleMoves
     private void showPieceCheckingBlackKing() {
         List<ChessPiece> piecesCheckingBlackKing = board.getCheckingPiecesForBlackKing();
         for (ChessPiece cp : piecesCheckingBlackKing) {
@@ -198,8 +196,6 @@ public class ChessBoard {
         }
     }
 
-    // TODO: make sure to call checkIfBlackKingBeing check is called in if statement then this is placed in if block
-    // TODO: before calling this method make sure to call updatePossibleMoves
     private void showPieceCheckingWhiteKing() {
         List<ChessPiece> piecesCheckingWhiteKing = board.getCheckingPiecesForWhiteKing();
         for (ChessPiece cp : piecesCheckingWhiteKing) {

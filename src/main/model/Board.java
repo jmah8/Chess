@@ -102,29 +102,24 @@ public class Board {
 
     // EFFECT: returns true if black piece has a possible move to eat white king, else false
     public boolean checkIfCheckOccurringForWhiteKing() {
-        Boolean check = false;
         Position kingTeamWhite = checkPosKingWhiteTeam();
-        for (int i = 0; i < board.length; i++) {
-            for (int j = 0; j < board.length; j++) {
-                ChessPiece pieceAtPos = board[i][j];
-                pieceAtPos.updatePossibleMoves();
-                if (checkIfPieceAtPosCheckingKing(kingTeamWhite, pieceAtPos, 1)) {
-                    check = true;
-                }
-            }
-        }
+        Boolean check = checkIfPositionCanBeReachedByAnyPiece(kingTeamWhite, 1);
         return check;
     }
 
     // EFFECT: returns true if white piece has a possible move to eat black king, else false
     public boolean checkIfCheckOccurringForBlackKing() {
         Position kingTeamBlack = checkPosKingBlackTeam();
+        Boolean check = checkIfPositionCanBeReachedByAnyPiece(kingTeamBlack, 0);
+        return check;
+    }
+
+    public Boolean checkIfPositionCanBeReachedByAnyPiece(Position piecePosition, int teamNumber) {
         Boolean check = false;
         for (int i = 0; i < board.length; i++) {
             for (int j = 0; j < board.length; j++) {
                 ChessPiece pieceAtPos = board[i][j];
-                pieceAtPos.updatePossibleMoves();
-                if (checkIfPieceAtPosCheckingKing(kingTeamBlack, pieceAtPos, 0)) {
+                if (checkIfPieceAtPosCheckingKing(piecePosition, pieceAtPos, teamNumber)) {
                     check = true;
                 }
             }
@@ -132,9 +127,9 @@ public class Board {
         return check;
     }
 
-    // REQUIRES: for updatePossibleMoves to be called before
     // EFFECT: returns true if piece can move to the same position as the king
     private boolean checkIfPieceAtPosCheckingKing(Position kingPos, ChessPiece pieceAtPos, int teamNumber) {
+        pieceAtPos.updatePossibleMoves();
         if (!pieceAtPos.getPieceID().equals(PieceName.EMPTY) && pieceAtPos.getTeam() == teamNumber) {
             List<Position> possibleMoves = pieceAtPos.getPossibleMoves();
             if (possibleMoves.contains(kingPos)) {
