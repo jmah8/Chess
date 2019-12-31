@@ -19,6 +19,8 @@ public class ChessBoard {
 
     private Board board;
 
+    private int turncounter = 0;
+
     public ChessBoard() {
         board = new Board();
         board.makeBoard();
@@ -82,14 +84,16 @@ public class ChessBoard {
 //        chessPanel.revalidate();
 //    }
 
+    // EFFECT: sets the background of the button depending on the index of the button
     protected void setBlackOrWhite(int i, int j) {
         if ((i + j) % 2 == 0) {
-            buttons[i][j].setBackground(Color.WHITE);
+            buttons[i][j].setBackground(new Color(229, 198, 109));
         } else {
-            buttons[i][j].setBackground(Color.BLACK);
+            buttons[i][j].setBackground(new Color(96, 73, 6));
         }
     }
 
+    // EFFECT: sets board up with empty pieces and actual pieces with text on the buttons
     public void setUpBoard() {
         for (int i = 0; i < board.getBoard().length; i++) {
             for (int j = 0; j < board.getBoard()[i].length; j++) {
@@ -98,6 +102,11 @@ public class ChessBoard {
                     buttons[i][j] = new JButton();
                 } else {
                     buttons[i][j] = new JButton(String.valueOf(chessPiece.getPieceID()));
+                    if (chessPiece.getTeam() == 0) {
+                        buttons[i][j].setForeground(Color.WHITE);
+                    } else {
+                        buttons[i][j].setForeground(Color.BLACK);
+                    }
                 }
                 buttons[i][j].setEnabled(false);
                 setBlackOrWhite(i, j);
@@ -106,11 +115,12 @@ public class ChessBoard {
         }
     }
 
+    // EFFECT: makes the the pieces that are not empty and current team's turn to clickable buttons
     public void makeClickablePieces() {
         for (int i = 0; i < board.getBoard().length; i++) {
             for (int j = 0; j < board.getBoard()[i].length; j++) {
                 ChessPiece chessPiece = board.getPiece(j, i);
-                if (chessPiece.getPieceID() != PieceName.EMPTY) {
+                if (chessPiece.getPieceID() != PieceName.EMPTY && switchOnButtonsForTeamTurn(chessPiece)) {
                     buttons[i][j].setEnabled(true);
                 }
                 buttons[i][j].addActionListener(new ActionListener() {
@@ -123,6 +133,7 @@ public class ChessBoard {
         }
     }
 
+    // EFFECT: makes the pieces clickable buttons that when clicked shows the possible moves of the piece
     public void setUpBoardForMovement(ActionEvent e) {
         Object o = e.getSource();
         for (int i = 0; i < board.getBoard().length; i++) {
@@ -139,8 +150,8 @@ public class ChessBoard {
                             colourCheckingPieces();
                         }
                     });
-                    chessPanel.repaint();
-                    chessPanel.revalidate();
+//                    chessPanel.repaint();
+//                    chessPanel.revalidate();
                     pieceClicked.updatePossibleMoves();
                     List<Position> possibleMoves = pieceClicked.getPossibleMoves();
                     makeMovableButtons(pieceClicked, possibleMoves);
@@ -151,6 +162,7 @@ public class ChessBoard {
         chessPanel.revalidate();
     }
 
+    // EFFECT: refreshes the board
     private void refreshBoard() {
         chessPanel.removeAll();
         setUpBoard();
@@ -159,6 +171,7 @@ public class ChessBoard {
         chessPanel.revalidate();
     }
 
+    // EFFECT: makes yellow clickable buttons that all the piece to move to the position
     private void makeMovableButtons(ChessPiece pieceClicked, List<Position> possibleMoves) {
         for (Position p : possibleMoves) {
             int x = p.getXcoord();
@@ -169,10 +182,19 @@ public class ChessBoard {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     board.movePiece(pieceClicked, new Position(x, y));
+                    turncounter++;
                     refreshBoard();
                     colourCheckingPieces();
                 }
             });
+        }
+    }
+
+    private boolean switchOnButtonsForTeamTurn(ChessPiece chessPiece) {
+        if (turncounter % 2 == chessPiece.getTeam()) {
+            return true;
+        } else {
+            return false;
         }
     }
 

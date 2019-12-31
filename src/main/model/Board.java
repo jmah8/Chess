@@ -4,8 +4,9 @@ import main.model.pieces.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Observable;
 
-public class Board {
+public class Board extends Observable {
     private ChessPiece[][] board;
 
     public Board() {
