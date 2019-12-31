@@ -21,6 +21,8 @@ public class King extends ChessPiece {
     }
 
     @Override
+    // TODO: bug where rooks/queen/bishops possible moves stop at the enemy, so the king could move 1 space away
+    //  from them and be in a place where it isnt a possible move
     // MODIFIES: this
     // EFFECT: updates possible move list with all possible 1 space move
     public void updatePossibleMoves() {

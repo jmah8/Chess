@@ -1,5 +1,6 @@
 package test;
 
+import javafx.geometry.Pos;
 import main.model.Board;
 import main.model.Position;
 import main.model.pieces.*;
@@ -436,5 +437,35 @@ public class BoardTest {
         assertEquals(2, pieces.size());
         assertTrue(pieces.contains(piece1));
         assertTrue(pieces.contains(piece3));
+    }
+
+    @Test
+    public void gameOverForWhiteKingTest() {
+        board.makeBoard();
+        ChessPiece piece = new King(0, 0, 0, board);
+        ChessPiece piece1 = new Rook(0, 4, 1, board);
+        ChessPiece piece2 = new Queen(1, 5, 1, board);
+        board.placePiece(piece);
+        board.placePiece(piece1);
+        board.placePiece(piece2);
+        piece.updatePossibleMoves();
+        List<Position> moves = piece.getPossibleMoves();
+        assertEquals(0, moves.size());
+        assertTrue(board.gameOverForWhiteKing());
+    }
+
+    @Test
+    public void gameOverForBlackKingTest() {
+        board.makeBoard();
+        ChessPiece piece = new King(3, 0, 1, board);
+        ChessPiece piece1 = new Rook(0, 0, 0, board);
+        ChessPiece piece2 = new Queen(1, 1, 0, board);
+        board.placePiece(piece);
+        board.placePiece(piece1);
+        board.placePiece(piece2);
+        piece.updatePossibleMoves();
+        List<Position> moves = piece.getPossibleMoves();
+        assertEquals(0, moves.size());
+        assertTrue(board.gameOverForBlackKing());
     }
 }

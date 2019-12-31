@@ -164,7 +164,7 @@ public class KingTest extends ChessPieceTest{
     }
 
     @Test
-    public void updatePossibleMovesTestWhiteKingMovingTowardsWhiteKing() {
+    public void updatePossibleMovesTestWhiteKingMovingTowardsBlackKing() {
         king = new King(0, 0, 0, board);
         board.placePiece(new King(2, 0, 1, board));
         king.updatePossibleMoves();

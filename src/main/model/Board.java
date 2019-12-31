@@ -166,31 +166,54 @@ public class Board extends Observable {
 
     // EFFECT: returns position of black king
     public Position checkPosKingBlackTeam() {
-        Position kingPosition = null;
-        for (int i = 0; i < board.length; i++) {
-            for (int j = 0; j < board[i].length; j++) {
-                ChessPiece piece = board[i][j];
-                if (piece.getPieceID().equals(PieceName.KING) && piece.getTeam() == 1) {
-                    kingPosition = piece.getPosition();
-                    break;
-                }
-            }
-        }
-        return kingPosition;
+        return getKingOfTeam(1).getPosition();
     }
 
     // EFFECT: returns position of white king
     public Position checkPosKingWhiteTeam() {
-        Position kingPosition = null;
+        return getKingOfTeam(0).getPosition();
+    }
+
+    // EFFECT: returns King from the team teamNumber
+    private ChessPiece getKingOfTeam(int teamNumber) {
+        ChessPiece king = null;
         for (int i = 0; i < board.length; i++) {
             for (int j = 0; j < board[i].length; j++) {
                 ChessPiece piece = board[i][j];
-                if (piece.getPieceID().equals(PieceName.KING) && piece.getTeam() == 0) {
-                    kingPosition = piece.getPosition();
+                if (piece.getPieceID().equals(PieceName.KING) && piece.getTeam() == teamNumber) {
+                    king = piece;
                     break;
                 }
             }
         }
-        return kingPosition;
+        return king;
+    }
+
+    public boolean gameOverForKing() {
+        return false;
+    }
+
+    // EFFECT: returns true if white king is checked an has no more possible moves
+    public boolean gameOverForWhiteKing() {
+        ChessPiece king = getKingOfTeam(0);
+        king.updatePossibleMoves();
+        List<Position> moves = king.getPossibleMoves();
+        boolean gameOver = false;
+        if (checkIfCheckOccurringForWhiteKing() && moves.size() == 0) {
+            gameOver = true;
+        }
+        return gameOver;
+    }
+
+    // EFFECT: returns true if black king is checked an has no more possible moves
+    public boolean gameOverForBlackKing() {
+        ChessPiece king = getKingOfTeam(1);
+        king.updatePossibleMoves();
+        List<Position> moves = king.getPossibleMoves();
+        boolean gameOver = false;
+        if (checkIfCheckOccurringForBlackKing() && moves.size() == 0) {
+            gameOver = true;
+        }
+        return gameOver;
     }
 }
