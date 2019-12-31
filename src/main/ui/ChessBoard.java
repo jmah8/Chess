@@ -120,7 +120,7 @@ public class ChessBoard {
         for (int i = 0; i < board.getBoard().length; i++) {
             for (int j = 0; j < board.getBoard()[i].length; j++) {
                 ChessPiece chessPiece = board.getPiece(j, i);
-                if (chessPiece.getPieceID() != PieceName.EMPTY && switchOnButtonsForTeamTurn(chessPiece)) {
+                if (chessPiece.getPieceID() != PieceName.EMPTY) {
                     buttons[i][j].setEnabled(true);
                 }
                 buttons[i][j].addActionListener(new ActionListener() {
@@ -150,8 +150,8 @@ public class ChessBoard {
                             colourCheckingPieces();
                         }
                     });
-//                    chessPanel.repaint();
-//                    chessPanel.revalidate();
+                    chessPanel.repaint();
+                    chessPanel.revalidate();
                     pieceClicked.updatePossibleMoves();
                     List<Position> possibleMoves = pieceClicked.getPossibleMoves();
                     makeMovableButtons(pieceClicked, possibleMoves);

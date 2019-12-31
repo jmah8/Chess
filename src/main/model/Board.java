@@ -91,10 +91,10 @@ public class Board extends Observable {
         int xNew = moveToPosition.getXcoord();
         int yNew = moveToPosition.getYcoord();
         List<Position> pieceMoves = pieceAtPosition.getPossibleMoves();
-        if (pieceMoves.contains(moveToPosition)) {
+        if (pieceMoves.contains(moveToPosition) && !pieceAtPosition.getPosition().equals(moveToPosition)) {
             board[yNew][xNew] = pieceAtPosition;
             board[yCoord][xCoord] = new EmptyPiece(xCoord, yCoord, this);
-            pieceAtPosition.setPosition(moveToPosition);
+            pieceAtPosition.movePosition(moveToPosition);
             return true;
         } else {
             return false;
@@ -128,7 +128,7 @@ public class Board extends Observable {
 
     // REQUIRES: updatePossibleMove be called on pieceAtPos before calling this method
     // EFFECT: returns true if pieceAtPos can move to position and is of team teamNumber
-    private boolean checkIfPieceAtPosCanMoveToPosition(Position position, ChessPiece pieceAtPos, int teamNumber) {
+    public boolean checkIfPieceAtPosCanMoveToPosition(Position position, ChessPiece pieceAtPos, int teamNumber) {
         pieceAtPos.updatePossibleMoves();
         if (!pieceAtPos.getPieceID().equals(PieceName.EMPTY) && pieceAtPos.getTeam() == teamNumber) {
             List<Position> possibleMoves = pieceAtPos.getPossibleMoves();
@@ -187,6 +187,14 @@ public class Board extends Observable {
             }
         }
         return king;
+    }
+
+    public void updatePossibleMovesForAllPiece() {
+        for (int i = 0; i < board.length; i++) {
+            for (int j = 0; j < board[i].length; j++) {
+                board[i][j].updatePossibleMoves();
+            }
+        }
     }
 
     public boolean gameOverForKing() {

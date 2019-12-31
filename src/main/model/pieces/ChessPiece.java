@@ -33,18 +33,6 @@ public abstract class ChessPiece {
     // EFFECT: update possible move list depending on the piece
     public abstract void updatePossibleMoves();
 
-    // MODIFIES: this
-    // EFFECT: if position is in possibleMoves, then move piece to position and return true,
-    // else return false
-    public boolean movePiece(Position position) {
-        if (possibleMoves.contains(position)) {
-            this.position = position;
-            // TODO: should i include updatePossibleMoves here to update it without calling it
-            return true;
-        }
-        return false;
-    }
-
     public void setBoard(Board board) {
         this.board = board;
     }
@@ -84,11 +72,27 @@ public abstract class ChessPiece {
     }
 
     // TODO: check if i really need this
+    // MODIFIES: this
+    // EFFECT: if position is in possibleMoves and position is not the same as this.position,
+    // then set this.position to position and then move the piece on the board
     public void movePosition(Position position) {
-        if (!position.equals(this.position)) {
+        if (!position.equals(this.position) && possibleMoves.contains(position)) {
             this.position = position;
             board.movePiece(this, position);
         }
+    }
+
+    // MODIFIES: this
+    // EFFECT: if position is in possibleMoves, then move piece to position and return true,
+    // else return false
+    public boolean movePiece(Position position) {
+        if (possibleMoves.contains(position)) {
+            this.position = position;
+            // TODO: should i include updatePossibleMoves here to update it without calling it
+            board.movePiece(this, position);
+            return true;
+        }
+        return false;
     }
 
     // EFFECT: returns true if the piece is of the opposite team (empty doesn't count)

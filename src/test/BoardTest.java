@@ -123,6 +123,17 @@ public class BoardTest {
     }
 
     @Test
+    public void placePieceTestReplacement() {
+        board.makeBoard();
+        ChessPiece rook = new Rook(0, 0, 0, board);
+        ChessPiece queen = new Rook(0, 0, 1, board);
+        board.placePiece(rook);
+        assertEquals(rook, board.getBoard()[0][0]);
+        board.placePiece(queen);
+        assertEquals(queen, board.getBoard()[0][0]);
+    }
+
+    @Test
     public void checkPosKingWhiteTeamTest() {
         board.makeBoard();
         ChessPiece piece = new King(3, 0, 0, board);
@@ -467,5 +478,50 @@ public class BoardTest {
         List<Position> moves = piece.getPossibleMoves();
         assertEquals(0, moves.size());
         assertTrue(board.gameOverForBlackKing());
+    }
+
+    @Test
+    public void gameOverForWhiteKingTestBuggedScenario() {
+        board.makeBoard();
+        ChessPiece piece = new King(3, 0, 0, board);
+        ChessPiece piece1 = new Rook(0, 0, 1, board);
+        ChessPiece piece2 = new Queen(1, 1, 1, board);
+        board.placePiece(piece);
+        board.placePiece(piece1);
+        board.placePiece(piece2);
+        piece.updatePossibleMoves();
+        List<Position> moves = piece.getPossibleMoves();
+        assertEquals(0, moves.size());
+        assertTrue(board.gameOverForWhiteKing());
+    }
+
+    @Test
+    public void gameOverForWhiteKingTestBuggedScenario1() {
+        board.makeBoard();
+        ChessPiece piece = new King(3, 0, 0, board);
+        ChessPiece piece1 = new Rook(0, 0, 1, board);
+        ChessPiece piece2 = new Rook(0, 1, 1, board);
+        board.placePiece(piece);
+        board.placePiece(piece1);
+        board.placePiece(piece2);
+        piece.updatePossibleMoves();
+        List<Position> moves = piece.getPossibleMoves();
+        assertEquals(0, moves.size());
+        assertTrue(board.gameOverForWhiteKing());
+    }
+
+    @Test
+    public void gameOverForWhiteKingTestBuggedScenario2() {
+        board.makeBoard();
+        ChessPiece piece = new King(3, 0, 0, board);
+        ChessPiece piece1 = new Queen(0, 0, 1, board);
+        ChessPiece piece2 = new Rook(0, 1, 1, board);
+        board.placePiece(piece);
+        board.placePiece(piece1);
+        board.placePiece(piece2);
+        piece.updatePossibleMoves();
+        List<Position> moves = piece.getPossibleMoves();
+        assertEquals(0, moves.size());
+        assertTrue(board.gameOverForWhiteKing());
     }
 }

@@ -1,5 +1,6 @@
 package test;
 
+import javafx.geometry.Pos;
 import main.model.Board;
 import main.model.Position;
 import main.model.pieces.*;
@@ -184,6 +185,51 @@ public class KingTest extends ChessPieceTest{
         assertTrue(moves.contains(new Position(6, 2)));
         assertTrue(moves.contains(new Position(4, 3)));
         assertTrue(moves.contains(new Position(6, 3)));
+    }
+
+    @Test
+    public void updatePossibleMovesMoveRightOfRook() {
+        king = new King(3, 0, 0, board);
+        board.placePiece(new Rook(0, 0, 1, board));
+        king.updatePossibleMoves();
+        List<Position> moves = king.getPossibleMoves();
+        assertEquals(3, moves.size());
+        assertTrue(moves.contains(new Position(2, 1)));
+        assertTrue(moves.contains(new Position(3, 1)));
+        assertTrue(moves.contains(new Position(4, 1)));
+        assertFalse(moves.contains(new Position(4, 0)));
+    }
+
+    @Test
+    public void updatePossibleMovesUpperRightOfBishop() {
+        king = new King(1, 1, 1, board);
+        board.placePiece(new Rook(2, 3, 0, board));
+        board.placePiece(new Rook(3, 2, 0, board));
+        board.placePiece(new Bishop(3, 3, 0, board));
+        king.updatePossibleMoves();
+        List<Position> moves = king.getPossibleMoves();
+        assertEquals(2, moves.size());
+        assertTrue(moves.contains(new Position(1, 0)));
+        assertTrue(moves.contains(new Position(0, 1)));
+        assertFalse(moves.contains(new Position(0, 0)));
+    }
+
+    @Test
+    public void updatePossibleMoveBuggedScenarioForWhiteKingOnly() {
+        king = new King(3, 4, 0, board);
+        board.placePiece(new Queen(6, 4, 1, board));
+        board.placePiece(new Bishop(6, 1, 1, board));
+        king.updatePossibleMoves();
+        List<Position> moves = king.getPossibleMoves();
+        assertEquals(4, moves.size());
+        assertFalse(moves.contains(new Position(2, 5)));
+        assertFalse(moves.contains(new Position(4, 3)));
+        assertFalse(moves.contains(new Position(4, 4)));
+        assertFalse(moves.contains(new Position(2, 4)));
+        assertTrue(moves.contains(new Position(2, 3)));
+        assertTrue(moves.contains(new Position(3, 3)));
+        assertTrue(moves.contains(new Position(3, 5)));
+        assertTrue(moves.contains(new Position(4, 5)));
     }
 }
 

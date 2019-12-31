@@ -4,6 +4,7 @@ import com.sun.org.glassfish.gmbal.ManagedObject;
 import javafx.geometry.Pos;
 import main.model.Board;
 import main.model.Position;
+import org.omg.PortableServer.POA;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -89,16 +90,43 @@ public class King extends ChessPiece {
                 if (piece.getPieceID().equals(PieceName.KING) && !piece.equals(this)) {
                     return !checkOtherKingsPossibleMove(piece, position);
                 }
-                if (!piece.getPieceID().equals(PieceName.KING) && piece.getTeam() == teamNumber) {
-                    piece.updatePossibleMoves();
-                    List<Position> possibleMoves = piece.getPossibleMoves();
-                    if (piece.getPieceID().equals(PieceName.PAWN)) {
-                        if (checkIfPositionSameAsPawnMovingForward(position, piece)) {
-                            return true;
+                if (piece.getTeam() == teamNumber) {
+                    if (!piece.getPieceID().equals(PieceName.KING)) {
+                        piece.updatePossibleMoves();
+                        List<Position> possibleMoves = piece.getPossibleMoves();
+                        if (piece.getPieceID().equals(PieceName.PAWN)) {
+                            if (checkIfPositionSameAsPawnMovingForward(position, piece)) {
+                                return true;
+                            }
                         }
-                    }
-                    if (possibleMoves.contains(position)) {
-                        return false;
+                        if (piece.getPieceID().equals(PieceName.ROOK) || piece.getPieceID().equals(PieceName.BISHOP)
+                                || piece.getPieceID().equals(PieceName.QUEEN)) {
+                            if (possibleMoves.contains(this.position)) {
+                                Position oldPosition = this.position;
+                                int x = oldPosition.getXcoord();
+                                int y = oldPosition.getYcoord();
+                                board.placePiece(new EmptyPiece(x, y, board));
+                                piece.updatePossibleMoves();
+                                possibleMoves = piece.getPossibleMoves();
+                                board.placePiece(this);
+                                if (possibleMoves.contains(position)) {
+                                    return false;
+                                }
+                            }
+                        }
+//                        if (piece.getPieceID().equals(PieceName.ROOK) || piece.getPieceID().equals(PieceName.BISHOP)) {
+//                            System.out.println(possibleMoves.contains(position));
+//                            movePosition(position);
+//                            board.updatePossibleMovesForAllPiece();
+//                            if (teamNumber == 0 && board.checkIfCheckOccurringForWhiteKing()) {
+//                                return false;
+//                            } else if (teamNumber == 1 && board.checkIfCheckOccurringForBlackKing()) {
+//                                return false;
+//                            }
+//                        }
+                            if (possibleMoves.contains(position)) {
+                                return false;
+                            }
                     }
                 }
             }
