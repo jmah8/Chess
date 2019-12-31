@@ -231,6 +231,100 @@ public class KingTest extends ChessPieceTest{
         assertTrue(moves.contains(new Position(3, 5)));
         assertTrue(moves.contains(new Position(4, 5)));
     }
+
+    @Test
+    public void updatePossibleMoveNonBuggedScenarioForBlackKingOnly() {
+        king = new King(3, 4, 1, board);
+        board.placePiece(new Bishop(5, 3, 0, board));
+        board.placePiece(new Bishop(5, 5, 0, board));
+        board.placePiece(new Horse(6, 4, 0, board));
+        board.placePiece(new Horse(0, 4, 0, board));
+        king.updatePossibleMoves();
+        List<Position> moves = king.getPossibleMoves();
+        assertEquals(1, moves.size());
+        assertFalse(moves.contains(new Position(2, 5)));
+        assertFalse(moves.contains(new Position(4, 3)));
+        assertFalse(moves.contains(new Position(4, 4)));
+        assertTrue(moves.contains(new Position(2, 4)));
+        assertFalse(moves.contains(new Position(2, 3)));
+        assertFalse(moves.contains(new Position(3, 3)));
+        assertFalse(moves.contains(new Position(3, 5)));
+        assertFalse(moves.contains(new Position(4, 5)));
+    }
+
+    @Test
+    public void updatePossibleMoveBuggedScenarioForWhiteButNotBlack() {
+        king = new King(3, 2, 0, board);
+        board.placePiece(new Rook(5, 2, 1, board));
+        king.updatePossibleMoves();
+        List<Position> moves = king.getPossibleMoves();
+        assertEquals(6, moves.size());
+        assertTrue(moves.contains(new Position(2, 1)));
+        assertTrue(moves.contains(new Position(3, 1)));
+        assertTrue(moves.contains(new Position(4, 1)));
+        assertFalse(moves.contains(new Position(2, 2)));
+        assertFalse(moves.contains(new Position(4, 2)));
+        assertTrue(moves.contains(new Position(2, 3)));
+        assertTrue(moves.contains(new Position(2, 3)));
+        assertTrue(moves.contains(new Position(2, 3)));
+    }
+
+    @Test
+    public void updatePossibleMovesBuggedFilledBoardWhiteKing() {
+        board.fillBoard();
+        board.movePiece(new King(3, 7, 0, board), new Position(5, 4));
+        board.movePiece(new Rook(7, 0, 1, board), new Position(7, 4));
+        king.updatePossibleMoves();
+        List<Position> moves = king.getPossibleMoves();
+        assertEquals(6, moves.size());
+        assertTrue(moves.contains(new Position(4, 3)));
+        assertTrue(moves.contains(new Position(5, 3)));
+        assertTrue(moves.contains(new Position(6, 3)));
+        assertFalse(moves.contains(new Position(4, 4)));
+        assertFalse(moves.contains(new Position(6, 4)));
+        assertTrue(moves.contains(new Position(4, 5)));
+        assertTrue(moves.contains(new Position(5, 5)));
+        assertTrue(moves.contains(new Position(6, 5)));
+    }
+
+    @Test
+    public void updatePossibleMovesBuggedFilledBoardBlackKing() {
+        board.fillBoard();
+        board.movePiece(new King(3, 0, 1, board), new Position(5, 4));
+        board.movePiece(new Rook(7, 7, 0, board), new Position(7, 4));
+        king.updatePossibleMoves();
+        List<Position> moves = king.getPossibleMoves();
+        assertEquals(6, moves.size());
+        assertTrue(moves.contains(new Position(4, 3)));
+        assertTrue(moves.contains(new Position(5, 3)));
+        assertTrue(moves.contains(new Position(6, 3)));
+        assertFalse(moves.contains(new Position(4, 4)));
+        assertFalse(moves.contains(new Position(6, 4)));
+        assertTrue(moves.contains(new Position(4, 5)));
+        assertTrue(moves.contains(new Position(5, 5)));
+        assertTrue(moves.contains(new Position(6, 5)));
+    }
+
+    @Test
+    public void updatePossibleMovesPartiallyBuggedFilledBoardBlackKing() {
+        board.fillBoard();
+        board.movePiece(new King(3, 0, 1, board), new Position(5, 3));
+        board.movePiece(new Rook(7, 7, 0, board), new Position(7, 3));
+        king.updatePossibleMoves();
+        List<Position> moves = king.getPossibleMoves();
+        assertEquals(6, moves.size());
+        assertTrue(moves.contains(new Position(4, 2)));
+        assertTrue(moves.contains(new Position(5, 2)));
+        assertTrue(moves.contains(new Position(6, 2)));
+        assertFalse(moves.contains(new Position(4, 3)));
+        assertFalse(moves.contains(new Position(6, 3)));
+        assertTrue(moves.contains(new Position(4, 4)));
+        assertTrue(moves.contains(new Position(5, 4)));
+        assertTrue(moves.contains(new Position(6, 4)));
+    }
+
+    // TODO: update bishop and queen bugged test
+
 }
 
 

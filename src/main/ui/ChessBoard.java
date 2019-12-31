@@ -150,8 +150,8 @@ public class ChessBoard {
                             colourCheckingPieces();
                         }
                     });
-                    chessPanel.repaint();
-                    chessPanel.revalidate();
+//                    chessPanel.repaint();
+//                    chessPanel.revalidate();
                     pieceClicked.updatePossibleMoves();
                     List<Position> possibleMoves = pieceClicked.getPossibleMoves();
                     makeMovableButtons(pieceClicked, possibleMoves);

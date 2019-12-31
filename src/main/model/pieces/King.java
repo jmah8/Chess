@@ -82,15 +82,21 @@ public class King extends ChessPiece {
         }
     }
 
+    // TODO: bug where if there is WKing, BQueen, BRook from left to right, the King is still allowed to eat the Queen eventhough the move will make a check
+    // TODO: bug where the White King specifically still has moves unaffected by the Black Queen/Bishop/Rook
+    // TODO: bug maybe is because of the multiple if statements but not if/else if i only return possible moves. Since it could go to the pawn if statement,
+    //  change it to true, then go to the possiblemoves.contains if statement which makes it false
+    // TODO: bug maybe is also because removing the piece by placing a new empty piece and somehow we didn't replace it with the king
     // EFFECT: returns true if the move is possible for king with no check occurring after moving
-    private boolean checkIfPossibleMoveForKing(Position position, int teamNumber) {
+    private boolean checkIfPossibleMoveForKing(Position position, int teamNumberOfEnemy) {
+        boolean possibleMove = true;
         for (int i = 0; i < board.getBoard().length; i++) {
             for (int j = 0; j < board.getBoard()[i].length; j++) {
                 ChessPiece piece = board.getBoard()[i][j];
                 if (piece.getPieceID().equals(PieceName.KING) && !piece.equals(this)) {
                     return !checkOtherKingsPossibleMove(piece, position);
                 }
-                if (piece.getTeam() == teamNumber) {
+                if (piece.getTeam() == teamNumberOfEnemy) {
                     if (!piece.getPieceID().equals(PieceName.KING)) {
                         piece.updatePossibleMoves();
                         List<Position> possibleMoves = piece.getPossibleMoves();
@@ -114,6 +120,9 @@ public class King extends ChessPiece {
                                 }
                             }
                         }
+                        if (possibleMoves.contains(position)) {
+                            return false;
+                        }
 //                        if (piece.getPieceID().equals(PieceName.ROOK) || piece.getPieceID().equals(PieceName.BISHOP)) {
 //                            System.out.println(possibleMoves.contains(position));
 //                            movePosition(position);
@@ -124,9 +133,7 @@ public class King extends ChessPiece {
 //                                return false;
 //                            }
 //                        }
-                            if (possibleMoves.contains(position)) {
-                                return false;
-                            }
+
                     }
                 }
             }
