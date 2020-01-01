@@ -90,15 +90,12 @@ public abstract class ChessPiece {
     }
 
     // MODIFIES: this
-    // EFFECT: if position is in possibleMoves, then move piece to position and return true,
-    // else return false
-    public boolean movePiece(Position position) {
+    // EFFECT:  move piece to position
+    public void movePiece(Position position) {
         if (!position.equals(this.position)) {
             this.position = position;
             board.movePiece(this, position);
-            return true;
         }
-        return false;
     }
 
     // EFFECT: returns true if the piece is of the opposite team (empty doesn't count)

@@ -289,8 +289,12 @@ public class KingTest extends ChessPieceTest{
     public void updatePossibleMovesBuggedFilledBoardWhiteKing() {
         board.makeBoard();
         board.fillBoard();
-        board.movePieceIrregardlessOfPossibleMove(new King(3, 7, 0, board), new Position(5, 4));
-        board.movePieceIrregardlessOfPossibleMove(new Rook(7, 0, 1, board), new Position(7, 4));
+        king = board.getPiece(3, 7);
+        ChessPiece rook = board.getPiece(7, 0);
+//        king = new King(3, 7, 0, board);
+//        ChessPiece rook = new Rook(7, 0, 1, board);
+        board.movePieceIrregardlessOfPossibleMove(king, new Position(5, 4));
+        board.movePieceIrregardlessOfPossibleMove(rook, new Position(7, 4));
         king.updatePossibleMoves();
         List<Position> moves = king.getPossibleMoves();
         assertEquals(6, moves.size());
@@ -308,8 +312,10 @@ public class KingTest extends ChessPieceTest{
     public void updatePossibleMovesBuggedFilledBoardBlackKing() {
         board.makeBoard();
         board.fillBoard();
-        board.movePiece(new King(3, 0, 1, board), new Position(5, 4));
-        board.movePiece(new Rook(7, 7, 0, board), new Position(7, 4));
+        king = board.getPiece(3, 0);
+        ChessPiece rook = board.getPiece(7, 7);
+        board.movePieceIrregardlessOfPossibleMove(king, new Position(5, 4));
+        board.movePieceIrregardlessOfPossibleMove(rook, new Position(7, 4));
         king.updatePossibleMoves();
         List<Position> moves = king.getPossibleMoves();
         assertEquals(6, moves.size());
@@ -325,11 +331,10 @@ public class KingTest extends ChessPieceTest{
 
     @Test
     public void updatePossibleMovesPartiallyBuggedFilledBoardBlackKing() {
-
-        board.placePiece(new EmptyPiece(5, 3, board));
+        board.makeBoard();
         board.fillBoard();
-        board.movePiece(new King(3, 0, 1, board), new Position(5, 3));
-        board.movePiece(new Rook(7, 7, 0, board), new Position(7, 3));
+        board.movePieceIrregardlessOfPossibleMove(new King(3, 0, 1, board), new Position(5, 3));
+        board.movePieceIrregardlessOfPossibleMove(new Rook(7, 7, 0, board), new Position(7, 3));
         king.updatePossibleMoves();
         List<Position> moves = king.getPossibleMoves();
         assertEquals(6, moves.size());
