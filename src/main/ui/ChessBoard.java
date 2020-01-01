@@ -133,6 +133,7 @@ public class ChessBoard {
         }
     }
 
+    // TODO: when clicking on a piece at 6, 3 the piece name disappears and then clicking on the now empty button results in the piece completely disappearing
     // EFFECT: makes the pieces clickable buttons that when clicked shows the possible moves of the piece
     public void setUpBoardForMovement(ActionEvent e) {
         Object o = e.getSource();
@@ -150,8 +151,8 @@ public class ChessBoard {
                             colourCheckingPieces();
                         }
                     });
-//                    chessPanel.repaint();
-//                    chessPanel.revalidate();
+                    chessPanel.repaint();
+                    chessPanel.revalidate();
                     pieceClicked.updatePossibleMoves();
                     List<Position> possibleMoves = pieceClicked.getPossibleMoves();
                     makeMovableButtons(pieceClicked, possibleMoves);
