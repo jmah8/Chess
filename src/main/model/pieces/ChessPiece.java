@@ -94,7 +94,7 @@ public abstract class ChessPiece {
     public void movePiece(Position position) {
         if (!position.equals(this.position)) {
             this.position = position;
-            board.movePiece(this, position);
+            board.movePieceIrregardlessOfPossibleMove(this, position);
         }
     }
 

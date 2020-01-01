@@ -308,6 +308,7 @@ public class KingTest extends ChessPieceTest{
         assertTrue(moves.contains(new Position(6, 5)));
     }
 
+
     @Test
     public void updatePossibleMovesBuggedFilledBoardBlackKing() {
         board.makeBoard();
@@ -318,15 +319,15 @@ public class KingTest extends ChessPieceTest{
         board.movePieceIrregardlessOfPossibleMove(rook, new Position(7, 4));
         king.updatePossibleMoves();
         List<Position> moves = king.getPossibleMoves();
-        assertEquals(6, moves.size());
+        assertEquals(3, moves.size());
         assertTrue(moves.contains(new Position(4, 3)));
         assertTrue(moves.contains(new Position(5, 3)));
         assertTrue(moves.contains(new Position(6, 3)));
         assertFalse(moves.contains(new Position(4, 4)));
         assertFalse(moves.contains(new Position(6, 4)));
-        assertTrue(moves.contains(new Position(4, 5)));
-        assertTrue(moves.contains(new Position(5, 5)));
-        assertTrue(moves.contains(new Position(6, 5)));
+        assertFalse(moves.contains(new Position(4, 5)));
+        assertFalse(moves.contains(new Position(5, 5)));
+        assertFalse(moves.contains(new Position(6, 5)));
     }
 
     @Test
