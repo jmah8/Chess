@@ -54,6 +54,17 @@ public class RookTest extends ChessPieceTest{
     }
 
     @Test
+    public void updatePossibleMoveTestBuggedScenario() {
+        rook = new Rook(5, 2, 0, board);
+        board.placePiece(new Horse(5, 7, 0, board));
+        rook.updatePossibleMoves();
+        List<Position> moves = rook.getPossibleMoves();
+        assertEquals(13, moves.size());
+        assertFalse(moves.contains(new Position(5, 7)));
+        assertTrue(moves.contains(new Position(5, 3)));
+    }
+
+    @Test
     public void updatePossibleMoveTestBlockedBy4Allies() {
         rook = new Rook(2, 3, 0, board);
         ChessPiece piece = new Queen(1, 3, 0, board);

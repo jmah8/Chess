@@ -22,11 +22,14 @@ public abstract class ChessPiece {
 //        possibleMoves = new ArrayList<>();
 //    }
 
+    // TODO: bug where making a new piece doesnt update the board so that the piece is on the board
     public ChessPiece(int xcoord, int ycoord, int team, Board board) {
         this.position = new Position(xcoord, ycoord);
         this.team = team;
         possibleMoves = new ArrayList<>();
         this.board = board;
+        // TODO: include this if im doing board editor
+        updateBoardToIncludePiece();
     }
 
     // MODIFIES: this
@@ -82,13 +85,16 @@ public abstract class ChessPiece {
         }
     }
 
+    public void updateBoardToIncludePiece() {
+        board.placePiece(this);
+    }
+
     // MODIFIES: this
     // EFFECT: if position is in possibleMoves, then move piece to position and return true,
     // else return false
     public boolean movePiece(Position position) {
-        if (possibleMoves.contains(position)) {
+        if (!position.equals(this.position)) {
             this.position = position;
-            // TODO: should i include updatePossibleMoves here to update it without calling it
             board.movePiece(this, position);
             return true;
         }

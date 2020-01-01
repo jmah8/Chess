@@ -81,7 +81,19 @@ public class Board extends Observable {
         }
     }
 
+    public void movePieceIrregardlessOfPossibleMove(ChessPiece pieceAtPosition, Position moveToPosition) {
+        int xCoord = pieceAtPosition.getPosition().getXcoord();
+        int yCoord = pieceAtPosition.getPosition().getYcoord();
+        int xNew = moveToPosition.getXcoord();
+        int yNew = moveToPosition.getYcoord();
+        if (!pieceAtPosition.getPosition().equals(moveToPosition)) {
+            board[yNew][xNew] = pieceAtPosition;
+            board[yCoord][xCoord] = new EmptyPiece(xCoord, yCoord, this);
+            pieceAtPosition.movePiece(moveToPosition);
+        }
+    }
 
+    // TODO: this only works if its a possible move
     // MODIFIES: this
     // EFFECT: moves pieceAtPosition to moveToPosition. If another piece is already there from other team
     // eat the piece
@@ -90,6 +102,8 @@ public class Board extends Observable {
         int yCoord = pieceAtPosition.getPosition().getYcoord();
         int xNew = moveToPosition.getXcoord();
         int yNew = moveToPosition.getYcoord();
+        //TODO: see if i really need to include this
+        pieceAtPosition.updatePossibleMoves();
         List<Position> pieceMoves = pieceAtPosition.getPossibleMoves();
         if (pieceMoves.contains(moveToPosition) && !pieceAtPosition.getPosition().equals(moveToPosition)) {
             board[yNew][xNew] = pieceAtPosition;
@@ -99,6 +113,19 @@ public class Board extends Observable {
         } else {
             return false;
         }
+    }
+
+    public boolean containPiece(ChessPiece piece) {
+        boolean contains = false;
+        for (int i = 0; i < board.length; i++) {
+            for (int j = 0; j < board[i].length; j++) {
+                if (board[i][j].equals(piece)) {
+                    contains = true;
+                    break;
+                }
+            }
+        }
+        return contains;
     }
 
     // TODO: see if i need to use delegation to keep cohesion low

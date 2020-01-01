@@ -1,10 +1,7 @@
 package main.model.pieces;
 
-import com.sun.org.glassfish.gmbal.ManagedObject;
-import javafx.geometry.Pos;
 import main.model.Board;
 import main.model.Position;
-import org.omg.PortableServer.POA;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -87,72 +84,81 @@ public class King extends ChessPiece {
     // TODO: bug maybe is because of the multiple if statements but not if/else if i only return possible moves. Since it could go to the pawn if statement,
     //  change it to true, then go to the possiblemoves.contains if statement which makes it false
     // TODO: bug maybe is also because removing the piece by placing a new empty piece and somehow we didn't replace it with the king
+    // TODO: pawn moving forward twice resulting in bug
     // EFFECT: returns true if the move is possible for king with no check occurring after moving
     private boolean checkIfPossibleMoveForKing(Position position, int teamNumberOfEnemy) {
         boolean possibleMove = true;
         for (int i = 0; i < board.getBoard().length; i++) {
             for (int j = 0; j < board.getBoard()[i].length; j++) {
                 ChessPiece piece = board.getBoard()[i][j];
-                if (piece.getPieceID().equals(PieceName.KING) && !piece.equals(this)) {
-                    return !checkOtherKingsPossibleMove(piece, position);
-                }
-                if (piece.getTeam() == teamNumberOfEnemy) {
-                    if (!piece.getPieceID().equals(PieceName.KING)) {
+                if (piece.getTeam() == teamNumberOfEnemy && !piece.getPieceID().equals(PieceName.EMPTY)) {
+                    if (piece.getPieceID().equals(PieceName.KING) && !piece.equals(this)) {
+                        if (checkOtherKingsPossibleMove(piece, position)) {
+                            possibleMove = false;
+                            break;
+                        }
+                    } else if (!piece.getPieceID().equals(PieceName.KING)) {
                         piece.updatePossibleMoves();
                         List<Position> possibleMoves = piece.getPossibleMoves();
                         if (piece.getPieceID().equals(PieceName.PAWN)) {
-                            if (checkIfPositionSameAsPawnMovingForward(position, piece)) {
-                                return true;
+                            if (checkIfPositionSameAsPawnEatingDiagonal(position, piece)) {
+                                possibleMove = false;
+                                break;
                             }
-                        }
-                        if (piece.getPieceID().equals(PieceName.ROOK) || piece.getPieceID().equals(PieceName.BISHOP)
+                        } else if (piece.getPieceID().equals(PieceName.ROOK) || piece.getPieceID().equals(PieceName.BISHOP)
                                 || piece.getPieceID().equals(PieceName.QUEEN)) {
-                            if (possibleMoves.contains(this.position)) {
+                            if (possibleMoves.contains(position)) {
+                                possibleMove = false;
+                                break;
+                            } else if (possibleMoves.contains(this.position)) {
                                 Position oldPosition = this.position;
                                 int x = oldPosition.getXcoord();
                                 int y = oldPosition.getYcoord();
                                 board.placePiece(new EmptyPiece(x, y, board));
+//                                board.movePiece(this, position);
                                 piece.updatePossibleMoves();
                                 possibleMoves = piece.getPossibleMoves();
                                 board.placePiece(this);
+//                                board.movePiece(this, oldPosition);
                                 if (possibleMoves.contains(position)) {
-                                    return false;
+                                    possibleMove = false;
+                                    break;
                                 }
                             }
+                        } else if (possibleMoves.contains(position)) {
+                            possibleMove = false;
+                            break;
                         }
-                        if (possibleMoves.contains(position)) {
-                            return false;
-                        }
+
 //                        if (piece.getPieceID().equals(PieceName.ROOK) || piece.getPieceID().equals(PieceName.BISHOP)) {
 //                            System.out.println(possibleMoves.contains(position));
 //                            movePosition(position);
 //                            board.updatePossibleMovesForAllPiece();
-//                            if (teamNumber == 0 && board.checkIfCheckOccurringForWhiteKing()) {
+//                            if (teamNumberOfEnemy == 0 && board.checkIfCheckOccurringForWhiteKing()) {
 //                                return false;
-//                            } else if (teamNumber == 1 && board.checkIfCheckOccurringForBlackKing()) {
+//                            } else if (teamNumberOfEnemy == 1 && board.checkIfCheckOccurringForBlackKing()) {
 //                                return false;
 //                            }
 //                        }
-
                     }
                 }
             }
         }
-        return true;
+        return possibleMove;
     }
 
     // EFFECT: returns true if piece (only pawn) has a possible move forward 1 or 2 spaces, else return false
-    private boolean checkIfPositionSameAsPawnMovingForward(Position position, ChessPiece piece) {
+    private boolean checkIfPositionSameAsPawnEatingDiagonal(Position position, ChessPiece piece) {
         int pawnXCoord = piece.getPosition().getXcoord();
         int pawnYCoord = piece.getPosition().getYcoord();
         Position pawnNewPosition;
         Position pawnNewPosition1;
         if (piece.getTeam() == 1) {
-            pawnNewPosition = new Position(pawnXCoord, pawnYCoord + 1);
-            pawnNewPosition1 = new Position(pawnXCoord, pawnYCoord + 2);
+            pawnNewPosition = new Position(pawnXCoord + 1, pawnYCoord + 1);
+            pawnNewPosition1 = new Position(pawnXCoord - 1, pawnYCoord + 1);
         } else {
-            pawnNewPosition = new Position(pawnXCoord, pawnYCoord - 1);
-            pawnNewPosition1 = new Position(pawnXCoord, pawnYCoord - 2);
+            pawnNewPosition = new Position(pawnXCoord + 1, pawnYCoord - 1);
+            pawnNewPosition1 = new Position(pawnXCoord - 1, pawnYCoord - 1);
         }
         if (position.equals(pawnNewPosition) || position.equals(pawnNewPosition1)) {
             return true;

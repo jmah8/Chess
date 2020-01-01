@@ -49,6 +49,7 @@ public class BoardTest {
 
     @Test
     public void fillBoardTest() {
+        board.makeBoard();
         board.fillBoard();
         assertEquals(PieceName.ROOK, board.getBoard()[0][0].getPieceID());
         assertEquals(PieceName.HORSE, board.getBoard()[0][1].getPieceID());
@@ -76,6 +77,7 @@ public class BoardTest {
 
     @Test
     public void checkFillBoardPiecePosition() {
+        board.makeBoard();
         board.fillBoard();
         assertEquals(new Position(0, 0), board.getBoard()[0][0].getPosition());
         assertEquals(new Position(1, 0), board.getBoard()[0][1].getPosition());
@@ -139,6 +141,18 @@ public class BoardTest {
         ChessPiece piece = new King(3, 0, 0, board);
         board.placePiece(piece);
         assertEquals(new Position(3 , 0), board.checkPosKingWhiteTeam());
+    }
+
+    @Test
+    public void movePieceTest() {
+        board.makeBoard();
+        board.fillBoard();
+        board.movePiece(new Pawn(0, 1 , 1, board), new Position(0, 3));
+        assertTrue(board.containPiece(new Pawn(0, 3 , 1, board)));
+        assertTrue(board.getBoard()[1][0].equals(new EmptyPiece(0, 1, board)));
+        assertTrue(board.getPiece(0, 1).equals(new EmptyPiece(0, 1, board)));
+        assertTrue(board.getBoard()[3][0].equals(new Pawn(0, 3, 1, board)));
+        assertTrue(board.getPiece(0, 3).equals(new Pawn(0, 3, 1, board)));
     }
 
     @Test

@@ -58,6 +58,7 @@ public class KingTest extends ChessPieceTest{
 
     @Test
     public void updatePossibleMovesBlackKingTestEnemyCanCheckIfMoveForward() {
+        board.placePiece(new EmptyPiece(5, 3, board));
         king = new King(5, 3, 1, board);
         board.placePiece(new Horse(3, 6, 0, board));
         king.updatePossibleMoves();
@@ -75,6 +76,7 @@ public class KingTest extends ChessPieceTest{
 
     @Test
     public void updatePossibleMovesBlackKingTestEnemyCanOnlyMoveForward() {
+        board.placePiece(new EmptyPiece(5, 3, board));
         king = new King(5, 3, 1, board);
         board.placePiece(new Rook(3, 2, 0, board));
         board.placePiece(new Rook(4, 0, 0, board));
@@ -87,6 +89,7 @@ public class KingTest extends ChessPieceTest{
 
     @Test
     public void updatePossibleMovesBlackKingTestNoPossibleMovesSinceCheck() {
+        board.placePiece(new EmptyPiece(5, 3, board));
         king = new King(5, 3, 1, board);
         board.placePiece(new Queen(3, 2, 0, board));
         board.placePiece(new Rook(4, 0, 0, board));
@@ -98,6 +101,7 @@ public class KingTest extends ChessPieceTest{
 
     @Test
     public void updatePossibleMovesWhiteKingTestEnemyCanCheckIfMoveForward() {
+        board.placePiece(new EmptyPiece(5, 3, board));
         king = new King(5, 3, 0, board);
         board.placePiece(new Horse(3, 6, 1, board));
         king.updatePossibleMoves();
@@ -115,6 +119,7 @@ public class KingTest extends ChessPieceTest{
 
     @Test
     public void updatePossibleMovesWhiteKingTestEnemyCanOnlyMoveForward() {
+        board.placePiece(new EmptyPiece(5, 3, board));
         king = new King(5, 3, 0, board);
         board.placePiece(new Rook(3, 2, 1, board));
         board.placePiece(new Rook(4, 0, 1, board));
@@ -127,6 +132,7 @@ public class KingTest extends ChessPieceTest{
 
     @Test
     public void updatePossibleMovesWhiteKingTestNoPossibleMovesSinceCheck() {
+        board.placePiece(new EmptyPiece(5, 3, board));
         king = new King(5, 3, 0, board);
         board.placePiece(new Queen(3, 2, 1, board));
         board.placePiece(new Rook(4, 0, 1, board));
@@ -138,20 +144,23 @@ public class KingTest extends ChessPieceTest{
 
     @Test
     public void updatePossibleMovesTestBlackKingMovingInfrontOfPawn() {
-        king = new King(4, 3, 1, board);
-        board.placePiece(new Pawn(3, 5, 0, board));
-        board.placePiece(new Rook(6, 2, 0, board));
-        board.placePiece(new Rook(5, 1, 0, board));
-        board.placePiece(new Horse(5, 6, 0, board));
+        board.placePiece(new EmptyPiece(5, 3, board));
+        king = new King(4, 4, 1, board);
+//        board.placePiece(king);
+        board.placePiece(new Pawn(3, 6, 0, board));
+        board.placePiece(new Rook(6, 3, 0, board));
+        board.placePiece(new Rook(5, 2, 0, board));
+        board.placePiece(new Horse(5, 7, 0, board));
         king.updatePossibleMoves();
         List<Position> moves = king.getPossibleMoves();
         assertEquals(2, moves.size());
-        assertTrue(moves.contains(new Position(3, 3)));
         assertTrue(moves.contains(new Position(3, 4)));
+        assertTrue(moves.contains(new Position(3, 5)));
     }
 
     @Test
     public void updatePossibleMovesTestWhiteKingMovingInfrontOfPawn() {
+        board.placePiece(new EmptyPiece(5, 3, board));
         king = new King(4, 4, 0, board);
         board.placePiece(new Pawn(3, 2, 1, board));
         board.placePiece(new Rook(6, 5, 1, board));
@@ -166,6 +175,7 @@ public class KingTest extends ChessPieceTest{
 
     @Test
     public void updatePossibleMovesTestWhiteKingMovingTowardsBlackKing() {
+        board.placePiece(new EmptyPiece(5, 3, board));
         king = new King(0, 0, 0, board);
         board.placePiece(new King(2, 0, 1, board));
         king.updatePossibleMoves();
@@ -176,6 +186,7 @@ public class KingTest extends ChessPieceTest{
 
     @Test
     public void updatePossibleMovesTestBlackKingMovingTowardsWhiteKing() {
+        board.placePiece(new EmptyPiece(5, 3, board));
         board.placePiece(new King(5, 5, 1, board));
         king.updatePossibleMoves();
         List<Position> moves = king.getPossibleMoves();
@@ -189,6 +200,7 @@ public class KingTest extends ChessPieceTest{
 
     @Test
     public void updatePossibleMovesMoveRightOfRook() {
+        board.placePiece(new EmptyPiece(5, 3, board));
         king = new King(3, 0, 0, board);
         board.placePiece(new Rook(0, 0, 1, board));
         king.updatePossibleMoves();
@@ -202,6 +214,7 @@ public class KingTest extends ChessPieceTest{
 
     @Test
     public void updatePossibleMovesUpperRightOfBishop() {
+        board.placePiece(new EmptyPiece(5, 3, board));
         king = new King(1, 1, 1, board);
         board.placePiece(new Rook(2, 3, 0, board));
         board.placePiece(new Rook(3, 2, 0, board));
@@ -216,6 +229,7 @@ public class KingTest extends ChessPieceTest{
 
     @Test
     public void updatePossibleMoveBuggedScenarioForWhiteKingOnly() {
+        board.placePiece(new EmptyPiece(5, 3, board));
         king = new King(3, 4, 0, board);
         board.placePiece(new Queen(6, 4, 1, board));
         board.placePiece(new Bishop(6, 1, 1, board));
@@ -234,6 +248,7 @@ public class KingTest extends ChessPieceTest{
 
     @Test
     public void updatePossibleMoveNonBuggedScenarioForBlackKingOnly() {
+        board.placePiece(new EmptyPiece(5, 3, board));
         king = new King(3, 4, 1, board);
         board.placePiece(new Bishop(5, 3, 0, board));
         board.placePiece(new Bishop(5, 5, 0, board));
@@ -254,6 +269,7 @@ public class KingTest extends ChessPieceTest{
 
     @Test
     public void updatePossibleMoveBuggedScenarioForWhiteButNotBlack() {
+        board.placePiece(new EmptyPiece(5, 3, board));
         king = new King(3, 2, 0, board);
         board.placePiece(new Rook(5, 2, 1, board));
         king.updatePossibleMoves();
@@ -271,9 +287,10 @@ public class KingTest extends ChessPieceTest{
 
     @Test
     public void updatePossibleMovesBuggedFilledBoardWhiteKing() {
+        board.makeBoard();
         board.fillBoard();
-        board.movePiece(new King(3, 7, 0, board), new Position(5, 4));
-        board.movePiece(new Rook(7, 0, 1, board), new Position(7, 4));
+        board.movePieceIrregardlessOfPossibleMove(new King(3, 7, 0, board), new Position(5, 4));
+        board.movePieceIrregardlessOfPossibleMove(new Rook(7, 0, 1, board), new Position(7, 4));
         king.updatePossibleMoves();
         List<Position> moves = king.getPossibleMoves();
         assertEquals(6, moves.size());
@@ -289,6 +306,7 @@ public class KingTest extends ChessPieceTest{
 
     @Test
     public void updatePossibleMovesBuggedFilledBoardBlackKing() {
+        board.makeBoard();
         board.fillBoard();
         board.movePiece(new King(3, 0, 1, board), new Position(5, 4));
         board.movePiece(new Rook(7, 7, 0, board), new Position(7, 4));
@@ -307,6 +325,8 @@ public class KingTest extends ChessPieceTest{
 
     @Test
     public void updatePossibleMovesPartiallyBuggedFilledBoardBlackKing() {
+
+        board.placePiece(new EmptyPiece(5, 3, board));
         board.fillBoard();
         board.movePiece(new King(3, 0, 1, board), new Position(5, 3));
         board.movePiece(new Rook(7, 7, 0, board), new Position(7, 3));
