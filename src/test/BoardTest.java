@@ -538,4 +538,40 @@ public class BoardTest {
         assertEquals(0, moves.size());
         assertTrue(board.gameOverForWhiteKing());
     }
+
+    @Test
+    public void movePieceIrregardlessOfPossibleMoveTest() {
+        board.makeBoard();
+        board.fillBoard();
+        ChessPiece rook = board.getPiece(7, 0);
+        ChessPiece king = board.getPiece(3, 7);
+        assertEquals(new Position(7, 0), rook.getPosition());
+        assertEquals(new Position(3, 7), king.getPosition());
+        board.movePieceIrregardlessOfPossibleMove(rook, new Position(7, 4));
+        board.movePieceIrregardlessOfPossibleMove(king, new Position(5, 4));
+        assertEquals(king, board.getBoard()[4][5]);
+        assertEquals(rook, board.getBoard()[4][7]);
+        assertEquals(new EmptyPiece(7, 0, board), board.getBoard()[0][7]);
+        assertEquals(new EmptyPiece(3, 7, board), board.getBoard()[7][3]);
+        assertEquals(new Position(7, 4), rook.getPosition());
+        assertEquals(new Position(5, 4), king.getPosition());
+    }
+
+    @Test
+    public void buggedScenarioForGUI() {
+        board.makeBoard();
+        board.fillBoard();
+        ChessPiece pawn = board.getPiece(7, 6);
+        board.movePiece(pawn, new Position(7, 4));
+        assertEquals(new Position(7, 4), pawn.getPosition());
+        ChessPiece rook = board.getPiece(7, 7);
+        ChessPiece king = board.getPiece(3, 0);
+        board.movePieceIrregardlessOfPossibleMove(rook, new Position(7, 3));
+        board.movePieceIrregardlessOfPossibleMove(king, new Position(6, 3));
+        assertEquals(rook, board.getPiece(7, 3));
+        assertEquals(king, board.getPiece(6, 3));
+        king.updatePossibleMoves();
+        assertEquals(rook, board.getPiece(7, 3));
+        assertEquals(king, board.getPiece(6, 3));
+    }
 }

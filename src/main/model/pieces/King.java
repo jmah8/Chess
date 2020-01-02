@@ -112,14 +112,18 @@ public class King extends ChessPiece {
                                 break;
                             } else if (possibleMoves.contains(this.position)) {
                                 Position oldPosition = this.position;
-                                int x = oldPosition.getXcoord();
-                                int y = oldPosition.getYcoord();
+//                                int x = oldPosition.getXcoord();
+//                                int y = oldPosition.getYcoord();
+                                int x = position.getXcoord();
+                                int y = position.getYcoord();
+                                ChessPiece pieceAtNewPosition = board.getPiece(x, y);
                                 board.movePieceIrregardlessOfPossibleMove(this, position);
 //                                board.placePiece(new EmptyPiece(x, y, board));
 //                                board.movePiece(this, position);
                                 piece.updatePossibleMoves();
                                 possibleMoves = piece.getPossibleMoves();
                                 board.movePieceIrregardlessOfPossibleMove(this, oldPosition);
+                                board.placePiece(pieceAtNewPosition);
 //                                board.movePiece(this, oldPosition);
                                 if (possibleMoves.contains(position)) {
                                     possibleMove = false;
