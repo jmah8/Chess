@@ -12,7 +12,6 @@ import java.awt.event.ActionListener;
 import java.util.List;
 
 public class ChessBoard {
-//    private JPanel cardPanel;
     private JPanel chessPanel;
     private JPanel chessGUI;
     private JButton backButton;
@@ -36,7 +35,6 @@ public class ChessBoard {
         chessGUI.setLayout(new BoxLayout(chessGUI, BoxLayout.Y_AXIS));
         chessGUI.setSize(750, 800);
         chessGUI.add(chessPanel);
-        addReverseButton();
     }
 
     public void addComponentToPane(Container pane) {
@@ -45,6 +43,10 @@ public class ChessBoard {
 
     public JPanel getChessPanel() {
         return chessGUI;
+    }
+
+    public Board getBoard() {
+        return board;
     }
 
     public void addReverseButton() {
@@ -57,12 +59,16 @@ public class ChessBoard {
         backButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                board.reverseMove();
-                turncounter--;
-                refreshBoard();
+                reverseMove();
             }
         });
         chessGUI.add(backButton);
+    }
+
+    public void reverseMove() {
+        board.reverseMove();
+        turncounter--;
+        refreshBoard();
     }
 
     public void enableBackButton() {
@@ -162,7 +168,7 @@ public class ChessBoard {
     }
 
     // EFFECT: refreshes the board
-    private void refreshBoard() {
+    public void refreshBoard() {
         chessPanel.removeAll();
         setUpBoard();
         makeClickablePieces();
