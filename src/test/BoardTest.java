@@ -1,12 +1,12 @@
 package test;
 
-import javafx.geometry.Pos;
 import main.model.Board;
+import main.model.EventHistory;
+import main.model.EventLog;
 import main.model.Position;
 import main.model.pieces.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.w3c.dom.html.HTMLObjectElement;
 
 import java.util.List;
 
@@ -140,7 +140,7 @@ public class BoardTest {
         board.makeBoard();
         ChessPiece piece = new King(3, 0, 0, board);
         board.placePiece(piece);
-        assertEquals(new Position(3 , 0), board.checkPosKingWhiteTeam());
+        assertEquals(new Position(3 , 0), board.getPosKingWhiteTeam());
     }
 
     @Test
@@ -160,7 +160,7 @@ public class BoardTest {
         board.makeBoard();
         ChessPiece piece = new King(5, 6, 1, board);
         board.placePiece(piece);
-        assertEquals(new Position(5 , 6), board.checkPosKingBlackTeam());
+        assertEquals(new Position(5 , 6), board.getPosKingBlackTeam());
     }
 
     @Test
@@ -573,5 +573,48 @@ public class BoardTest {
         king.updatePossibleMoves();
         assertEquals(rook, board.getPiece(7, 3));
         assertEquals(king, board.getPiece(6, 3));
+    }
+
+    @Test
+    public void movePieceAddedObserverPattern1Move() {
+        board.makeBoard();
+        ChessPiece queen = new Queen(5, 2, 1, board);
+        ChessPiece empty = board.getPiece(5, 5);
+        board.placePiece(queen);
+        board.movePiece(queen, new Position(5, 5));
+        EventLog eventLog = board.getEventLog();
+        assertEquals(1, eventLog.getEventHistoryList().size());
+        assertEquals(new EventHistory(queen, empty, new Position(5, 2)), eventLog.getEventHistoryList().get(0));
+    }
+
+    @Test
+    public void movePieceAddedObserverPatternMultipleMoves() {
+        board.makeBoard();
+        board.fillBoard();
+        ChessPiece horse = board.getPiece(1, 0);
+        ChessPiece horse1 = board.getPiece(6, 7);
+        ChessPiece empty = board.getPiece(2, 2);
+        board.movePiece(horse, new Position(2, 2));
+        ChessPiece empty1 = board.getPiece(4, 3);
+        board.movePiece(horse, new Position(4, 3));
+        ChessPiece empty2 = board.getPiece(7, 5);
+        board.movePiece(horse1, new Position(7, 5));
+        EventLog eventLog =board.getEventLog();
+        assertEquals(3, eventLog.getEventHistoryList().size());
+        assertEquals(new EventHistory(horse, empty, new Position(1, 0)), eventLog.getEventHistoryList().get(0));
+        assertEquals(new EventHistory(horse, empty1, new Position(2, 2)), eventLog.getEventHistoryList().get(1));
+        assertEquals(new EventHistory(horse1, empty2, new Position(6, 7)), eventLog.getEventHistoryList().get(2));
+    }
+
+    @Test
+    public void reverseMoveTestOnlyOneMoveMade() {
+        board.makeBoard();
+        board.fillBoard();
+        ChessPiece pawn = board.getPiece(1, 1);
+        board.movePiece(pawn, new Position(1, 3));
+        board.reverseMove();
+        assertEquals(pawn, board.getPiece(1, 1));
+        assertEquals(new EmptyPiece(1, 3, board), board.getPiece(1, 3));
+        assertEquals(0, board.getEventLog().getEventHistoryList().size());
     }
 }
