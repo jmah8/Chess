@@ -1,4 +1,4 @@
-package test;
+package test.ChessPieceTest;
 
 import main.model.Board;
 import org.junit.jupiter.api.BeforeEach;

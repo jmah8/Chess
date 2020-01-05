@@ -1,6 +1,5 @@
-package test;
+package test.ChessPieceTest;
 
-import main.model.Board;
 import main.model.Position;
 import main.model.pieces.ChessPiece;
 import main.model.pieces.Horse;

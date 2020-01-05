@@ -1,12 +1,9 @@
-package test;
+package test.ChessPieceTest;
 
-import javafx.geometry.Pos;
-import main.model.Board;
 import main.model.Position;
 import main.model.pieces.Bishop;
 import main.model.pieces.Pawn;
 import main.model.pieces.PieceName;
-import org.jcp.xml.dsig.internal.dom.ApacheOctetStreamData;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

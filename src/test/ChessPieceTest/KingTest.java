@@ -1,7 +1,5 @@
-package test;
+package test.ChessPieceTest;
 
-import javafx.geometry.Pos;
-import main.model.Board;
 import main.model.Position;
 import main.model.pieces.*;
 import org.junit.jupiter.api.BeforeEach;
