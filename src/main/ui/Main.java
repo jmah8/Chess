@@ -17,6 +17,6 @@ public class Main {
         chessBoard.addComponentToPane(frame.getContentPane());
         frame.setVisible(true);
         frame.pack();
-        frame.setSize(750, 750);
+        frame.setSize(750, 805);
     }
 }

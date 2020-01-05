@@ -14,6 +14,8 @@ import java.util.List;
 public class ChessBoard {
 //    private JPanel cardPanel;
     private JPanel chessPanel;
+    private JPanel chessGUI;
+    private JButton backButton;
 
     private JButton[][] buttons = new JButton[8][8];
 
@@ -25,20 +27,50 @@ public class ChessBoard {
         board = new Board();
         board.makeBoard();
         board.fillBoard();
-//        cardPanel = new JPanel(new CardLayout());
         chessPanel = new JPanel(new GridLayout(8, 8));
-        chessPanel.setSize(750, 750);
-//        cardPanel.add(chessPanel, "ChessBoard");
-//        CardLayout card = (CardLayout) (cardPanel.getLayout());
-//        card.show(cardPanel, "ChessBoard");
+        chessPanel.setPreferredSize(new Dimension(750, 750));
+        chessPanel.setMaximumSize(new Dimension(750, 750));
+        chessPanel.setMinimumSize(new Dimension(750, 750));
+        chessPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
+        chessGUI = new JPanel();
+        chessGUI.setLayout(new BoxLayout(chessGUI, BoxLayout.Y_AXIS));
+        chessGUI.setSize(750, 800);
+        chessGUI.add(chessPanel);
+        addReverseButton();
     }
 
     public void addComponentToPane(Container pane) {
-        pane.add(chessPanel);
+        pane.add(chessGUI);
     }
 
     public JPanel getChessPanel() {
-        return chessPanel;
+        return chessGUI;
+    }
+
+    public void addReverseButton() {
+        backButton = new JButton("Reverse Button");
+        backButton.setPreferredSize(new Dimension(750, 50));
+        backButton.setMaximumSize(new Dimension(750, 50));
+        backButton.setMinimumSize(new Dimension(750, 50));
+        backButton.setAlignmentX(Component.LEFT_ALIGNMENT);
+        enableBackButton();
+        backButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                board.reverseMove();
+                turncounter--;
+                refreshBoard();
+            }
+        });
+        chessGUI.add(backButton);
+    }
+
+    public void enableBackButton() {
+        if (board.getEventLog().getEventHistoryList().isEmpty()) {
+            backButton.setEnabled(false);
+        } else {
+            backButton.setEnabled(true);
+        }
     }
 
     // EFFECT: sets the background of the button depending on the index of the button
@@ -134,6 +166,7 @@ public class ChessBoard {
         chessPanel.removeAll();
         setUpBoard();
         makeClickablePieces();
+        enableBackButton();
         chessPanel.repaint();
         chessPanel.revalidate();
         checkGameOverBlackKing();

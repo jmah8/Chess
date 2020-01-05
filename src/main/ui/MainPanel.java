@@ -24,12 +24,12 @@ public class MainPanel {
         chessBoard.makeClickablePieces();
         chessPanel = chessBoard.getChessPanel();
         frame.add(chessPanel);
-        chessPanel.setBounds(0, 100, 750, 750);
+        chessPanel.setBounds(0, 100, 750, 800);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 //        frame.add(mainPanel);
-        frame.pack();
         frame.setVisible(true);
-        frame.setSize(750, 875);
+        frame.pack();
+        frame.setSize(750, 930);
 //        getLayeredPane().setLayout(new BorderLayout());
 ////        chessPanel.addComponentToPane(frame.getContentPane());
 ////        instructionPanel.addComponentToPane(frame.getContentPane());
