@@ -105,35 +105,33 @@ public class King extends ChessPiece {
                                 possibleMove = false;
                                 break;
                             }
-                        } else if (piece.getPieceID().equals(PieceName.ROOK) || piece.getPieceID().equals(PieceName.BISHOP)
-                                || piece.getPieceID().equals(PieceName.QUEEN)) {
+                        } else
+                        //(piece.getPieceID().equals(PieceName.ROOK) || piece.getPieceID().equals(PieceName.BISHOP)
+                                //|| piece.getPieceID().equals(PieceName.QUEEN))
+                        {
                             if (possibleMoves.contains(position)) {
                                 possibleMove = false;
                                 break;
                             } else if (possibleMoves.contains(this.position)) {
                                 Position oldPosition = this.position;
-//                                int x = oldPosition.getXcoord();
-//                                int y = oldPosition.getYcoord();
                                 int x = position.getXcoord();
                                 int y = position.getYcoord();
                                 ChessPiece pieceAtNewPosition = board.getPiece(x, y);
                                 board.movePieceIrregardlessOfPossibleMove(this, position);
-//                                board.placePiece(new EmptyPiece(x, y, board));
-//                                board.movePiece(this, position);
                                 piece.updatePossibleMoves();
                                 possibleMoves = piece.getPossibleMoves();
                                 board.movePieceIrregardlessOfPossibleMove(this, oldPosition);
                                 board.placePiece(pieceAtNewPosition);
-//                                board.movePiece(this, oldPosition);
                                 if (possibleMoves.contains(position)) {
                                     possibleMove = false;
                                     break;
                                 }
                             }
-                        } else if (possibleMoves.contains(position)) {
-                            possibleMove = false;
-                            break;
                         }
+//                        else if (possibleMoves.contains(position)) {
+//                            possibleMove = false;
+//                            break;
+//                        }
 
 //                        if (piece.getPieceID().equals(PieceName.ROOK) || piece.getPieceID().equals(PieceName.BISHOP)) {
 //                            System.out.println(possibleMoves.contains(position));
