@@ -8,9 +8,14 @@ import java.util.Observable;
 
 public class Board extends Observable {
     private ChessPiece[][] board;
+//    private List<EventHistory> history;
+    private EventLog eventLog;
 
     public Board() {
         board = new ChessPiece[8][8];
+//        history = new ArrayList<>();
+        eventLog = new EventLog();
+        addObserver(eventLog);
     }
 
     public ChessPiece[][] getBoard() {
@@ -19,6 +24,10 @@ public class Board extends Observable {
 
     public ChessPiece getPiece(int xcoord, int ycoord) {
         return board[ycoord][xcoord];
+    }
+
+    public EventLog getEventLog() {
+        return eventLog;
     }
 
     // MODIFIES: this
@@ -93,7 +102,7 @@ public class Board extends Observable {
         }
     }
 
-    // TODO: this only works if its a possible move
+    // TODO: add javas observable update method
     // MODIFIES: this
     // EFFECT: moves pieceAtPosition to moveToPosition. If another piece is already there from other team
     // eat the piece
@@ -102,17 +111,32 @@ public class Board extends Observable {
         int yCoord = pieceAtPosition.getPosition().getYcoord();
         int xNew = moveToPosition.getXcoord();
         int yNew = moveToPosition.getYcoord();
-        //TODO: see if i really need to include this
+        ChessPiece eatenPiece = getPiece(xNew, yNew);
         pieceAtPosition.updatePossibleMoves();
         List<Position> pieceMoves = pieceAtPosition.getPossibleMoves();
         if (pieceMoves.contains(moveToPosition) && !pieceAtPosition.getPosition().equals(moveToPosition)) {
             board[yNew][xNew] = pieceAtPosition;
             board[yCoord][xCoord] = new EmptyPiece(xCoord, yCoord, this);
             pieceAtPosition.movePosition(moveToPosition);
+            // TODO: see if i should include this here or in GUI class. Most likely here as I can use observer pattern easier
+            setChanged();
+            notifyObservers(new EventHistory(pieceAtPosition, eatenPiece, new Position(xCoord, yCoord)));
+//            history.add(new EventHistory(pieceAtPosition, eatenPiece, new Position(xCoord, yCoord)));
             return true;
         } else {
             return false;
         }
+    }
+
+    // TODO: test this and movePiece
+    public void reverseMove() {
+        EventHistory eventHistory = eventLog.getLatestEventHistory();
+        ChessPiece pieceMoved = eventHistory.getPieceMoved();
+        ChessPiece pieceEaten = eventHistory.getPieceEaten();
+        Position oldPosition = eventHistory.getOldPosition();
+        // TODO: see if i need to use movePiece or movePieceIrregardless
+        movePieceIrregardlessOfPossibleMove(pieceMoved, oldPosition);
+        placePiece(pieceEaten);
     }
 
     public boolean containPiece(ChessPiece piece) {
@@ -131,12 +155,12 @@ public class Board extends Observable {
     // TODO: see if i need to use delegation to keep cohesion low
     // EFFECT: returns true if black piece has a possible move to eat white king, else false
     public boolean checkIfCheckOccurringForWhiteKing() {
-        return checkIfPositionCanBeReachedByAnyPiece(checkPosKingWhiteTeam(), 1);
+        return checkIfPositionCanBeReachedByAnyPiece(getPosKingWhiteTeam(), 1);
     }
 
     // EFFECT: returns true if white piece has a possible move to eat black king, else false
     public boolean checkIfCheckOccurringForBlackKing() {
-        return checkIfPositionCanBeReachedByAnyPiece(checkPosKingBlackTeam(), 0);
+        return checkIfPositionCanBeReachedByAnyPiece(getPosKingBlackTeam(), 0);
     }
 
     // EFFECT: returns true if piecePosition can be reached by piece of team teamNumber, false othewise
@@ -168,12 +192,12 @@ public class Board extends Observable {
 
     // EFFECT: returns white pieces checking black king
     public List<ChessPiece> getCheckingPiecesForBlackKing() {
-        return getPiecesThatCanMoveToPosition(checkPosKingBlackTeam(), 0);
+        return getPiecesThatCanMoveToPosition(getPosKingBlackTeam(), 0);
     }
 
     // EFFECT: returns black piece checking white king
     public List<ChessPiece> getCheckingPiecesForWhiteKing() {
-        return getPiecesThatCanMoveToPosition(checkPosKingWhiteTeam(), 1);
+        return getPiecesThatCanMoveToPosition(getPosKingWhiteTeam(), 1);
     }
 
     // EFFECT: return a list of pieces of team teamColourOfEnemy that have a possible move to position
@@ -192,12 +216,12 @@ public class Board extends Observable {
     }
 
     // EFFECT: returns position of black king
-    public Position checkPosKingBlackTeam() {
+    public Position getPosKingBlackTeam() {
         return getKingOfTeam(1).getPosition();
     }
 
     // EFFECT: returns position of white king
-    public Position checkPosKingWhiteTeam() {
+    public Position getPosKingWhiteTeam() {
         return getKingOfTeam(0).getPosition();
     }
 
