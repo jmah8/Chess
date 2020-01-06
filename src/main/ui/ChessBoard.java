@@ -10,17 +10,18 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
+import java.util.Observable;
 
 public class ChessBoard {
-    private JPanel chessPanel;
-    private JPanel chessGUI;
-    private JButton backButton;
+    protected JPanel chessPanel;
+//    private JPanel chessGUI;
+//    private JButton backButton;
 
-    private JButton[][] buttons = new JButton[8][8];
+    protected JButton[][] buttons = new JButton[8][8];
 
-    private Board board;
+    protected Board board;
 
-    private int turncounter = 0;
+    protected int turncounter = 0;
 
     public ChessBoard() {
         board = new Board();
@@ -31,39 +32,39 @@ public class ChessBoard {
         chessPanel.setMaximumSize(new Dimension(750, 750));
         chessPanel.setMinimumSize(new Dimension(750, 750));
         chessPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
-        chessGUI = new JPanel();
-        chessGUI.setLayout(new BoxLayout(chessGUI, BoxLayout.Y_AXIS));
-        chessGUI.setSize(750, 800);
-        chessGUI.add(chessPanel);
+//        chessGUI = new JPanel();
+//        chessGUI.setLayout(new BoxLayout(chessGUI, BoxLayout.Y_AXIS));
+//        chessGUI.setSize(750, 800);
+//        chessGUI.add(chessPanel);
     }
 
     public void addComponentToPane(Container pane) {
-        pane.add(chessGUI);
+        pane.add(chessPanel);
     }
 
     public JPanel getChessPanel() {
-        return chessGUI;
+        return chessPanel;
     }
 
     public Board getBoard() {
         return board;
     }
 
-    public void addReverseButton() {
-        backButton = new JButton("Reverse Button");
-        backButton.setPreferredSize(new Dimension(750, 50));
-        backButton.setMaximumSize(new Dimension(750, 50));
-        backButton.setMinimumSize(new Dimension(750, 50));
-        backButton.setAlignmentX(Component.LEFT_ALIGNMENT);
-        enableBackButton();
-        backButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                reverseMove();
-            }
-        });
-        chessGUI.add(backButton);
-    }
+//    public void addReverseButton() {
+//        backButton = new JButton("Reverse Button");
+//        backButton.setPreferredSize(new Dimension(750, 50));
+//        backButton.setMaximumSize(new Dimension(750, 50));
+//        backButton.setMinimumSize(new Dimension(750, 50));
+//        backButton.setAlignmentX(Component.LEFT_ALIGNMENT);
+//        enableBackButton();
+//        backButton.addActionListener(new ActionListener() {
+//            @Override
+//            public void actionPerformed(ActionEvent e) {
+//                reverseMove();
+//            }
+//        });
+//        chessGUI.add(backButton);
+//    }
 
     public void reverseMove() {
         board.reverseMove();
@@ -71,13 +72,13 @@ public class ChessBoard {
         refreshBoard();
     }
 
-    public void enableBackButton() {
-        if (board.getEventLog().getEventHistoryList().isEmpty()) {
-            backButton.setEnabled(false);
-        } else {
-            backButton.setEnabled(true);
-        }
-    }
+//    public void enableBackButton() {
+//        if (board.getEventLog().getEventHistoryList().isEmpty()) {
+//            backButton.setEnabled(false);
+//        } else {
+//            backButton.setEnabled(true);
+//        }
+//    }
 
     // EFFECT: sets the background of the button depending on the index of the button
     protected void setBlackOrWhite(int i, int j) {
@@ -172,7 +173,7 @@ public class ChessBoard {
         chessPanel.removeAll();
         setUpBoard();
         makeClickablePieces();
-        enableBackButton();
+//        enableBackButton();
         chessPanel.repaint();
         chessPanel.revalidate();
         checkGameOverBlackKing();
@@ -180,7 +181,7 @@ public class ChessBoard {
     }
 
     // EFFECT: makes yellow clickable buttons that all the piece to move to the position
-    private void makeMovableButtons(ChessPiece pieceClicked, List<Position> possibleMoves) {
+    protected void makeMovableButtons(ChessPiece pieceClicked, List<Position> possibleMoves) {
         for (Position p : possibleMoves) {
             int x = p.getXcoord();
             int y = p.getYcoord();
@@ -198,7 +199,7 @@ public class ChessBoard {
         }
     }
 
-    private boolean switchOnButtonsForTeamTurn(ChessPiece chessPiece) {
+    protected boolean switchOnButtonsForTeamTurn(ChessPiece chessPiece) {
         if (turncounter % 2 == chessPiece.getTeam()) {
             return true;
         } else {
@@ -206,7 +207,7 @@ public class ChessBoard {
         }
     }
 
-    private void colourCheckingPieces() {
+    protected void colourCheckingPieces() {
         if (board.checkIfCheckOccurringForBlackKing()) {
             showPieceCheckingBlackKing();
         }
@@ -215,7 +216,7 @@ public class ChessBoard {
         }
     }
 
-    private void showPieceCheckingBlackKing() {
+    protected void showPieceCheckingBlackKing() {
         List<ChessPiece> piecesCheckingBlackKing = board.getCheckingPiecesForBlackKing();
         for (ChessPiece cp : piecesCheckingBlackKing) {
             int xPos = cp.getPosition().getXcoord();
@@ -226,7 +227,7 @@ public class ChessBoard {
         }
     }
 
-    private void showPieceCheckingWhiteKing() {
+    protected void showPieceCheckingWhiteKing() {
         List<ChessPiece> piecesCheckingWhiteKing = board.getCheckingPiecesForWhiteKing();
         for (ChessPiece cp : piecesCheckingWhiteKing) {
             int xPos = cp.getPosition().getXcoord();
@@ -249,7 +250,7 @@ public class ChessBoard {
         }
     }
 
-    private void makeNewGame() {
+    protected void makeNewGame() {
         turncounter = 0;
         board.makeBoard();
         board.fillBoard();

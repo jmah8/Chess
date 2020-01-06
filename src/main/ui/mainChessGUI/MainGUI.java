@@ -1,4 +1,4 @@
-package main.ui;
+package main.ui.mainChessGUI;
 
 public class MainGUI extends javax.swing.JFrame{
 

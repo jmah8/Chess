@@ -12,8 +12,6 @@ public abstract class ChessPiece {
     protected PieceName pieceID;
     protected Position position;
     protected List<Position> possibleMoves;
-
-    // TODO: check if i should do bidirectional association
     protected Board board;
 
 //    public ChessPiece(int xcoord, int ycoord, int team) {
@@ -22,13 +20,11 @@ public abstract class ChessPiece {
 //        possibleMoves = new ArrayList<>();
 //    }
 
-    // TODO: bug where making a new piece doesnt update the board so that the piece is on the board
     public ChessPiece(int xcoord, int ycoord, int team, Board board) {
         this.position = new Position(xcoord, ycoord);
         this.team = team;
         possibleMoves = new ArrayList<>();
         this.board = board;
-        // TODO: include this if im doing board editor
         updateBoardToIncludePiece();
     }
 
@@ -74,7 +70,7 @@ public abstract class ChessPiece {
         }
     }
 
-    // TODO: check if i really need this
+
     // MODIFIES: this
     // EFFECT: if position is in possibleMoves and position is not the same as this.position,
     // then set this.position to position and then move the piece on the board
@@ -89,6 +85,7 @@ public abstract class ChessPiece {
         board.placePiece(this);
     }
 
+    // EFFECT: this is not for user movement of pieces
     // MODIFIES: this
     // EFFECT:  move piece to position
     public void movePiece(Position position) {

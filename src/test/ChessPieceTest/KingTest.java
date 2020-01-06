@@ -328,7 +328,6 @@ public class KingTest extends ChessPieceTest{
         assertFalse(moves.contains(new Position(6, 5)));
     }
 
-    // TODO: bug is probably from pawns being about to move 2 spaces up? but that doesnt explain why the king cant move up
     @Test
     public void updatePossibleMovesPartiallyBuggedFilledBoardBlackKing() {
         board.makeBoard();
