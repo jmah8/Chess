@@ -217,12 +217,24 @@ public class Board extends Observable {
 
     // EFFECT: returns position of black king
     public Position getPosKingBlackTeam() {
-        return getKingOfTeam(1).getPosition();
+        Position p = null;
+        try {
+            p = getKingOfTeam(1).getPosition();
+        } catch (Exception e) {
+            // Do nothing;
+        }
+        return p;
     }
 
     // EFFECT: returns position of white king
     public Position getPosKingWhiteTeam() {
-        return getKingOfTeam(0).getPosition();
+        Position p = null;
+        try {
+            p = getKingOfTeam(0).getPosition();
+        } catch (Exception e) {
+            // Do nothing;
+        }
+        return p;
     }
 
     // EFFECT: returns King from the team teamNumber

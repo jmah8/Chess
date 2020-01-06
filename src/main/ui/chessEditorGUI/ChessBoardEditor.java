@@ -58,17 +58,15 @@ public class ChessBoardEditor extends ChessBoard {
         piece.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-//                makePieceCorrespondingToName(name, 0);
                 makeClickablePieces(name, 0);
             }
         });
         JButton piece1 = new JButton(String.valueOf(name));
-        piece.setForeground(Color.BLACK);
+        piece1.setForeground(Color.BLACK);
         piece1.setBackground(Color.ORANGE);
         piece1.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-//                makePieceCorrespondingToName(name, 1);
                 makeClickablePieces(name, 1);
             }
         });
