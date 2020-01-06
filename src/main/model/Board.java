@@ -220,7 +220,7 @@ public class Board extends Observable {
         Position p = null;
         try {
             p = getKingOfTeam(1).getPosition();
-        } catch (Exception e) {
+        } catch (NullPointerException e) {
             // Do nothing;
         }
         return p;
@@ -231,7 +231,7 @@ public class Board extends Observable {
         Position p = null;
         try {
             p = getKingOfTeam(0).getPosition();
-        } catch (Exception e) {
+        } catch (NullPointerException e) {
             // Do nothing;
         }
         return p;

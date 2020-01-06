@@ -51,6 +51,7 @@ public class ChessBoardEditor extends ChessBoard {
         makePieceButtons(PieceName.EMPTY);
     }
 
+    // TODO: bug where clicking on one piece button then another doesn't refresh the piece being placed
     public void makePieceButtons(PieceName name) {
         JButton piece = new JButton(String.valueOf(name));
         piece.setForeground(Color.WHITE);
@@ -147,6 +148,7 @@ public class ChessBoardEditor extends ChessBoard {
         chessPanel.removeAll();
         setUpBoard();
         makeClickablePieces();
+        colourCheckingPieces();
         chessPanel.revalidate();
         chessPanel.repaint();
     }
