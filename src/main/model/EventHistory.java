@@ -4,6 +4,7 @@ import javafx.geometry.Pos;
 import main.model.pieces.ChessPiece;
 import main.ui.Chess;
 
+import java.util.Objects;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -30,5 +31,18 @@ public class EventHistory {
         return oldPosition;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof EventHistory)) return false;
+        EventHistory that = (EventHistory) o;
+        return Objects.equals(pieceMoved, that.pieceMoved) &&
+                Objects.equals(pieceEaten, that.pieceEaten) &&
+                Objects.equals(oldPosition, that.oldPosition);
+    }
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(pieceMoved, pieceEaten, oldPosition);
+    }
 }
