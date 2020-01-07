@@ -9,12 +9,11 @@ public class Load {
 
     public Load(Board board) {
         this.board = board;
-        load();
     }
 
-    public void load() {
+    public void load(String pathName) {
         try {
-            ObjectInputStream in = new ObjectInputStream(new FileInputStream("/home/jonathan/Desktop/Personal Projects/Chess/data/Board.txt"));
+            ObjectInputStream in = new ObjectInputStream(new FileInputStream(pathName));
             Board b = (Board) in.readObject();
             in.close();
             board.setBoard(b.getBoard());

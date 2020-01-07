@@ -10,12 +10,11 @@ public class Save {
 
     public Save(Board board) {
         this.board = board;
-        save();
     }
 
-    public void save() {
+    public void save(String pathName) {
         try {
-            ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("/home/jonathan/Desktop/Personal Projects/Chess/data/Board.txt"));
+            ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(pathName));
             out.writeObject(board);
             out.close();
         } catch (IOException e) {
