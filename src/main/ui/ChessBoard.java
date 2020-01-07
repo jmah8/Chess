@@ -2,6 +2,7 @@ package main.ui;
 
 import main.model.Board;
 import main.model.Position;
+import main.model.Save;
 import main.model.pieces.ChessPiece;
 import main.model.pieces.PieceName;
 
@@ -268,6 +269,12 @@ public class ChessBoard {
             }
         }
     }
+
+//    protected void saveAndQuit(String pathName) {
+//        Save s = new Save(board);
+//        s.save(pathName);
+//        System.exit(0);
+//    }
 
     //    public void addPieces() {
 //        for (int i = 0; i < board.getBoard().length; i++) {

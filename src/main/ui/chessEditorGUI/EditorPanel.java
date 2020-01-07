@@ -1,5 +1,7 @@
 package main.ui.chessEditorGUI;
 
+import main.ui.SaveAndQuitButton;
+
 import javax.swing.*;
 
 public class EditorPanel {

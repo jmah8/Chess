@@ -1,8 +1,11 @@
 package main.ui.chessEditorGUI;
 
+import main.model.Load;
 import main.model.Position;
+import main.model.Save;
 import main.model.pieces.*;
 import main.ui.ChessBoard;
+import main.ui.SaveAndQuitButton;
 
 import javax.swing.*;
 import java.awt.*;
@@ -13,10 +16,13 @@ public class ChessBoardEditor extends ChessBoard {
     private JPanel editorPane;
     private ChessPiece pieceToPlace;
     private JPanel editorGUI;
+    private JPanel editorWithSave;
 
     public ChessBoardEditor() {
         super();
         board.makeBoard();
+        Load l = new Load(board);
+        l.load("/home/jonathan/Desktop/Personal Projects/Chess/data/BoardEditor.txt");
     }
 
     public JPanel getEditorGUI() {
@@ -34,11 +40,27 @@ public class ChessBoardEditor extends ChessBoard {
     public void makeEditorGUI() {
         editorGUI = new JPanel();
         editorGUI.setLayout(new BoxLayout(editorGUI, BoxLayout.X_AXIS));
-        editorGUI.setSize(950, 750);
+        editorGUI.setPreferredSize(new Dimension(950, 750));
+        editorGUI.setMinimumSize(new Dimension(950, 750));
+        editorGUI.setMaximumSize(new Dimension(950, 750));
         editorGUI.add(chessPanel);
 //        chessPanel.setAlignmentY(Component.TOP_ALIGNMENT);
         makeChessPieceButtons();
         editorGUI.add(editorPane);
+    }
+
+    public void makeSaveAndQuitButton() {
+        JButton button = new SaveAndQuitButton(board, "/home/jonathan/Desktop/Personal Projects/Chess/data/BoardEditor.txt");
+        button.setPreferredSize(new Dimension(950, 50));
+        button.setMinimumSize(new Dimension(950, 50));
+        button.setMaximumSize(new Dimension(950, 50));
+        button.setAlignmentX(Component.LEFT_ALIGNMENT);
+        editorWithSave = new JPanel();
+        editorWithSave.setLayout(new BoxLayout(editorWithSave, BoxLayout.Y_AXIS));
+        editorWithSave.setSize(950, 800);
+        editorWithSave.add(editorGUI);
+        editorWithSave.add(button);
+
     }
 
     public void makeChessPieceButtons() {
@@ -60,6 +82,7 @@ public class ChessBoardEditor extends ChessBoard {
             @Override
             public void actionPerformed(ActionEvent e) {
                 makeClickablePieces(name, 0);
+                refreshEditorPanel();
             }
         });
         JButton piece1 = new JButton(String.valueOf(name));
@@ -84,14 +107,13 @@ public class ChessBoardEditor extends ChessBoard {
                 buttons[i][j].addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
-//                        pieceToPlace.setPosition(new Position(finalJ, finalI));
-//                        board.placePiece(pieceToPlace);
                         makePieceCorrespondingToName(name, teamNunber, finalJ, finalI);
                         refreshBoard();
                     }
                 });
             }
         }
+        refreshEditorPanel();
     }
 
     public void makePieceCorrespondingToName(PieceName name, int teamNumber, int x, int y) {
@@ -151,5 +173,12 @@ public class ChessBoardEditor extends ChessBoard {
         colourCheckingPieces();
         chessPanel.revalidate();
         chessPanel.repaint();
+    }
+
+    public void refreshEditorPanel() {
+        editorPane.removeAll();
+        makeChessPieceButtons();
+        editorPane.revalidate();
+        editorPane.repaint();
     }
 }
