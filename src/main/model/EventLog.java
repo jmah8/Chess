@@ -1,8 +1,9 @@
 package main.model;
 
+import java.io.Serializable;
 import java.util.*;
 
-public class EventLog implements Observer, Iterable{
+public class EventLog implements Observer, Iterable, Serializable {
     private List<EventHistory> eventHistoryList;
 
     public EventLog() {

@@ -1,8 +1,9 @@
 package main.model;
 
+import java.io.Serializable;
 import java.util.Objects;
 
-public class Position {
+public class Position implements Serializable {
     // 0,0 is the top left of board. Right is positive and down is positive
     private int xcoord;
     private int ycoord;

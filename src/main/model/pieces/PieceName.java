@@ -1,6 +1,8 @@
 package main.model.pieces;
 
-public enum PieceName {
+import java.io.Serializable;
+
+public enum PieceName implements Serializable {
     EMPTY,
     PAWN,
     HORSE,

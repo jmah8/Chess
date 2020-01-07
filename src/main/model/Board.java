@@ -2,11 +2,12 @@ package main.model;
 
 import main.model.pieces.*;
 
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
 
-public class Board extends Observable {
+public class Board extends Observable implements Serializable{
     private ChessPiece[][] board;
 //    private List<EventHistory> history;
     private EventLog eventLog;
@@ -28,6 +29,14 @@ public class Board extends Observable {
 
     public EventLog getEventLog() {
         return eventLog;
+    }
+
+    public void setBoard(ChessPiece[][] board) {
+        this.board = board;
+    }
+
+    public void setEventLog(EventLog eventLog) {
+        this.eventLog = eventLog;
     }
 
     // MODIFIES: this
@@ -152,6 +161,28 @@ public class Board extends Observable {
         return contains;
     }
 
+//    public void save() {
+//        try {
+//            ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("/home/jonathan/Desktop/Personal Projects/Chess/data/Board.txt"));
+//            out.writeObject(this);
+//            out.close();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//    }
+
+//    public void load() {
+//        try {
+//            ObjectInputStream in = new ObjectInputStream(new FileInputStream("/home/jonathan/Desktop/Personal Projects/Chess/data/Board.txt"));
+//            Board b = (Board) in.readObject();
+//            in.close();
+//        } catch (ClassNotFoundException e) {
+//                e.printStackTrace();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//    }
+
     // TODO: see if i need to use delegation to keep cohesion low
     // EFFECT: returns true if black piece has a possible move to eat white king, else false
     public boolean checkIfCheckOccurringForWhiteKing() {
@@ -250,18 +281,6 @@ public class Board extends Observable {
             }
         }
         return king;
-    }
-
-    public void updatePossibleMovesForAllPiece() {
-        for (int i = 0; i < board.length; i++) {
-            for (int j = 0; j < board[i].length; j++) {
-                board[i][j].updatePossibleMoves();
-            }
-        }
-    }
-
-    public boolean gameOverForKing() {
-        return false;
     }
 
     // EFFECT: returns true if white king is checked an has no more possible moves

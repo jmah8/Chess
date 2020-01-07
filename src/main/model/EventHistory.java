@@ -4,11 +4,12 @@ import javafx.geometry.Pos;
 import main.model.pieces.ChessPiece;
 import main.ui.Chess;
 
+import java.io.Serializable;
 import java.util.Objects;
 import java.util.Observable;
 import java.util.Observer;
 
-public class EventHistory {
+public class EventHistory implements Serializable {
     private ChessPiece pieceMoved;
     private ChessPiece pieceEaten;
     private Position oldPosition;
