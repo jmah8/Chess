@@ -22,12 +22,12 @@ public class ChessPanel {
         chessBoard.makeClickablePieces();
         chessPanel = chessBoard.getChessGUI();
         frame.add(chessPanel);
-        chessPanel.setBounds(0, 100, 750, 800);
+        chessPanel.setBounds(0, 100, 750, 850);
 
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
         frame.pack();
-        frame.setSize(750, 930);
+        frame.setSize(750, 980);
     }
 }
 

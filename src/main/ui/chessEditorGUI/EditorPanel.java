@@ -1,7 +1,5 @@
 package main.ui.chessEditorGUI;
 
-import main.ui.SaveAndQuitButton;
-
 import javax.swing.*;
 
 public class EditorPanel {
@@ -9,6 +7,9 @@ public class EditorPanel {
     private JTextPane instructionPanel;
     private ChessBoardEditor chessBoardEditor;
     private InstructionPaneEditor instructionPaneEditor;
+    private ButtonPanel buttonPanel;
+    private JPanel buttons;
+
 
     public EditorPanel() {
         JFrame frame = new JFrame("Chess editor");
@@ -23,14 +24,22 @@ public class EditorPanel {
         chessBoardEditor.setUpBoard();
         chessBoardEditor.makeEditorPane();
         chessBoardEditor.makeEditorGUI();
-        chessPanel = chessBoardEditor.getEditorGUI();
+//        chessBoardEditor.makeSaveAndQuitButton();
+//        chessBoardEditor.makeStartGameButton();
+        chessPanel = chessBoardEditor.getEditorWithStartAndSave();
         frame.add(chessPanel);
         chessPanel.setBounds(0, 50, 950, 800);
+
+        buttonPanel = new ButtonPanel();
+        buttonPanel.setUpButtonPanel();
+        buttons = buttonPanel.getButtonPanel();
+        frame.add(buttons);
+        buttons.setBounds(0, 825, 950, 100);
 
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
         frame.pack();
-        frame.setSize(950, 900);
+        frame.setSize(950, 960);
     }
 
     public static void main(String[] args) {

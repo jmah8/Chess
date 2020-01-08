@@ -1,8 +1,6 @@
 package main.ui.chessEditorGUI;
 
 import main.model.Load;
-import main.model.Position;
-import main.model.Save;
 import main.model.pieces.*;
 import main.ui.ChessBoard;
 import main.ui.SaveAndQuitButton;
@@ -16,7 +14,7 @@ public class ChessBoardEditor extends ChessBoard {
     private JPanel editorPane;
     private ChessPiece pieceToPlace;
     private JPanel editorGUI;
-    private JPanel editorWithSave;
+    private JPanel editorWithStartAndSave;
 
     public ChessBoardEditor() {
         super();
@@ -25,7 +23,7 @@ public class ChessBoardEditor extends ChessBoard {
         l.load("/home/jonathan/Desktop/Personal Projects/Chess/data/BoardEditor.txt");
     }
 
-    public JPanel getEditorGUI() {
+    public JPanel getEditorWithStartAndSave() {
         return editorGUI;
     }
 
@@ -49,18 +47,26 @@ public class ChessBoardEditor extends ChessBoard {
         editorGUI.add(editorPane);
     }
 
+    public void makeStartGameButton() {
+        JButton button = new JButton("Start official game?");
+        button.setPreferredSize(new Dimension(950, 50));
+        button.setMinimumSize(new Dimension(950, 50));
+        button.setMaximumSize(new Dimension(950, 50));
+        button.setAlignmentX(Component.LEFT_ALIGNMENT);
+        editorWithStartAndSave.add(button);
+    }
+
     public void makeSaveAndQuitButton() {
         JButton button = new SaveAndQuitButton(board, "/home/jonathan/Desktop/Personal Projects/Chess/data/BoardEditor.txt");
         button.setPreferredSize(new Dimension(950, 50));
         button.setMinimumSize(new Dimension(950, 50));
         button.setMaximumSize(new Dimension(950, 50));
         button.setAlignmentX(Component.LEFT_ALIGNMENT);
-        editorWithSave = new JPanel();
-        editorWithSave.setLayout(new BoxLayout(editorWithSave, BoxLayout.Y_AXIS));
-        editorWithSave.setSize(950, 800);
-        editorWithSave.add(editorGUI);
-        editorWithSave.add(button);
-
+        editorWithStartAndSave = new JPanel();
+        editorWithStartAndSave.setLayout(new BoxLayout(editorWithStartAndSave, BoxLayout.Y_AXIS));
+        editorWithStartAndSave.setSize(950, 850);
+        editorWithStartAndSave.add(editorGUI);
+        editorWithStartAndSave.add(button);
     }
 
     public void makeChessPieceButtons() {
