@@ -16,6 +16,7 @@ public class ChessBoardEditor extends ChessBoard {
     private JPanel editorGUI;
     private JPanel editorWithStartAndSave;
 
+    // TODO: when starting and finished loading, actual pieces arent clickable
     public ChessBoardEditor() {
         super();
         board.makeBoard();

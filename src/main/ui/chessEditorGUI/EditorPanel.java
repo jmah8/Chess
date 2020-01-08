@@ -1,5 +1,7 @@
 package main.ui.chessEditorGUI;
 
+import main.model.Board;
+
 import javax.swing.*;
 
 public class EditorPanel {
@@ -32,6 +34,8 @@ public class EditorPanel {
 
         buttonPanel = new ButtonPanel();
         buttonPanel.setUpButtonPanel();
+        Board board = chessBoardEditor.getBoard();
+        buttonPanel.makeActionListenerForSaveButton(board, "/home/jonathan/Desktop/Personal Projects/Chess/data/BoardEditor.txt");
         buttons = buttonPanel.getButtonPanel();
         frame.add(buttons);
         buttons.setBounds(0, 825, 950, 100);

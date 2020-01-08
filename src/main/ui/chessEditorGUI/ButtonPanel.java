@@ -1,7 +1,13 @@
 package main.ui.chessEditorGUI;
 
+import main.model.Board;
+import main.model.Save;
+import main.ui.SaveAndQuitButton;
+
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class ButtonPanel {
     private JPanel buttonPanel;
@@ -31,5 +37,29 @@ public class ButtonPanel {
 
     public JPanel getButtonPanel() {
         return buttonPanel;
+    }
+
+    public void makeActionListenerForSaveButton(Board board, String pathName) {
+        saveButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int n = JOptionPane.showConfirmDialog(null, "Really Quit?",
+                        "Warning", JOptionPane.YES_NO_OPTION);
+                if (n == JOptionPane.YES_OPTION) {
+                    Save s = new Save(board);
+                    s.save(pathName);
+                    System.exit(0);
+                }
+            }
+        });
+    }
+
+    public void makeStartGameActionListener() {
+        startButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                
+            }
+        });
     }
 }
