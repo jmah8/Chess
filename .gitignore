@@ -5,7 +5,6 @@
 *.ear
 *.nar
 hs_err_pid*
-out/
 .idea/
 .idea_modules/
 *.iml
@@ -28,3 +27,4 @@ out/
 .idea/**/usage.statistics.xml
 .idea/**/dictionaries
 .idea/**/shelf
+/out/
