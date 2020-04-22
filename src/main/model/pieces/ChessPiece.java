@@ -143,45 +143,45 @@ public abstract class ChessPiece implements Serializable {
     protected void updatePossibleMovesDiagonal() {
         int x = position.getXcoord();
         int y = position.getYcoord();
-        int newX = x;
-        int newY = y;
+        int newX = x - 1;
+        int newY = y - 1;
         // Checks diagonally up and left
-        while (newX > 0 && newY > 0) {
-            newX--;
-            newY--;
+        while (checkOutOfBound(newX, newY)) {
             if (makingMoveBasedOnPieceInGivenXandY(newX, newY)) {
                 break;
             }
+            newX--;
+            newY--;
         }
         // Checks diagonally down and left
-        newX = x;
-        newY = y;
-        while (newX > 0 && newY < 7) {
+        newX = x - 1;
+        newY = y + 1;
+        while (checkOutOfBound(newX, newY)) {
+            if (makingMoveBasedOnPieceInGivenXandY(newX, newY)) {
+                break;
+            }
             newX--;
             newY++;
-            if (makingMoveBasedOnPieceInGivenXandY(newX, newY)) {
-                break;
-            }
         }
         // Checks diagonally up and right
-        newX = x;
-        newY = y;
-        while (newX < 7 && newY > 0) {
+        newX = x + 1;
+        newY = y - 1;
+        while (checkOutOfBound(newX, newY)) {
+            if (makingMoveBasedOnPieceInGivenXandY(newX, newY)) {
+                break;
+            }
             newX++;
             newY--;
-            if (makingMoveBasedOnPieceInGivenXandY(newX, newY)) {
-                break;
-            }
         }
         // Checks diagonally down and right
-        newX = x;
-        newY = y;
-        while (newX < 7 && newY < 7) {
-            newX++;
-            newY++;
+        newX = x + 1;
+        newY = y + 1;
+        while (checkOutOfBound(newX, newY)) {
             if (makingMoveBasedOnPieceInGivenXandY(newX, newY)) {
                 break;
             }
+            newX++;
+            newY++;
         }
     }
 
@@ -190,37 +190,39 @@ public abstract class ChessPiece implements Serializable {
     protected void updatePossibleMovesStraight() {
         int currentXCoord = position.getXcoord();
         int currentYCoord = position.getYcoord();
-        int newX = currentXCoord;
+        int newX = currentXCoord - 1;
         int newY = currentYCoord;
         // Checks to the left of piece
-        while (newX > 0) {
-            newX--;
+        while (checkOutOfBound(newX, newY)) {
             if (makingMoveBasedOnPieceInGivenXandY(newX, currentYCoord)) {
                 break;
             }
+            newX--;
         }
         // Checks to the right of piece
-        newX = currentXCoord;
-        while (newX < 7) {
-            newX++;
+        newX = currentXCoord + 1;
+        while (checkOutOfBound(newX, newY)) {
             if (makingMoveBasedOnPieceInGivenXandY(newX, currentYCoord)) {
                 break;
             }
+            newX++;
         }
         // Checks above the piece
-        while (newY > 0) {
-            newY--;
+        newX = currentXCoord;
+        newY = currentYCoord - 1;
+        while (checkOutOfBound(newX, newY)) {
             if (makingMoveBasedOnPieceInGivenXandY(currentXCoord, newY)) {
                 break;
             }
+            newY--;
         }
         // Checks below the piece
-        newY = currentYCoord;
-        while (newY < 7) {
-            newY++;
+        newY = currentYCoord + 1;
+        while (checkOutOfBound(newX, newY)) {
             if (makingMoveBasedOnPieceInGivenXandY(currentXCoord, newY)) {
                 break;
             }
+            newY++;
         }
     }
 
