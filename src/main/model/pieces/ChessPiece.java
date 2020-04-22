@@ -29,6 +29,9 @@ public abstract class ChessPiece implements Serializable {
         updateBoardToIncludePiece();
     }
 
+    /**
+     * Updates possibleMove list of piece
+     */
     // MODIFIES: this
     // EFFECT: update possible move list depending on the piece
     public abstract void updatePossibleMoves();
@@ -72,6 +75,22 @@ public abstract class ChessPiece implements Serializable {
     }
 
 
+    /**
+     * Returns true if x,y is in bound ( 0 <= x <= 7 && 0 <= y <= 7)
+     * @param x x coordinate to move to
+     * @param y y coordinate to move to
+     * @return true if x,y is in bound, else return false
+     */
+    public boolean checkOutOfBound(int x, int y) {
+        return x <= 7 && x >= 0 && y <= 7 && y >= 0;
+    }
+
+    /**
+     * If position is in possibleMoves and position is not the same as this.position then set this.position
+     * to position and then move the piece on the board
+     *
+     * @param position position to move to
+     */
     // MODIFIES: this
     // EFFECT: if position is in possibleMoves and position is not the same as this.position,
     // then set this.position to position and then move the piece on the board
