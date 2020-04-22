@@ -79,36 +79,39 @@ public class King extends ChessPiece {
         }
     }
 
+    // TODO: can add genrec to solve first bug where king can still eat piece and get into check position
     // TODO: bug where if there is WKing, BQueen, BRook from left to right, the King is still allowed to eat the Queen eventhough the move will make a check
     // TODO: bug where the White King specifically still has moves unaffected by the Black Queen/Bishop/Rook
     // TODO: bug maybe is because of the multiple if statements but not if/else if i only return possible moves. Since it could go to the pawn if statement,
     //  change it to true, then go to the possiblemoves.contains if statement which makes it false
     // TODO: bug maybe is also because removing the piece by placing a new empty piece and somehow we didn't replace it with the king
-    // TODO: pawn moving forward twice resulting in bug
     // EFFECT: returns true if the move is possible for king with no check occurring after moving
     private boolean checkIfPossibleMoveForKing(Position position, int teamNumberOfEnemy) {
         boolean possibleMove = true;
         for (int i = 0; i < board.getBoard().length; i++) {
             for (int j = 0; j < board.getBoard()[i].length; j++) {
                 ChessPiece piece = board.getBoard()[i][j];
+                // Check if piece is on the enemy team and not an empty piece
                 if (piece.getTeam() == teamNumberOfEnemy && !piece.getPieceID().equals(PieceName.EMPTY)) {
+                    // Check if piece is the enemy king
                     if (piece.getPieceID().equals(PieceName.KING) && !piece.equals(this)) {
+                        // If the piece is an enemy king then check if the position this is moving to is safe
+                        // from enemy king. If not safe return false.
                         if (checkOtherKingsPossibleMove(piece, position)) {
                             possibleMove = false;
                             break;
                         }
                     } else if (!piece.getPieceID().equals(PieceName.KING)) {
-                        piece.updatePossibleMoves();
-                        List<Position> possibleMoves = piece.getPossibleMoves();
+                        // Check if pawn can eat king
                         if (piece.getPieceID().equals(PieceName.PAWN)) {
                             if (checkIfPositionSameAsPawnEatingDiagonal(position, piece)) {
                                 possibleMove = false;
                                 break;
                             }
-                        } else
-                        //(piece.getPieceID().equals(PieceName.ROOK) || piece.getPieceID().equals(PieceName.BISHOP)
-                                //|| piece.getPieceID().equals(PieceName.QUEEN))
-                        {
+                        } else {
+                            piece.updatePossibleMoves();
+                            List<Position> possibleMoves = piece.getPossibleMoves();
+                            // Check if enemy piece has same possible move as what king is moving to
                             if (possibleMoves.contains(position)) {
                                 possibleMove = false;
                                 break;
@@ -116,6 +119,7 @@ public class King extends ChessPiece {
                                 Position oldPosition = this.position;
                                 int x = position.getXcoord();
                                 int y = position.getYcoord();
+                                // Simulates king move and see if piece has possible move to eat king
                                 ChessPiece pieceAtNewPosition = board.getPiece(x, y);
                                 board.movePieceIrregardlessOfPossibleMove(this, position);
                                 piece.updatePossibleMoves();
@@ -128,21 +132,6 @@ public class King extends ChessPiece {
                                 }
                             }
                         }
-//                        else if (possibleMoves.contains(position)) {
-//                            possibleMove = false;
-//                            break;
-//                        }
-
-//                        if (piece.getPieceID().equals(PieceName.ROOK) || piece.getPieceID().equals(PieceName.BISHOP)) {
-//                            System.out.println(possibleMoves.contains(position));
-//                            movePosition(position);
-//                            board.updatePossibleMovesForAllPiece();
-//                            if (teamNumberOfEnemy == 0 && board.checkIfCheckOccurringForWhiteKing()) {
-//                                return false;
-//                            } else if (teamNumberOfEnemy == 1 && board.checkIfCheckOccurringForBlackKing()) {
-//                                return false;
-//                            }
-//                        }
                     }
                 }
             }
@@ -150,7 +139,7 @@ public class King extends ChessPiece {
         return possibleMove;
     }
 
-    // EFFECT: returns true if piece (only pawn) has a possible move forward 1 or 2 spaces, else return false
+    // EFFECT: returns true if piece (only pawn) has a possible move diagonal eating king in process, else return false
     private boolean checkIfPositionSameAsPawnEatingDiagonal(Position position, ChessPiece piece) {
         int pawnXCoord = piece.getPosition().getXcoord();
         int pawnYCoord = piece.getPosition().getYcoord();
@@ -163,11 +152,7 @@ public class King extends ChessPiece {
             pawnNewPosition = new Position(pawnXCoord + 1, pawnYCoord - 1);
             pawnNewPosition1 = new Position(pawnXCoord - 1, pawnYCoord - 1);
         }
-        if (position.equals(pawnNewPosition) || position.equals(pawnNewPosition1)) {
-            return true;
-        } else {
-            return false;
-        }
+        return (position.equals(pawnNewPosition) || position.equals(pawnNewPosition1));
     }
 
     // EFFECT: returns true if otherKing has a possible move (irregardless of other pieces around) at position
@@ -177,35 +162,35 @@ public class King extends ChessPiece {
         int y = otherKingPos.getYcoord();
         List<Position> possibleMovesByOtherKing = new ArrayList<>();
         // Move left
-        if (x - 1 >= 0) {
+        if (checkOutOfBound(x - 1, y)) {
             possibleMovesByOtherKing.add(new Position(x - 1, y));
         }
         // Move right
-        if (x + 1 <= 7) {
+        if (checkOutOfBound(x + 1, y)) {
             possibleMovesByOtherKing.add(new Position(x + 1, y));
         }
         // Move up
-        if (y - 1 >= 0) {
+        if (checkOutOfBound(x, y - 1)) {
             possibleMovesByOtherKing.add(new Position(x, y - 1));
         }
         // Move down
-        if (y + 1 <= 7) {
+        if (checkOutOfBound(x, y + 1)) {
             possibleMovesByOtherKing.add(new Position(x, y + 1));
         }
         // Move down and right
-        if (x + 1 <= 7 && y + 1 <= 7) {
+        if (checkOutOfBound(x + 1, y + 1)) {
             possibleMovesByOtherKing.add(new Position(x + 1, y + 1));
         }
         // Move up and right
-        if (x + 1 <= 7 && y - 1 >= 0) {
+        if (checkOutOfBound(x + 1, y - 1)) {
             possibleMovesByOtherKing.add(new Position(x + 1, y - 1));
         }
         // Move down and left
-        if (x - 1 >= 0 && y + 1 <= 7) {
+        if (checkOutOfBound(x - 1, y + 1)) {
             possibleMovesByOtherKing.add(new Position(x - 1, y + 1));
         }
         // Move up and left
-        if (x - 1 >= 0 && y - 1 >= 0) {
+        if (checkOutOfBound(x - 1, y - 1)) {
             possibleMovesByOtherKing.add(new Position(x - 1, y - 1));
         }
         return possibleMovesByOtherKing.contains(position);
