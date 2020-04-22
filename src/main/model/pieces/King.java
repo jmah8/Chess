@@ -139,6 +139,42 @@ public class King extends ChessPiece {
         return possibleMove;
     }
 
+    private boolean genRec(Position pos) {
+        boolean possibleMove;
+        Position oldPos = this.getPosition();
+//        board.movePieceIrregardlessOfPossibleMove(this, pos);
+        possibleMove = updateEnemyMoves(pos);
+//        board.movePieceIrregardlessOfPossibleMove(this, oldPos);
+        return possibleMove;
+    }
+
+    private boolean updateEnemyMoves(Position pos) {
+        boolean possibleMove = true;
+        List<Position> possibleMoves;
+        for (int i = 0; i < board.getBoard().length; i++) {
+            for (int j = 0; j < board.getBoard()[i].length; i++) {
+                ChessPiece piece = board.getPiece(i, j);
+                if (this.team != piece.team) {
+                    switch (piece.pieceID) {
+                        case EMPTY:
+                            break;
+                        case KING:
+                            possibleMove = !checkOtherKingsPossibleMove(piece, pos);
+                            break;
+                        default:
+                            piece.updatePossibleMoves();
+                            possibleMoves = piece.getPossibleMoves();
+                            possibleMove = !possibleMoves.contains(pos);
+                            break;
+                    }
+                    if (!possibleMove)
+                        break;
+                }
+            }
+        }
+        return possibleMove;
+    }
+
     // EFFECT: returns true if piece (only pawn) has a possible move diagonal eating king in process, else return false
     private boolean checkIfPositionSameAsPawnEatingDiagonal(Position position, ChessPiece piece) {
         int pawnXCoord = piece.getPosition().getXcoord();
@@ -155,6 +191,7 @@ public class King extends ChessPiece {
         return (position.equals(pawnNewPosition) || position.equals(pawnNewPosition1));
     }
 
+    // TODO: could get rid of position param and check in every if block, but maybe same asymptotic time complexity
     // EFFECT: returns true if otherKing has a possible move (irregardless of other pieces around) at position
     private boolean checkOtherKingsPossibleMove(ChessPiece otherKing, Position position) {
         Position otherKingPos = otherKing.getPosition();
