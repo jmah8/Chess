@@ -68,12 +68,12 @@ public class King extends ChessPiece {
         Position positionToMoveTo = new Position(x, y);
         if (team == 1) {
             if (!checkSameTeam(pieceAtPosXY) &&
-                    checkIfPossibleMoveForKing(positionToMoveTo, 0)) {
+                    checkIfPossibleMove(positionToMoveTo)) {
                 possibleMoves.add(positionToMoveTo);
             }
         } else {
             if (!checkSameTeam(pieceAtPosXY) &&
-                    checkIfPossibleMoveForKing(positionToMoveTo, 1)) {
+                    checkIfPossibleMove(positionToMoveTo)) {
                 possibleMoves.add(positionToMoveTo);
             }
         }
@@ -139,12 +139,19 @@ public class King extends ChessPiece {
         return possibleMove;
     }
 
-    private boolean genRec(Position pos) {
+    // TODO: could maybe use the reverse move to redo move
+    // TODO: can change this to resemble CPSC 110 genrec
+    // TODO: for everyother piece updatePossibleMoves, call this after to check if king is checked
+    // Must have the board.placePiece(pieceRemoved) since when testing if move is valid, we remove piece
+    // and so need to place it back on the board
+    private boolean checkIfPossibleMove(Position pos) {
         boolean possibleMove;
         Position oldPos = this.getPosition();
-//        board.movePieceIrregardlessOfPossibleMove(this, pos);
+        ChessPiece pieceRemoved = board.getPiece(pos.getXcoord(), pos.getYcoord());
+        board.movePieceIrregardlessOfPossibleMove(this, pos);
         possibleMove = updateEnemyMoves(pos);
-//        board.movePieceIrregardlessOfPossibleMove(this, oldPos);
+        board.movePieceIrregardlessOfPossibleMove(this, oldPos);
+        board.placePiece(pieceRemoved);
         return possibleMove;
     }
 
@@ -152,12 +159,17 @@ public class King extends ChessPiece {
         boolean possibleMove = true;
         List<Position> possibleMoves;
         for (int i = 0; i < board.getBoard().length; i++) {
-            for (int j = 0; j < board.getBoard()[i].length; i++) {
-                ChessPiece piece = board.getPiece(i, j);
+            for (int j = 0; j < board.getBoard()[i].length; j++) {
+//                ChessPiece piece = board.getPiece(j, i);
+                ChessPiece piece = board.getBoard()[i][j];
                 if (this.team != piece.team) {
                     switch (piece.pieceID) {
                         case EMPTY:
                             break;
+                         // TODO: pawn case might be unnecessary
+//                        case PAWN:
+//                            possibleMove = !checkIfPositionSameAsPawnEatingDiagonal(pos, piece);
+//                            break;
                         case KING:
                             possibleMove = !checkOtherKingsPossibleMove(piece, pos);
                             break;
@@ -167,9 +179,9 @@ public class King extends ChessPiece {
                             possibleMove = !possibleMoves.contains(pos);
                             break;
                     }
-                    if (!possibleMove)
-                        break;
                 }
+                if (!possibleMove)
+                    return possibleMove;
             }
         }
         return possibleMove;
