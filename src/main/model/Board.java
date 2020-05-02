@@ -9,14 +9,21 @@ import java.util.Observable;
 
 public class Board extends Observable implements Serializable{
     private ChessPiece[][] board;
+    private ArrayList<ChessPiece> piecesAlive;
 //    private List<EventHistory> history;
     private EventLog eventLog;
 
     public Board() {
         board = new ChessPiece[8][8];
 //        history = new ArrayList<>();
+        // TODO: piecesAlive to keep list of alive pieces so can iterate over that list instead of whole board
+        piecesAlive = new ArrayList<>();
         eventLog = new EventLog();
         addObserver(eventLog);
+    }
+
+    public ArrayList<ChessPiece> getPiecesAlive() {
+        return piecesAlive;
     }
 
     public ChessPiece[][] getBoard() {
@@ -45,7 +52,7 @@ public class Board extends Observable implements Serializable{
         int boardIndex = 0;
         for (int i = 0; i < board.length; i++) {
             for (int j = 0; j < board[i].length; j++) {
-//                // TODO: leave this in if you want pieces to have different team values
+//                // Leave this in if you want pieces to have different team values
 //                if (boardIndex % 2 == 0) {
 //                    board[i][j] = new EmptyPiece(i, j, 0);
 //                } else {
@@ -99,11 +106,13 @@ public class Board extends Observable implements Serializable{
         }
     }
 
+    // TODO: could also add history for using this move but need to change some test
     public void movePieceIrregardlessOfPossibleMove(ChessPiece pieceAtPosition, Position moveToPosition) {
         int xCoord = pieceAtPosition.getPosition().getXcoord();
         int yCoord = pieceAtPosition.getPosition().getYcoord();
         int xNew = moveToPosition.getXcoord();
         int yNew = moveToPosition.getYcoord();
+        ChessPiece eatenPiece = getPiece(moveToPosition.getXcoord(), moveToPosition.getYcoord());
         if (!pieceAtPosition.getPosition().equals(moveToPosition)) {
             board[yNew][xNew] = pieceAtPosition;
             board[yCoord][xCoord] = new EmptyPiece(xCoord, yCoord, this);
@@ -111,11 +120,10 @@ public class Board extends Observable implements Serializable{
         }
     }
 
-    // TODO: add javas observable update method
     // MODIFIES: this
     // EFFECT: moves pieceAtPosition to moveToPosition. If another piece is already there from other team
     // eat the piece
-    public boolean movePiece(ChessPiece pieceAtPosition, Position moveToPosition) {
+    public void movePiece(ChessPiece pieceAtPosition, Position moveToPosition) {
         int xCoord = pieceAtPosition.getPosition().getXcoord();
         int yCoord = pieceAtPosition.getPosition().getYcoord();
         int xNew = moveToPosition.getXcoord();
@@ -127,17 +135,11 @@ public class Board extends Observable implements Serializable{
             board[yNew][xNew] = pieceAtPosition;
             board[yCoord][xCoord] = new EmptyPiece(xCoord, yCoord, this);
             pieceAtPosition.movePosition(moveToPosition);
-            // TODO: see if i should include this here or in GUI class. Most likely here as I can use observer pattern easier
             setChanged();
             notifyObservers(new EventHistory(pieceAtPosition, eatenPiece, new Position(xCoord, yCoord)));
-//            history.add(new EventHistory(pieceAtPosition, eatenPiece, new Position(xCoord, yCoord)));
-            return true;
-        } else {
-            return false;
         }
     }
 
-    // TODO: test this and movePiece
     public void reverseMove() {
         EventHistory eventHistory = eventLog.getLatestEventHistory();
         ChessPiece pieceMoved = eventHistory.getPieceMoved();
@@ -160,28 +162,6 @@ public class Board extends Observable implements Serializable{
         }
         return contains;
     }
-
-//    public void save() {
-//        try {
-//            ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("/home/jonathan/Desktop/Personal Projects/Chess/data/Board.txt"));
-//            out.writeObject(this);
-//            out.close();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//    }
-
-//    public void load() {
-//        try {
-//            ObjectInputStream in = new ObjectInputStream(new FileInputStream("/home/jonathan/Desktop/Personal Projects/Chess/data/Board.txt"));
-//            Board b = (Board) in.readObject();
-//            in.close();
-//        } catch (ClassNotFoundException e) {
-//                e.printStackTrace();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//    }
 
     // TODO: see if i need to use delegation to keep cohesion low
     // EFFECT: returns true if black piece has a possible move to eat white king, else false
@@ -248,23 +228,27 @@ public class Board extends Observable implements Serializable{
 
     // EFFECT: returns position of black king
     public Position getPosKingBlackTeam() {
-        Position p = null;
-        try {
-            p = getKingOfTeam(1).getPosition();
-        } catch (NullPointerException e) {
-            // Do nothing;
-        }
-        return p;
+        return getKingPos(1);
     }
 
     // EFFECT: returns position of white king
     public Position getPosKingWhiteTeam() {
+        return getKingPos(0);
+    }
+
+    /**
+     * Return position of king with team number of @param
+     *
+     * @param teamNumber king's team number we are finding
+     * @return pos of king with teamNumber @param
+     */
+    private Position getKingPos(int teamNumber) {
         Position p = null;
-        try {
-            p = getKingOfTeam(0).getPosition();
-        } catch (NullPointerException e) {
-            // Do nothing;
-        }
+//        try {
+            p = getKingOfTeam(teamNumber).getPosition();
+//        } catch (NullPointerException e) {
+//            // Do nothing;
+//        }
         return p;
     }
 
@@ -285,23 +269,28 @@ public class Board extends Observable implements Serializable{
 
     // EFFECT: returns true if white king is checked an has no more possible moves
     public boolean gameOverForWhiteKing() {
-        ChessPiece king = getKingOfTeam(0);
-        king.updatePossibleMoves();
-        List<Position> moves = king.getPossibleMoves();
-        boolean gameOver = false;
-        if (checkIfCheckOccurringForWhiteKing() && moves.size() == 0) {
-            gameOver = true;
-        }
-        return gameOver;
+        return checkGameOverForKing(0, checkIfCheckOccurringForWhiteKing());
     }
 
     // EFFECT: returns true if black king is checked an has no more possible moves
     public boolean gameOverForBlackKing() {
-        ChessPiece king = getKingOfTeam(1);
+        return checkGameOverForKing(1, checkIfCheckOccurringForBlackKing());
+    }
+
+    /**
+     * Checks if game is over for team with @param teamNumber
+     *
+     * @param teamNumber teamNumber of team to check
+     * @param isCheckOccuring true if piece of opposite @param teamNumber is checking king
+     * @return true if king of teamNumber @param teamNumber is checked an has no more possible moves
+     * else false
+     */
+    private boolean checkGameOverForKing(int teamNumber, boolean isCheckOccuring) {
+        ChessPiece king = getKingOfTeam(teamNumber);
         king.updatePossibleMoves();
         List<Position> moves = king.getPossibleMoves();
         boolean gameOver = false;
-        if (checkIfCheckOccurringForBlackKing() && moves.size() == 0) {
+        if (isCheckOccuring && moves.size() == 0) {
             gameOver = true;
         }
         return gameOver;
