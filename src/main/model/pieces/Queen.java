@@ -11,6 +11,7 @@ public class Queen extends ChessPiece {
 
     public Queen(int xcoord, int ycoord, int team, Board board) {
         super(xcoord, ycoord, team, board);
+        board.getPiecesAlive().add(this);
         pieceID = PieceName.QUEEN;
     }
 

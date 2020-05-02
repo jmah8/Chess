@@ -6,6 +6,7 @@ import main.model.Position;
 import java.io.Serializable;
 import java.util.*;
 
+
 public abstract class ChessPiece implements Serializable {
     // team = 0 is white, team = 1 is black, team = -1 is no team (empty piece)
     // white is at bottom of board and black is at top

@@ -12,6 +12,7 @@ public class Horse extends ChessPiece {
 
     public Horse(int xcoord, int ycoord, int team, Board board) {
         super(xcoord, ycoord, team, board);
+        board.getPiecesAlive().add(this);
         pieceID = PieceName.HORSE;
     }
 

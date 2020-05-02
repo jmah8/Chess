@@ -11,6 +11,7 @@ public class Rook extends ChessPiece {
 
     public Rook(int xcoord, int ycoord, int team, Board board) {
         super(xcoord, ycoord, team, board);
+        board.getPiecesAlive().add(this);
         pieceID = PieceName.ROOK;
     }
 

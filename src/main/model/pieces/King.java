@@ -15,6 +15,7 @@ public class King extends ChessPiece {
 
     public King(int xcoord, int ycoord, int team, Board board) {
         super(xcoord, ycoord, team, board);
+        board.getPiecesAlive().add(this);
         pieceID = PieceName.KING;
     }
 
