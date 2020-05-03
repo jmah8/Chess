@@ -1,6 +1,5 @@
 package main.model;
 
-import javafx.geometry.Pos;
 import main.model.pieces.ChessPiece;
 import main.ui.Chess;
 
