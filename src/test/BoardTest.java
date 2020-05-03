@@ -617,4 +617,25 @@ public class BoardTest {
         assertEquals(new EmptyPiece(1, 3, board), board.getPiece(1, 3));
         assertEquals(0, board.getEventLog().getEventHistoryList().size());
     }
+
+    @Test
+    public void testAddingPieceToPiecesAlive() {
+        board.makeBoard();
+        ChessPiece blackQueen = new Queen(3, 3, 1, board);
+        ChessPiece whiteQueen = new Queen(3, 6, 0, board);
+        assertEquals(board.getPiecesAlive().size(), 2);
+        assertTrue(board.getPiecesAlive().contains(blackQueen));
+        assertTrue(board.getPiecesAlive().contains(whiteQueen));
+    }
+
+    @Test
+    public void testRemovingEatenPieceFromPiecesAlive() {
+        board.makeBoard();
+        ChessPiece blackQueen = new Queen(3, 3, 1, board);
+        ChessPiece whiteQueen = new Queen(3, 6, 0, board);
+        board.movePiece(blackQueen, new Position(3, 6));
+        assertEquals(board.getPiecesAlive().size(), 1);
+        assertTrue(board.getPiecesAlive().contains(blackQueen));
+        assertFalse(board.getPiecesAlive().contains(whiteQueen));
+    }
 }

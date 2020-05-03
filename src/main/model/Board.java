@@ -49,15 +49,8 @@ public class Board extends Observable implements Serializable{
     // MODIFIES: this
     // EFFECT: fills board with no null value
     public void makeBoard() {
-        int boardIndex = 0;
         for (int i = 0; i < board.length; i++) {
             for (int j = 0; j < board[i].length; j++) {
-//                // Leave this in if you want pieces to have different team values
-//                if (boardIndex % 2 == 0) {
-//                    board[i][j] = new EmptyPiece(i, j, 0);
-//                } else {
-//                    board[i][j] = new EmptyPiece(i, j, 1);
-//                }
                 board[i][j] = new EmptyPiece(j, i, this);
             }
         }
@@ -121,22 +114,24 @@ public class Board extends Observable implements Serializable{
     }
 
     // MODIFIES: this
-    // EFFECT: moves pieceAtPosition to moveToPosition. If another piece is already there from other team
+    // EFFECT: moves pieceToMove to moveToPosition. If another piece is already there from other team
     // eat the piece
-    public void movePiece(ChessPiece pieceAtPosition, Position moveToPosition) {
-        int xCoord = pieceAtPosition.getPosition().getXcoord();
-        int yCoord = pieceAtPosition.getPosition().getYcoord();
+    public void movePiece(ChessPiece pieceToMove, Position moveToPosition) {
+        int xCoord = pieceToMove.getPosition().getXcoord();
+        int yCoord = pieceToMove.getPosition().getYcoord();
         int xNew = moveToPosition.getXcoord();
         int yNew = moveToPosition.getYcoord();
         ChessPiece eatenPiece = getPiece(xNew, yNew);
-        pieceAtPosition.updatePossibleMoves();
-        List<Position> pieceMoves = pieceAtPosition.getPossibleMoves();
-        if (pieceMoves.contains(moveToPosition) && !pieceAtPosition.getPosition().equals(moveToPosition)) {
-            board[yNew][xNew] = pieceAtPosition;
+        pieceToMove.updatePossibleMoves();
+        List<Position> pieceMoves = pieceToMove.getPossibleMoves();
+        if (pieceMoves.contains(moveToPosition) && !pieceToMove.getPosition().equals(moveToPosition)) {
+            board[yNew][xNew] = pieceToMove;
             board[yCoord][xCoord] = new EmptyPiece(xCoord, yCoord, this);
-            pieceAtPosition.movePosition(moveToPosition);
+            if (eatenPiece.getPieceID() != PieceName.EMPTY)
+                piecesAlive.remove(eatenPiece);
+            pieceToMove.movePosition(moveToPosition);
             setChanged();
-            notifyObservers(new EventHistory(pieceAtPosition, eatenPiece, new Position(xCoord, yCoord)));
+            notifyObservers(new EventHistory(pieceToMove, eatenPiece, new Position(xCoord, yCoord)));
         }
     }
 
@@ -174,15 +169,27 @@ public class Board extends Observable implements Serializable{
         return checkIfPositionCanBeReachedByAnyPiece(getPosKingBlackTeam(), 0);
     }
 
+//    // EFFECT: returns true if piecePosition can be reached by piece of team teamNumber, false othewise
+//    public Boolean checkIfPositionCanBeReachedByAnyPiece(Position piecePosition, int teamNumber) {
+//        Boolean check = false;
+//        for (int i = 0; i < board.length; i++) {
+//            for (int j = 0; j < board.length; j++) {
+//                ChessPiece pieceAtPos = board[i][j];
+//                if (checkIfPieceAtPosCanMoveToPosition(piecePosition, pieceAtPos, teamNumber)) {
+//                    check = true;
+//                }
+//            }
+//        }
+//        return check;
+//    }
+
+    // TODO: check which version is faster and use faster one (most likely this one)
     // EFFECT: returns true if piecePosition can be reached by piece of team teamNumber, false othewise
     public Boolean checkIfPositionCanBeReachedByAnyPiece(Position piecePosition, int teamNumber) {
         Boolean check = false;
-        for (int i = 0; i < board.length; i++) {
-            for (int j = 0; j < board.length; j++) {
-                ChessPiece pieceAtPos = board[i][j];
-                if (checkIfPieceAtPosCanMoveToPosition(piecePosition, pieceAtPos, teamNumber)) {
-                    check = true;
-                }
+        for (int i = 0; i < piecesAlive.size(); i++) {
+            if (checkIfPieceAtPosCanMoveToPosition(piecePosition, piecesAlive.get(i), teamNumber)) {
+                check = true;
             }
         }
         return check;
