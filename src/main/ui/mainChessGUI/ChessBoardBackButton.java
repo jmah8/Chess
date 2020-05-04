@@ -14,7 +14,7 @@ public class ChessBoardBackButton extends ChessBoard {
     private JButton backButton;
     private JPanel chessGUI;
 
-    public static final String pathName = "/home/jonathanmah/Desktop/Personal Projects/Chess/data/ChessGame.txt";
+    public static final String pathName = "/home/jonathan/Desktop/Personal Projects/Chess/data/ChessGame.txt";
 
     public ChessBoardBackButton() {
         super();
