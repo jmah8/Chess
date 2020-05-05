@@ -24,11 +24,8 @@ public class Pawn extends ChessPiece {
     @Override
     // MODIFIES: this
     // EFFECT: updates possible move list with 1 space forward move
-    // TODO: can use field as indicator of if it moved or didn't and check against that for forward 2
     public void updatePossibleMoves() {
         removePossibleMoves();
-        int x = position.getXcoord();
-        int y = position.getYcoord();
         if (team == 0) {
             if (!hasMoved) {
                 moveUpTwoSpace();
@@ -53,11 +50,13 @@ public class Pawn extends ChessPiece {
      * @param y Space to move vertically
      */
     private void eatDiagonalPiece(int x, int y) {
-        if (!checkInBounds(position.getXcoord() + x, position.getYcoord() + y))
+        int xPos = position.getXcoord();
+        int yPos = position.getYcoord();
+        if (!checkInBounds(xPos + x, yPos + y))
             return;
-        ChessPiece pieceAtPosXY = board.getPiece(position.getXcoord() + x, position.getYcoord() + y);
+        ChessPiece pieceAtPosXY = board.getPiece(xPos + x, yPos + y);
         if (checkOppositeTeam(pieceAtPosXY)) {
-            possibleMoves.add(new Position(position.getXcoord() + x, position.getYcoord() + y));
+            possibleMoves.add(new Position(xPos + x, yPos + y));
         }
     }
 
@@ -69,11 +68,13 @@ public class Pawn extends ChessPiece {
      * @param y Spaces to move vertically
      */
     private void movePiece(int x, int y) {
-        if (!checkInBounds(position.getXcoord() + x, position.getYcoord() + y))
+        int xPos = position.getXcoord();
+        int yPos = position.getYcoord();
+        if (!checkInBounds(xPos + x, yPos + y))
             return;
-        ChessPiece pieceAtPosXY = board.getPiece(position.getXcoord() + x, position.getYcoord() + y);
+        ChessPiece pieceAtPosXY = board.getPiece(xPos + x, yPos + y);
         if (pieceAtPosXY.checkIfNoTeam()) {
-            possibleMoves.add(new Position(position.getXcoord() + x, position.getYcoord() + y));
+            possibleMoves.add(new Position(xPos + x, yPos + y));
         }
     }
 
