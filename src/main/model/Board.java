@@ -165,15 +165,15 @@ public class Board extends Observable implements Serializable{
      * @param king piece that is the same team as rooks to find
      * @return list of rooks that are on same team as @param king
      */
-    public ChessPiece[] searchForRooks(ChessPiece king) {
+    public ArrayList<ChessPiece> searchForRooks(ChessPiece king) {
         ChessPiece emptyPiece = new EmptyPiece(0, 0, this);
-        ChessPiece[] rooks = {emptyPiece, emptyPiece};
+        ArrayList<ChessPiece> rooks = new ArrayList<>(2);
         int index = 0;
         for (int i = 0; i < board.length; i++) {
             for (int j = 0; j < board.length; j++) {
                 ChessPiece pieceAtPos = board[i][j];
                 if (pieceAtPos.getTeam() == king.getTeam() && pieceAtPos.getPieceID() == PieceName.ROOK) {
-                    rooks[index] = pieceAtPos;
+                    rooks.add(index, pieceAtPos);
                     index++;
                 }
                 if (index == 2)
@@ -182,6 +182,10 @@ public class Board extends Observable implements Serializable{
         }
         return rooks;
     }
+
+//    public boolean checkIfCastlingPossible() {
+//
+//    }
 
     // TODO: see if i need to use delegation to keep cohesion low
     // EFFECT: returns true if black piece has a possible move to eat white king, else false

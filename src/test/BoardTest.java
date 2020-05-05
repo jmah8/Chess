@@ -9,6 +9,7 @@ import main.ui.Chess;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -647,5 +648,17 @@ public class BoardTest {
         assertFalse(blackQueen.getHasMoved());
         board.movePiece(blackQueen, new Position(3, 5));
         assertTrue(blackQueen.getHasMoved());
+    }
+
+    @Test
+    public void testGetRooks() {
+        board.makeBoard();
+        board.fillBoard();
+        Position kingPos = board.getPosKingWhiteTeam();
+        ChessPiece king = board.getPiece(kingPos.getXcoord(), kingPos.getYcoord());
+        ArrayList<ChessPiece> rooks = board.searchForRooks(king);
+        assertEquals(2, rooks.size());
+        assertTrue(rooks.contains(board.getPiece(0, 7)));
+        assertTrue(rooks.contains(board.getPiece(7, 7)));
     }
 }
