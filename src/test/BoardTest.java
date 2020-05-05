@@ -5,6 +5,7 @@ import main.model.EventHistory;
 import main.model.EventLog;
 import main.model.Position;
 import main.model.pieces.*;
+import main.ui.Chess;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -637,5 +638,14 @@ public class BoardTest {
         assertEquals(board.getPiecesAlive().size(), 1);
         assertTrue(board.getPiecesAlive().contains(blackQueen));
         assertFalse(board.getPiecesAlive().contains(whiteQueen));
+    }
+
+    @Test
+    public void testUpdatingHasMoved() {
+        board.makeBoard();
+        ChessPiece blackQueen = new Queen(3, 3, 1, board);
+        assertFalse(blackQueen.getHasMoved());
+        board.movePiece(blackQueen, new Position(3, 5));
+        assertTrue(blackQueen.getHasMoved());
     }
 }

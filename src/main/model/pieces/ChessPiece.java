@@ -15,18 +15,14 @@ public abstract class ChessPiece implements Serializable {
     protected Position position;
     protected List<Position> possibleMoves;
     protected Board board;
-
-//    public ChessPiece(int xcoord, int ycoord, int team) {
-//        this.position = new Position(xcoord, ycoord);
-//        this.team = team;
-//        possibleMoves = new ArrayList<>();
-//    }
+    protected boolean hasMoved;
 
     public ChessPiece(int xcoord, int ycoord, int team, Board board) {
         this.position = new Position(xcoord, ycoord);
         this.team = team;
         possibleMoves = new ArrayList<>();
         this.board = board;
+        this.hasMoved = false;
         updateBoardToIncludePiece();
     }
 
@@ -75,6 +71,14 @@ public abstract class ChessPiece implements Serializable {
         }
     }
 
+    public void setHasMoved(boolean hasMoved) {
+        this.hasMoved = hasMoved;
+    }
+
+    public boolean getHasMoved() {
+        return hasMoved;
+    }
+
 
     /**
      * Returns true if x,y is in bound ( 0 <= x <= 7 && 0 <= y <= 7)
@@ -97,6 +101,7 @@ public abstract class ChessPiece implements Serializable {
     // then set this.position to position and then move the piece on the board
     public void movePosition(Position position) {
         if (!position.equals(this.position) && possibleMoves.contains(position)) {
+            this.hasMoved = this.hasMoved == false ? true : false;
             this.position = position;
             board.movePiece(this, position);
         }
@@ -106,7 +111,7 @@ public abstract class ChessPiece implements Serializable {
         board.placePiece(this);
     }
 
-    // EFFECT: this is not for user movement of pieces
+    // this is not for user movement of pieces
     // MODIFIES: this
     // EFFECT:  move piece to position
     public void movePiece(Position position) {
