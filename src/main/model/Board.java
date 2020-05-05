@@ -169,31 +169,31 @@ public class Board extends Observable implements Serializable{
         return checkIfPositionCanBeReachedByAnyPiece(getPosKingBlackTeam(), 0);
     }
 
-//    // EFFECT: returns true if piecePosition can be reached by piece of team teamNumber, false othewise
-//    public Boolean checkIfPositionCanBeReachedByAnyPiece(Position piecePosition, int teamNumber) {
-//        Boolean check = false;
-//        for (int i = 0; i < board.length; i++) {
-//            for (int j = 0; j < board.length; j++) {
-//                ChessPiece pieceAtPos = board[i][j];
-//                if (checkIfPieceAtPosCanMoveToPosition(piecePosition, pieceAtPos, teamNumber)) {
-//                    check = true;
-//                }
-//            }
-//        }
-//        return check;
-//    }
-
-    // TODO: check which version is faster and use faster one (most likely this one)
     // EFFECT: returns true if piecePosition can be reached by piece of team teamNumber, false othewise
     public Boolean checkIfPositionCanBeReachedByAnyPiece(Position piecePosition, int teamNumber) {
         Boolean check = false;
-        for (int i = 0; i < piecesAlive.size(); i++) {
-            if (checkIfPieceAtPosCanMoveToPosition(piecePosition, piecesAlive.get(i), teamNumber)) {
-                check = true;
+        for (int i = 0; i < board.length; i++) {
+            for (int j = 0; j < board.length; j++) {
+                ChessPiece pieceAtPos = board[i][j];
+                if (checkIfPieceAtPosCanMoveToPosition(piecePosition, pieceAtPos, teamNumber)) {
+                    check = true;
+                }
             }
         }
         return check;
     }
+
+    // TODO: find out why this causes a bug in the GUI but not the test
+//    // EFFECT: returns true if piecePosition can be reached by piece of team teamNumber, false othewise
+//    public Boolean checkIfPositionCanBeReachedByAnyPiece(Position piecePosition, int teamNumber) {
+//        Boolean check = false;
+//        for (int i = 0; i < piecesAlive.size(); i++) {
+//            if (checkIfPieceAtPosCanMoveToPosition(piecePosition, piecesAlive.get(i), teamNumber)) {
+//                check = true;
+//            }
+//        }
+//        return check;
+//    }
 
     // REQUIRES: updatePossibleMove be called on pieceAtPos before calling this method
     // EFFECT: returns true if pieceAtPos can move to position and is of team teamNumber
@@ -251,11 +251,11 @@ public class Board extends Observable implements Serializable{
      */
     private Position getKingPos(int teamNumber) {
         Position p = null;
-//        try {
+        try {
             p = getKingOfTeam(teamNumber).getPosition();
-//        } catch (NullPointerException e) {
-//            // Do nothing;
-//        }
+        } catch (NullPointerException e) {
+            // Do nothing;
+        }
         return p;
     }
 
