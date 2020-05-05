@@ -1,6 +1,7 @@
 package main.model;
 
 import main.model.pieces.*;
+import sun.invoke.empty.Empty;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -156,6 +157,30 @@ public class Board extends Observable implements Serializable{
             }
         }
         return contains;
+    }
+
+    /**
+     * Return list of rooks that are on the same team as @param king
+     *
+     * @param king piece that is the same team as rooks to find
+     * @return list of rooks that are on same team as @param king
+     */
+    public ChessPiece[] searchForRooks(ChessPiece king) {
+        ChessPiece emptyPiece = new EmptyPiece(0, 0, this);
+        ChessPiece[] rooks = {emptyPiece, emptyPiece};
+        int index = 0;
+        for (int i = 0; i < board.length; i++) {
+            for (int j = 0; j < board.length; j++) {
+                ChessPiece pieceAtPos = board[i][j];
+                if (pieceAtPos.getTeam() == king.getTeam() && pieceAtPos.getPieceID() == PieceName.ROOK) {
+                    rooks[index] = pieceAtPos;
+                    index++;
+                }
+                if (index == 2)
+                    return rooks;
+            }
+        }
+        return rooks;
     }
 
     // TODO: see if i need to use delegation to keep cohesion low
