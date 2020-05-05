@@ -25,37 +25,37 @@ public class Horse extends ChessPiece {
         int y = position.getYcoord();
         int nextXCoord = x - 2;
         int nextYCoord = y - 1;
-        if (checkOutOfBound(nextXCoord, nextYCoord) && checkForEmptyOrEnemy(nextXCoord, nextYCoord)) {
+        if (checkInBounds(nextXCoord, nextYCoord) && checkForEmptyOrEnemy(nextXCoord, nextYCoord)) {
             possibleMoves.add(new Position(nextXCoord, nextYCoord));
         }
         nextYCoord = y + 1;
-        if (checkOutOfBound(nextXCoord, nextYCoord) && checkForEmptyOrEnemy(nextXCoord, nextYCoord)) {
+        if (checkInBounds(nextXCoord, nextYCoord) && checkForEmptyOrEnemy(nextXCoord, nextYCoord)) {
             possibleMoves.add(new Position(nextXCoord, nextYCoord));
         }
         nextXCoord = x + 2;
-        if (checkOutOfBound(nextXCoord, nextYCoord) && checkForEmptyOrEnemy(nextXCoord, nextYCoord)) {
+        if (checkInBounds(nextXCoord, nextYCoord) && checkForEmptyOrEnemy(nextXCoord, nextYCoord)) {
             possibleMoves.add(new Position(nextXCoord, nextYCoord));
         }
         nextYCoord = y - 1;
-        if (checkOutOfBound(nextXCoord, nextYCoord) && checkForEmptyOrEnemy(nextXCoord, nextYCoord)) {
+        if (checkInBounds(nextXCoord, nextYCoord) && checkForEmptyOrEnemy(nextXCoord, nextYCoord)) {
             possibleMoves.add(new Position(nextXCoord, nextYCoord));
         }
 
         nextXCoord = x - 1;
         nextYCoord = y - 2;
-        if (checkOutOfBound(nextXCoord, nextYCoord) && checkForEmptyOrEnemy(nextXCoord, nextYCoord)) {
+        if (checkInBounds(nextXCoord, nextYCoord) && checkForEmptyOrEnemy(nextXCoord, nextYCoord)) {
             possibleMoves.add(new Position(nextXCoord, nextYCoord));
         }
         nextYCoord = y + 2;
-        if (checkOutOfBound(nextXCoord, nextYCoord) && checkForEmptyOrEnemy(nextXCoord, nextYCoord)) {
+        if (checkInBounds(nextXCoord, nextYCoord) && checkForEmptyOrEnemy(nextXCoord, nextYCoord)) {
             possibleMoves.add(new Position(nextXCoord, nextYCoord));
         }
         nextXCoord = x + 1;
-        if (checkOutOfBound(nextXCoord, nextYCoord) && checkForEmptyOrEnemy(nextXCoord, nextYCoord)) {
+        if (checkInBounds(nextXCoord, nextYCoord) && checkForEmptyOrEnemy(nextXCoord, nextYCoord)) {
             possibleMoves.add(new Position(nextXCoord, nextYCoord));
         }
         nextYCoord = y - 2;
-        if (checkOutOfBound(nextXCoord, nextYCoord) && checkForEmptyOrEnemy(nextXCoord, nextYCoord)) {
+        if (checkInBounds(nextXCoord, nextYCoord) && checkForEmptyOrEnemy(nextXCoord, nextYCoord)) {
             possibleMoves.add(new Position(nextXCoord, nextYCoord));
         }
     }
