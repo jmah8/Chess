@@ -212,35 +212,35 @@ public class King extends ChessPiece {
         int y = otherKingPos.getYcoord();
         List<Position> possibleMovesByOtherKing = new ArrayList<>();
         // Move left
-        if (checkOutOfBound(x - 1, y)) {
+        if (checkInBounds(x - 1, y)) {
             possibleMovesByOtherKing.add(new Position(x - 1, y));
         }
         // Move right
-        if (checkOutOfBound(x + 1, y)) {
+        if (checkInBounds(x + 1, y)) {
             possibleMovesByOtherKing.add(new Position(x + 1, y));
         }
         // Move up
-        if (checkOutOfBound(x, y - 1)) {
+        if (checkInBounds(x, y - 1)) {
             possibleMovesByOtherKing.add(new Position(x, y - 1));
         }
         // Move down
-        if (checkOutOfBound(x, y + 1)) {
+        if (checkInBounds(x, y + 1)) {
             possibleMovesByOtherKing.add(new Position(x, y + 1));
         }
         // Move down and right
-        if (checkOutOfBound(x + 1, y + 1)) {
+        if (checkInBounds(x + 1, y + 1)) {
             possibleMovesByOtherKing.add(new Position(x + 1, y + 1));
         }
         // Move up and right
-        if (checkOutOfBound(x + 1, y - 1)) {
+        if (checkInBounds(x + 1, y - 1)) {
             possibleMovesByOtherKing.add(new Position(x + 1, y - 1));
         }
         // Move down and left
-        if (checkOutOfBound(x - 1, y + 1)) {
+        if (checkInBounds(x - 1, y + 1)) {
             possibleMovesByOtherKing.add(new Position(x - 1, y + 1));
         }
         // Move up and left
-        if (checkOutOfBound(x - 1, y - 1)) {
+        if (checkInBounds(x - 1, y - 1)) {
             possibleMovesByOtherKing.add(new Position(x - 1, y - 1));
         }
         return possibleMovesByOtherKing.contains(position);

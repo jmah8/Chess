@@ -86,7 +86,7 @@ public abstract class ChessPiece implements Serializable {
      * @param y y coordinate to move to
      * @return true if x,y is in bound, else return false
      */
-    public boolean checkOutOfBound(int x, int y) {
+    public boolean checkInBounds(int x, int y) {
         return x <= 7 && x >= 0 && y <= 7 && y >= 0;
     }
 
@@ -152,7 +152,7 @@ public abstract class ChessPiece implements Serializable {
         int newX = x - 1;
         int newY = y - 1;
         // Checks diagonally up and left
-        while (checkOutOfBound(newX, newY)) {
+        while (checkInBounds(newX, newY)) {
             if (makingMoveBasedOnPieceInGivenXandY(newX, newY)) {
                 break;
             }
@@ -162,7 +162,7 @@ public abstract class ChessPiece implements Serializable {
         // Checks diagonally down and left
         newX = x - 1;
         newY = y + 1;
-        while (checkOutOfBound(newX, newY)) {
+        while (checkInBounds(newX, newY)) {
             if (makingMoveBasedOnPieceInGivenXandY(newX, newY)) {
                 break;
             }
@@ -172,7 +172,7 @@ public abstract class ChessPiece implements Serializable {
         // Checks diagonally up and right
         newX = x + 1;
         newY = y - 1;
-        while (checkOutOfBound(newX, newY)) {
+        while (checkInBounds(newX, newY)) {
             if (makingMoveBasedOnPieceInGivenXandY(newX, newY)) {
                 break;
             }
@@ -182,7 +182,7 @@ public abstract class ChessPiece implements Serializable {
         // Checks diagonally down and right
         newX = x + 1;
         newY = y + 1;
-        while (checkOutOfBound(newX, newY)) {
+        while (checkInBounds(newX, newY)) {
             if (makingMoveBasedOnPieceInGivenXandY(newX, newY)) {
                 break;
             }
@@ -199,7 +199,7 @@ public abstract class ChessPiece implements Serializable {
         int newX = currentXCoord - 1;
         int newY = currentYCoord;
         // Checks to the left of piece
-        while (checkOutOfBound(newX, newY)) {
+        while (checkInBounds(newX, newY)) {
             if (makingMoveBasedOnPieceInGivenXandY(newX, currentYCoord)) {
                 break;
             }
@@ -207,7 +207,7 @@ public abstract class ChessPiece implements Serializable {
         }
         // Checks to the right of piece
         newX = currentXCoord + 1;
-        while (checkOutOfBound(newX, newY)) {
+        while (checkInBounds(newX, newY)) {
             if (makingMoveBasedOnPieceInGivenXandY(newX, currentYCoord)) {
                 break;
             }
@@ -216,7 +216,7 @@ public abstract class ChessPiece implements Serializable {
         // Checks above the piece
         newX = currentXCoord;
         newY = currentYCoord - 1;
-        while (checkOutOfBound(newX, newY)) {
+        while (checkInBounds(newX, newY)) {
             if (makingMoveBasedOnPieceInGivenXandY(currentXCoord, newY)) {
                 break;
             }
@@ -224,7 +224,7 @@ public abstract class ChessPiece implements Serializable {
         }
         // Checks below the piece
         newY = currentYCoord + 1;
-        while (checkOutOfBound(newX, newY)) {
+        while (checkInBounds(newX, newY)) {
             if (makingMoveBasedOnPieceInGivenXandY(currentXCoord, newY)) {
                 break;
             }
