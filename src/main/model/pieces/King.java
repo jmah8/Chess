@@ -17,6 +17,12 @@ public class King extends ChessPiece {
         super(xcoord, ycoord, team, board);
         board.getPiecesAlive().add(this);
         pieceID = PieceName.KING;
+        if (team == 1)
+            if (xcoord != 3 && ycoord != 0)
+                hasMoved = true;
+        if (team == 0)
+            if (xcoord != 3 && ycoord != 7)
+                hasMoved = true;
     }
 
     @Override
@@ -59,6 +65,27 @@ public class King extends ChessPiece {
         // Move up and left
         if (x - 1 >= 0 && y - 1 >= 0) {
             moveOneSpace(y - 1, x - 1);
+        }
+        if (!hasMoved)
+            castle();
+    }
+
+    /**
+     * Requires king and atleast one rook that hasn't moved yet. Moves king and rook at the same time
+     */
+    private void castle() {
+        if (!board.checkIfCastlingPossible(this))
+            return;
+        ArrayList<ChessPiece> rooks = board.searchForRooks(this);
+        if (rooks.size() == 2) {
+            possibleMoves.add(new Position(position.getXcoord() - 2, position.getYcoord()));
+            possibleMoves.add(new Position(position.getXcoord() + 2, position.getYcoord()));
+            // Rook to the left of king
+        } else if (rooks.get(0).getX() - position.getXcoord() < 0) {
+            possibleMoves.add(new Position(position.getXcoord() - 2, position.getYcoord()));
+            // Rook to the right of king
+        } else {
+            possibleMoves.add(new Position(position.getXcoord() + 2, position.getYcoord()));
         }
     }
 
@@ -190,8 +217,8 @@ public class King extends ChessPiece {
 
     // EFFECT: returns true if piece (only pawn) has a possible move diagonal eating king in process, else return false
     private boolean checkIfPositionSameAsPawnEatingDiagonal(Position position, ChessPiece piece) {
-        int pawnXCoord = piece.getPosition().getXcoord();
-        int pawnYCoord = piece.getPosition().getYcoord();
+        int pawnXCoord = piece.getX();
+        int pawnYCoord = piece.getY();
         Position pawnNewPosition;
         Position pawnNewPosition1;
         if (piece.getTeam() == 1) {

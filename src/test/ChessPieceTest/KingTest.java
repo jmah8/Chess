@@ -287,7 +287,7 @@ public class KingTest extends ChessPieceTest{
     public void updatePossibleMovesBuggedFilledBoardWhiteKing() {
         board.makeBoard();
         board.fillBoard();
-        king = board.getPiece(3, 7);
+        king = board.getPiece(4, 7);
         ChessPiece rook = board.getPiece(7, 0);
 //        king = new King(3, 7, 0, board);
 //        ChessPiece rook = new Rook(7, 0, 1, board);
@@ -311,7 +311,7 @@ public class KingTest extends ChessPieceTest{
     public void updatePossibleMovesBuggedFilledBoardBlackKing() {
         board.makeBoard();
         board.fillBoard();
-        king = board.getPiece(3, 0);
+        king = board.getPiece(4, 0);
         ChessPiece rook = board.getPiece(7, 7);
         board.movePieceIrregardlessOfPossibleMove(king, new Position(5, 4));
         board.movePieceIrregardlessOfPossibleMove(rook, new Position(7, 4));
@@ -332,7 +332,7 @@ public class KingTest extends ChessPieceTest{
     public void updatePossibleMovesPartiallyBuggedFilledBoardBlackKing() {
         board.makeBoard();
         board.fillBoard();
-        king = board.getPiece(3, 0);
+        king = board.getPiece(4, 0);
         ChessPiece rook = board.getPiece(7, 7);
         board.movePieceIrregardlessOfPossibleMove(king, new Position(5, 3));
         board.movePieceIrregardlessOfPossibleMove(rook, new Position(7, 3));
@@ -350,6 +350,40 @@ public class KingTest extends ChessPieceTest{
     }
 
     // TODO: update bishop and queen bugged test
+
+    @Test
+    public void updatePossibleMoveWithCastling1Rook() {
+        board.makeBoard();
+        ChessPiece king = new King(4, 7, 0, board);
+        ChessPiece rook1 = new Rook(0, 7, 0, board);
+        king.updatePossibleMoves();
+        List<Position> moves = king.getPossibleMoves();
+        assertEquals(6, moves.size());
+        assertTrue(moves.contains(new Position(3, 7)));
+        assertTrue(moves.contains(new Position(5, 7)));
+        assertTrue(moves.contains(new Position(3, 6)));
+        assertTrue(moves.contains(new Position(4, 6)));
+        assertTrue(moves.contains(new Position(5, 6)));
+        assertTrue(moves.contains(new Position(2, 7)));
+    }
+
+    @Test
+    public void updatePossibleMoveWithCastling2Rook() {
+        board.makeBoard();
+        ChessPiece king = new King(4, 7, 0, board);
+        ChessPiece rook1 = new Rook(0, 7, 0, board);
+        ChessPiece rook2 = new Rook(7, 7, 0, board);
+        king.updatePossibleMoves();
+        List<Position> moves = king.getPossibleMoves();
+        assertEquals(7, moves.size());
+        assertTrue(moves.contains(new Position(3, 7)));
+        assertTrue(moves.contains(new Position(5, 7)));
+        assertTrue(moves.contains(new Position(3, 6)));
+        assertTrue(moves.contains(new Position(4, 6)));
+        assertTrue(moves.contains(new Position(5, 6)));
+        assertTrue(moves.contains(new Position(2, 7)));
+        assertTrue(moves.contains(new Position(6, 7)));
+    }
 
 }
 

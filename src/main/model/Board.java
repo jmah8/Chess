@@ -141,8 +141,7 @@ public class Board extends Observable implements Serializable{
                 movePiece(rightRook, new Position(rightRook.getX() - 2, rightRook.getY()));
             }
         }
-
-        else if (pieceMoves.contains(moveToPosition) && !pieceToMove.getPosition().equals(moveToPosition)) {
+        if (pieceMoves.contains(moveToPosition) && !pieceToMove.getPosition().equals(moveToPosition)) {
             board[yNew][xNew] = pieceToMove;
             board[yCoord][xCoord] = new EmptyPiece(xCoord, yCoord, this);
             if (eatenPiece.getPieceID() != PieceName.EMPTY)
