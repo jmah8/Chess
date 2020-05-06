@@ -26,6 +26,14 @@ public abstract class ChessPiece implements Serializable {
         updateBoardToIncludePiece();
     }
 
+    public int getX() {
+        return position.getXcoord();
+    }
+
+    public int getY() {
+        return position.getYcoord();
+    }
+
     /**
      * Updates possibleMove list of piece
      */

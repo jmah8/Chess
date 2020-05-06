@@ -220,8 +220,8 @@ public class ChessBoard {
     protected void showPieceCheckingBlackKing() {
         List<ChessPiece> piecesCheckingBlackKing = board.getCheckingPiecesForBlackKing();
         for (ChessPiece cp : piecesCheckingBlackKing) {
-            int xPos = cp.getPosition().getXcoord();
-            int yPos = cp.getPosition().getYcoord();
+            int xPos = cp.getX();
+            int yPos = cp.getY();
             buttons[yPos][xPos].setBackground(Color.RED);
             chessPanel.repaint();
             chessPanel.revalidate();
@@ -231,8 +231,8 @@ public class ChessBoard {
     protected void showPieceCheckingWhiteKing() {
         List<ChessPiece> piecesCheckingWhiteKing = board.getCheckingPiecesForWhiteKing();
         for (ChessPiece cp : piecesCheckingWhiteKing) {
-            int xPos = cp.getPosition().getXcoord();
-            int yPos = cp.getPosition().getYcoord();
+            int xPos = cp.getX();
+            int yPos = cp.getY();
             buttons[yPos][xPos].setBackground(Color.RED);
             chessPanel.repaint();
             chessPanel.revalidate();

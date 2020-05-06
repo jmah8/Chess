@@ -37,9 +37,9 @@ public class Pawn extends ChessPiece {
             if (!hasMoved) {
                 moveDownTwoSpace();
             }
-                moveDown();
-                eatDiagonalPiece(-1, 1);
-                eatDiagonalPiece(1, 1);
+            moveDown();
+            eatDiagonalPiece(-1, 1);
+            eatDiagonalPiece(1, 1);
         }
     }
 
