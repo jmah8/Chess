@@ -1,6 +1,7 @@
 package main.model;
 
 import main.model.pieces.*;
+import main.ui.Chess;
 import sun.invoke.empty.Empty;
 
 import java.io.*;
@@ -183,9 +184,39 @@ public class Board extends Observable implements Serializable{
         return rooks;
     }
 
-//    public boolean checkIfCastlingPossible() {
-//
-//    }
+    /**
+     * Returns true if castle is possible for @param king, else false
+     *
+     * @param king piece to check if castling is possible
+     * @return Returns true if castle is possible for @param king, else false
+     */
+    public boolean checkIfCastlingPossible(ChessPiece king) {
+        if (king.getHasMoved() == true)
+            return false;
+        ArrayList<ChessPiece> rooks = searchForRooks(king);
+        if (rooks.isEmpty())
+            return false;
+        for (ChessPiece piece : rooks) {
+            int xPos = piece.getPosition().getXcoord();
+            int yPos = piece.getPosition().getYcoord();
+            int iter;
+            // If rook.x - king.x is negative, the rook is to the left
+            if (xPos - king.getPosition().getXcoord() < 0)
+                iter = 1;
+            // Else if its positive, rook is to the right
+            else
+                iter = -1;
+            xPos += iter;
+            int kingXPos = king.getPosition().getXcoord();
+                while (xPos != kingXPos) {
+                    ChessPiece pieceToCheck = getPiece(xPos, yPos);
+                    if (pieceToCheck.getPieceID() != PieceName.EMPTY)
+                        return false;
+                    xPos += iter;
+                }
+        }
+        return true;
+    }
 
     // TODO: see if i need to use delegation to keep cohesion low
     // EFFECT: returns true if black piece has a possible move to eat white king, else false

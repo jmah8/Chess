@@ -651,7 +651,7 @@ public class BoardTest {
     }
 
     @Test
-    public void testGetRooks() {
+    public void testGetRooksFilledBoard() {
         board.makeBoard();
         board.fillBoard();
         Position kingPos = board.getPosKingWhiteTeam();
@@ -660,5 +660,71 @@ public class BoardTest {
         assertEquals(2, rooks.size());
         assertTrue(rooks.contains(board.getPiece(0, 7)));
         assertTrue(rooks.contains(board.getPiece(7, 7)));
+    }
+
+    @Test
+    public void testGetRooksNoRooks() {
+        board.makeBoard();
+        ChessPiece king = new King(0, 1, 1, board);
+        board.placePiece(king);
+        ArrayList<ChessPiece> rooks = board.searchForRooks(king);
+        assertTrue(rooks.isEmpty());
+    }
+
+    @Test
+    public void testGetRooks2EnemyRooks() {
+        board.makeBoard();
+        ChessPiece king = new King(0, 1, 1, board);
+        ChessPiece rook1 = new Rook(3, 4, 0, board);
+        ChessPiece rook2 = new Rook(5, 4, 0, board);
+        board.placePiece(king);
+        board.placePiece(rook1);
+        board.placePiece(rook2);
+        ArrayList<ChessPiece> rooks = board.searchForRooks(king);
+        assertTrue(rooks.isEmpty());
+    }
+
+    @Test
+    public void testCheckIfCastlingPossibleTrue() {
+        board.makeBoard();
+        ChessPiece king = new King(3, 7, 1, board);
+        ChessPiece rook1 = new Rook(0, 7, 1, board);
+        ChessPiece rook2 = new Rook(7, 7, 1, board);
+        board.placePiece(king);
+        board.placePiece(rook1);
+        board.placePiece(rook2);
+        assertTrue(board.checkIfCastlingPossible(king));
+    }
+
+    @Test
+    public void testCheckIfCastlingPossibleFalse() {
+        board.makeBoard();
+        ChessPiece king = new King(3, 7, 1, board);
+        ChessPiece rook1 = new Rook(0, 7, 1, board);
+        ChessPiece rook2 = new Rook(7, 7, 1, board);
+        ChessPiece horse1 = new Horse(1, 7, 1, board);
+        ChessPiece horse2 = new Horse(6, 7, 1, board);
+//        board.placePiece(king);
+//        board.placePiece(rook1);
+//        board.placePiece(rook2);
+//        board.placePiece(horse1);
+//        board.placePiece(horse2);
+        assertFalse(board.checkIfCastlingPossible(king));
+    }
+
+    @Test
+    public void testCheckIfCastlingPossibleTrueOnlyOneSideBlocked() {
+        board.makeBoard();
+        ChessPiece king = new King(3, 7, 1, board);
+        ChessPiece rook1 = new Rook(0, 7, 1, board);
+        ChessPiece rook2 = new Rook(7, 7, 1, board);
+        ChessPiece horse1 = new Horse(1, 7, 1, board);
+//        ChessPiece horse2 = new Horse(6, 7, 1, board);
+//        board.placePiece(king);
+//        board.placePiece(rook1);
+//        board.placePiece(rook2);
+//        board.placePiece(horse1);
+//        board.placePiece(horse2);
+        assertFalse(board.checkIfCastlingPossible(king));
     }
 }
