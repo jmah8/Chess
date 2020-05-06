@@ -74,8 +74,8 @@ public class Board extends Observable implements Serializable{
             board[i][0] = new Rook(0, i, teamColour, this);
             board[i][1] = new Horse(1, i, teamColour, this);
             board[i][2] = new Bishop(2, i, teamColour, this);
-            board[i][3] = new King(3, i, teamColour, this);
-            board[i][4] = new Queen(4, i, teamColour, this);
+            board[i][3] = new Queen(3, i, teamColour, this);
+            board[i][4] = new King(4, i, teamColour, this);
             board[i][5] = new Bishop(5, i, teamColour, this);
             board[i][6] = new Horse(6, i, teamColour, this);
             board[i][7] = new Rook(7, i, teamColour, this);
@@ -86,8 +86,8 @@ public class Board extends Observable implements Serializable{
     // MODIFIES: this
     // EFFECT: places piece at piece's position
     public void placePiece(ChessPiece piece) {
-        int xPos = piece.getPosition().getXcoord();
-        int yPos = piece.getPosition().getYcoord();
+        int xPos = piece.getX();
+        int yPos = piece.getY();
         board[yPos][xPos] = piece;
     }
 
@@ -103,8 +103,8 @@ public class Board extends Observable implements Serializable{
 
     // TODO: could also add history for using this move but need to change some test
     public void movePieceIrregardlessOfPossibleMove(ChessPiece pieceAtPosition, Position moveToPosition) {
-        int xCoord = pieceAtPosition.getPosition().getXcoord();
-        int yCoord = pieceAtPosition.getPosition().getYcoord();
+        int xCoord = pieceAtPosition.getX();
+        int yCoord = pieceAtPosition.getY();
         int xNew = moveToPosition.getXcoord();
         int yNew = moveToPosition.getYcoord();
         ChessPiece eatenPiece = getPiece(moveToPosition.getXcoord(), moveToPosition.getYcoord());
@@ -119,14 +119,30 @@ public class Board extends Observable implements Serializable{
     // EFFECT: moves pieceToMove to moveToPosition. If another piece is already there from other team
     // eat the piece
     public void movePiece(ChessPiece pieceToMove, Position moveToPosition) {
-        int xCoord = pieceToMove.getPosition().getXcoord();
-        int yCoord = pieceToMove.getPosition().getYcoord();
+        int xCoord = pieceToMove.getX();
+        int yCoord = pieceToMove.getY();
         int xNew = moveToPosition.getXcoord();
         int yNew = moveToPosition.getYcoord();
         ChessPiece eatenPiece = getPiece(xNew, yNew);
         pieceToMove.updatePossibleMoves();
         List<Position> pieceMoves = pieceToMove.getPossibleMoves();
-        if (pieceMoves.contains(moveToPosition) && !pieceToMove.getPosition().equals(moveToPosition)) {
+
+        int indicator = moveToPosition.getXcoord() - pieceToMove.getX();
+
+        // If piece is king and position to move to is a 2 point difference, then it must be a castle
+        if (pieceToMove.getPieceID() == PieceName.KING &&
+                Math.abs(indicator) == 2) {
+            // If indicator is negative, castling with rook on left
+            if (indicator < 0) {
+                ChessPiece leftRook = getPiece(0, pieceToMove.getY());
+                movePiece(leftRook, new Position(leftRook.getX() + 3, leftRook.getY()));
+            } else {
+                ChessPiece rightRook = getPiece(7, pieceToMove.getY());
+                movePiece(rightRook, new Position(rightRook.getX() - 2, rightRook.getY()));
+            }
+        }
+
+        else if (pieceMoves.contains(moveToPosition) && !pieceToMove.getPosition().equals(moveToPosition)) {
             board[yNew][xNew] = pieceToMove;
             board[yCoord][xCoord] = new EmptyPiece(xCoord, yCoord, this);
             if (eatenPiece.getPieceID() != PieceName.EMPTY)
@@ -167,7 +183,6 @@ public class Board extends Observable implements Serializable{
      * @return list of rooks that are on same team as @param king
      */
     public ArrayList<ChessPiece> searchForRooks(ChessPiece king) {
-        ChessPiece emptyPiece = new EmptyPiece(0, 0, this);
         ArrayList<ChessPiece> rooks = new ArrayList<>(2);
         int index = 0;
         for (int i = 0; i < board.length; i++) {
@@ -197,17 +212,17 @@ public class Board extends Observable implements Serializable{
         if (rooks.isEmpty())
             return false;
         for (ChessPiece piece : rooks) {
-            int xPos = piece.getPosition().getXcoord();
-            int yPos = piece.getPosition().getYcoord();
+            int xPos = piece.getX();
+            int yPos = piece.getY();
             int iter;
             // If rook.x - king.x is negative, the rook is to the left
-            if (xPos - king.getPosition().getXcoord() < 0)
+            if (xPos - king.getX() < 0)
                 iter = 1;
             // Else if its positive, rook is to the right
             else
                 iter = -1;
             xPos += iter;
-            int kingXPos = king.getPosition().getXcoord();
+            int kingXPos = king.getX();
                 while (xPos != kingXPos) {
                     ChessPiece pieceToCheck = getPiece(xPos, yPos);
                     if (pieceToCheck.getPieceID() != PieceName.EMPTY)
