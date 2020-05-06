@@ -56,8 +56,8 @@ public class BoardTest {
         assertEquals(PieceName.ROOK, board.getBoard()[0][0].getPieceID());
         assertEquals(PieceName.HORSE, board.getBoard()[0][1].getPieceID());
         assertEquals(PieceName.BISHOP, board.getBoard()[0][2].getPieceID());
-        assertEquals(PieceName.KING, board.getBoard()[0][3].getPieceID());
-        assertEquals(PieceName.QUEEN, board.getBoard()[0][4].getPieceID());
+        assertEquals(PieceName.QUEEN, board.getBoard()[0][3].getPieceID());
+        assertEquals(PieceName.KING, board.getBoard()[0][4].getPieceID());
         assertEquals(PieceName.BISHOP, board.getBoard()[0][5].getPieceID());
         assertEquals(PieceName.HORSE, board.getBoard()[0][6].getPieceID());
         assertEquals(PieceName.ROOK, board.getBoard()[0][7].getPieceID());
@@ -67,8 +67,8 @@ public class BoardTest {
         assertEquals(PieceName.ROOK, board.getBoard()[7][0].getPieceID());
         assertEquals(PieceName.HORSE, board.getBoard()[7][1].getPieceID());
         assertEquals(PieceName.BISHOP, board.getBoard()[7][2].getPieceID());
-        assertEquals(PieceName.KING, board.getBoard()[7][3].getPieceID());
-        assertEquals(PieceName.QUEEN, board.getBoard()[7][4].getPieceID());
+        assertEquals(PieceName.QUEEN, board.getBoard()[7][3].getPieceID());
+        assertEquals(PieceName.KING, board.getBoard()[7][4].getPieceID());
         assertEquals(PieceName.BISHOP, board.getBoard()[7][5].getPieceID());
         assertEquals(PieceName.HORSE, board.getBoard()[7][6].getPieceID());
         assertEquals(PieceName.ROOK, board.getBoard()[7][7].getPieceID());
@@ -704,11 +704,6 @@ public class BoardTest {
         ChessPiece rook2 = new Rook(7, 7, 1, board);
         ChessPiece horse1 = new Horse(1, 7, 1, board);
         ChessPiece horse2 = new Horse(6, 7, 1, board);
-//        board.placePiece(king);
-//        board.placePiece(rook1);
-//        board.placePiece(rook2);
-//        board.placePiece(horse1);
-//        board.placePiece(horse2);
         assertFalse(board.checkIfCastlingPossible(king));
     }
 
@@ -719,12 +714,6 @@ public class BoardTest {
         ChessPiece rook1 = new Rook(0, 7, 1, board);
         ChessPiece rook2 = new Rook(7, 7, 1, board);
         ChessPiece horse1 = new Horse(1, 7, 1, board);
-//        ChessPiece horse2 = new Horse(6, 7, 1, board);
-//        board.placePiece(king);
-//        board.placePiece(rook1);
-//        board.placePiece(rook2);
-//        board.placePiece(horse1);
-//        board.placePiece(horse2);
         assertFalse(board.checkIfCastlingPossible(king));
     }
 }
