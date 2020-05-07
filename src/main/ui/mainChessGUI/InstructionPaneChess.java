@@ -8,6 +8,7 @@ public class InstructionPaneChess {
 
     public InstructionPaneChess() {
         instructionPanel = new JTextPane();
+        instructionPanel.setEditable(false);
         instructionPanel.setSize(750, 100);
         instructionPanel.setFont(new java.awt.Font("Ubuntu", 1, 20));
         instructionPanel.setText("Clicking a piece will show the possible moves in yellow squares." +
