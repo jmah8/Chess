@@ -1,8 +1,6 @@
 package main.model;
 
 import main.model.pieces.*;
-import main.ui.Chess;
-import sun.invoke.empty.Empty;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -10,6 +8,7 @@ import java.util.List;
 import java.util.Observable;
 
 public class Board extends Observable implements Serializable{
+    private final BoardChecker boardChecker = new BoardChecker(this);
     private ChessPiece[][] board;
     private ArrayList<ChessPiece> piecesAlive;
 //    private List<EventHistory> history;
@@ -141,6 +140,7 @@ public class Board extends Observable implements Serializable{
                 movePiece(rightRook, new Position(rightRook.getX() - 2, rightRook.getY()));
             }
         }
+        
         if (pieceMoves.contains(moveToPosition) && !pieceToMove.getPosition().equals(moveToPosition)) {
             board[yNew][xNew] = pieceToMove;
             board[yCoord][xCoord] = new EmptyPiece(xCoord, yCoord, this);
@@ -182,20 +182,7 @@ public class Board extends Observable implements Serializable{
      * @return list of rooks that are on same team as @param king
      */
     public ArrayList<ChessPiece> searchForRooks(ChessPiece king) {
-        ArrayList<ChessPiece> rooks = new ArrayList<>(2);
-        int index = 0;
-        for (int i = 0; i < board.length; i++) {
-            for (int j = 0; j < board.length; j++) {
-                ChessPiece pieceAtPos = board[i][j];
-                if (pieceAtPos.getTeam() == king.getTeam() && pieceAtPos.getPieceID() == PieceName.ROOK) {
-                    rooks.add(index, pieceAtPos);
-                    index++;
-                }
-                if (index == 2)
-                    return rooks;
-            }
-        }
-        return rooks;
+        return boardChecker.searchForRooks(king);
     }
 
     /**
@@ -205,56 +192,23 @@ public class Board extends Observable implements Serializable{
      * @return Returns true if castle is possible for @param king, else false
      */
     public boolean checkIfCastlingPossible(ChessPiece king) {
-        if (king.getHasMoved() == true)
-            return false;
-        ArrayList<ChessPiece> rooks = searchForRooks(king);
-        if (rooks.isEmpty())
-            return false;
-        for (ChessPiece piece : rooks) {
-            int xPos = piece.getX();
-            int yPos = piece.getY();
-            int iter;
-            // If rook.x - king.x is negative, the rook is to the left
-            if (xPos - king.getX() < 0)
-                iter = 1;
-            // Else if its positive, rook is to the right
-            else
-                iter = -1;
-            xPos += iter;
-            int kingXPos = king.getX();
-                while (xPos != kingXPos) {
-                    ChessPiece pieceToCheck = getPiece(xPos, yPos);
-                    if (pieceToCheck.getPieceID() != PieceName.EMPTY)
-                        return false;
-                    xPos += iter;
-                }
-        }
-        return true;
+        return boardChecker.checkIfCastlingPossible(king);
     }
 
     // TODO: see if i need to use delegation to keep cohesion low
     // EFFECT: returns true if black piece has a possible move to eat white king, else false
     public boolean checkIfCheckOccurringForWhiteKing() {
-        return checkIfPositionCanBeReachedByAnyPiece(getPosKingWhiteTeam(), 1);
+        return boardChecker.checkIfCheckOccurringForWhiteKing();
     }
 
     // EFFECT: returns true if white piece has a possible move to eat black king, else false
     public boolean checkIfCheckOccurringForBlackKing() {
-        return checkIfPositionCanBeReachedByAnyPiece(getPosKingBlackTeam(), 0);
+        return boardChecker.checkIfCheckOccurringForBlackKing();
     }
 
     // EFFECT: returns true if piecePosition can be reached by piece of team teamNumber, false othewise
     public Boolean checkIfPositionCanBeReachedByAnyPiece(Position piecePosition, int teamNumber) {
-        Boolean check = false;
-        for (int i = 0; i < board.length; i++) {
-            for (int j = 0; j < board.length; j++) {
-                ChessPiece pieceAtPos = board[i][j];
-                if (checkIfPieceAtPosCanMoveToPosition(piecePosition, pieceAtPos, teamNumber)) {
-                    check = true;
-                }
-            }
-        }
-        return check;
+        return boardChecker.checkIfPositionCanBeReachedByAnyPiece(piecePosition, teamNumber);
     }
 
     // TODO: find out why this causes a bug in the GUI but not the test
@@ -272,49 +226,32 @@ public class Board extends Observable implements Serializable{
     // REQUIRES: updatePossibleMove be called on pieceAtPos before calling this method
     // EFFECT: returns true if pieceAtPos can move to position and is of team teamNumber
     public boolean checkIfPieceAtPosCanMoveToPosition(Position position, ChessPiece pieceAtPos, int teamNumber) {
-        pieceAtPos.updatePossibleMoves();
-        if (!pieceAtPos.getPieceID().equals(PieceName.EMPTY) && pieceAtPos.getTeam() == teamNumber) {
-            List<Position> possibleMoves = pieceAtPos.getPossibleMoves();
-            if (possibleMoves.contains(position)) {
-                return true;
-            }
-        }
-        return false;
+        return boardChecker.checkIfPieceAtPosCanMoveToPosition(position, pieceAtPos, teamNumber);
     }
 
     // EFFECT: returns white pieces checking black king
     public List<ChessPiece> getCheckingPiecesForBlackKing() {
-        return getPiecesThatCanMoveToPosition(getPosKingBlackTeam(), 0);
+        return boardChecker.getCheckingPiecesForBlackKing();
     }
 
     // EFFECT: returns black piece checking white king
     public List<ChessPiece> getCheckingPiecesForWhiteKing() {
-        return getPiecesThatCanMoveToPosition(getPosKingWhiteTeam(), 1);
+        return boardChecker.getCheckingPiecesForWhiteKing();
     }
 
     // EFFECT: return a list of pieces of team teamColourOfEnemy that have a possible move to position
     private List<ChessPiece> getPiecesThatCanMoveToPosition(Position position, int teamColourOfEnemy) {
-        List<ChessPiece> piecesWithPossibleMoveToPos = new ArrayList<>();
-        for (int i = 0; i < board.length; i++) {
-            for (int j = 0; j < board[i].length; j++) {
-                ChessPiece pieceAtPos = board[i][j];
-                int teamColour = pieceAtPos.getTeam();
-                if (teamColour == teamColourOfEnemy && checkIfPieceAtPosCanMoveToPosition(position, pieceAtPos, teamColour)) {
-                    piecesWithPossibleMoveToPos.add(board[i][j]);
-                }
-            }
-        }
-        return piecesWithPossibleMoveToPos;
+        return boardChecker.getPiecesThatCanMoveToPosition(position, teamColourOfEnemy);
     }
 
     // EFFECT: returns position of black king
     public Position getPosKingBlackTeam() {
-        return getKingPos(1);
+        return boardChecker.getPosKingBlackTeam();
     }
 
     // EFFECT: returns position of white king
     public Position getPosKingWhiteTeam() {
-        return getKingPos(0);
+        return boardChecker.getPosKingWhiteTeam();
     }
 
     /**
@@ -324,38 +261,22 @@ public class Board extends Observable implements Serializable{
      * @return pos of king with teamNumber @param
      */
     private Position getKingPos(int teamNumber) {
-        Position p = null;
-        try {
-            p = getKingOfTeam(teamNumber).getPosition();
-        } catch (NullPointerException e) {
-            // Do nothing;
-        }
-        return p;
+        return boardChecker.getKingPos(teamNumber);
     }
 
     // EFFECT: returns King from the team teamNumber
     private ChessPiece getKingOfTeam(int teamNumber) {
-        ChessPiece king = null;
-        for (int i = 0; i < board.length; i++) {
-            for (int j = 0; j < board[i].length; j++) {
-                ChessPiece piece = board[i][j];
-                if (piece.getPieceID().equals(PieceName.KING) && piece.getTeam() == teamNumber) {
-                    king = piece;
-                    break;
-                }
-            }
-        }
-        return king;
+        return boardChecker.getKingOfTeam(teamNumber);
     }
 
     // EFFECT: returns true if white king is checked an has no more possible moves
     public boolean gameOverForWhiteKing() {
-        return checkGameOverForKing(0, checkIfCheckOccurringForWhiteKing());
+        return boardChecker.gameOverForWhiteKing();
     }
 
     // EFFECT: returns true if black king is checked an has no more possible moves
     public boolean gameOverForBlackKing() {
-        return checkGameOverForKing(1, checkIfCheckOccurringForBlackKing());
+        return boardChecker.gameOverForBlackKing();
     }
 
     /**
@@ -367,13 +288,6 @@ public class Board extends Observable implements Serializable{
      * else false
      */
     private boolean checkGameOverForKing(int teamNumber, boolean isCheckOccuring) {
-        ChessPiece king = getKingOfTeam(teamNumber);
-        king.updatePossibleMoves();
-        List<Position> moves = king.getPossibleMoves();
-        boolean gameOver = false;
-        if (isCheckOccuring && moves.size() == 0) {
-            gameOver = true;
-        }
-        return gameOver;
+        return boardChecker.checkGameOverForKing(teamNumber, isCheckOccuring);
     }
 }

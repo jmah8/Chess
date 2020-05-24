@@ -26,8 +26,6 @@ public class King extends ChessPiece {
     }
 
     @Override
-    // TODO: bug where rooks/queen/bishops possible moves stop at the enemy, so the king could move 1 space away
-    //  from them and be in a place where it isnt a possible move
     // MODIFIES: this
     // EFFECT: updates possible move list with all possible 1 space move
     public void updatePossibleMoves() {
@@ -107,68 +105,7 @@ public class King extends ChessPiece {
         }
     }
 
-    // TODO: can add genrec to solve first bug where king can still eat piece and get into check position
-    // TODO: bug where if there is WKing, BQueen, BRook from left to right, the King is still allowed to eat the Queen eventhough the move will make a check
-    // TODO: bug where the White King specifically still has moves unaffected by the Black Queen/Bishop/Rook
-    // TODO: bug maybe is because of the multiple if statements but not if/else if i only return possible moves. Since it could go to the pawn if statement,
-    //  change it to true, then go to the possiblemoves.contains if statement which makes it false
-    // TODO: bug maybe is also because removing the piece by placing a new empty piece and somehow we didn't replace it with the king
-    // EFFECT: returns true if the move is possible for king with no check occurring after moving
-    private boolean checkIfPossibleMoveForKing(Position position, int teamNumberOfEnemy) {
-        boolean possibleMove = true;
-        for (int i = 0; i < board.getBoard().length; i++) {
-            for (int j = 0; j < board.getBoard()[i].length; j++) {
-                ChessPiece piece = board.getBoard()[i][j];
-                // Check if piece is on the enemy team and not an empty piece
-                if (piece.getTeam() == teamNumberOfEnemy && !piece.getPieceID().equals(PieceName.EMPTY)) {
-                    // Check if piece is the enemy king
-                    if (piece.getPieceID().equals(PieceName.KING) && !piece.equals(this)) {
-                        // If the piece is an enemy king then check if the position this is moving to is safe
-                        // from enemy king. If not safe return false.
-                        if (checkOtherKingsPossibleMove(piece, position)) {
-                            possibleMove = false;
-                            break;
-                        }
-                    } else if (!piece.getPieceID().equals(PieceName.KING)) {
-                        // Check if pawn can eat king
-                        if (piece.getPieceID().equals(PieceName.PAWN)) {
-                            if (checkIfPositionSameAsPawnEatingDiagonal(position, piece)) {
-                                possibleMove = false;
-                                break;
-                            }
-                        } else {
-                            piece.updatePossibleMoves();
-                            List<Position> possibleMoves = piece.getPossibleMoves();
-                            // Check if enemy piece has same possible move as what king is moving to
-                            if (possibleMoves.contains(position)) {
-                                possibleMove = false;
-                                break;
-                            } else if (possibleMoves.contains(this.position)) {
-                                Position oldPosition = this.position;
-                                int x = position.getXcoord();
-                                int y = position.getYcoord();
-                                // Simulates king move and see if piece has possible move to eat king
-                                ChessPiece pieceAtNewPosition = board.getPiece(x, y);
-                                board.movePieceIrregardlessOfPossibleMove(this, position);
-                                piece.updatePossibleMoves();
-                                possibleMoves = piece.getPossibleMoves();
-                                board.movePieceIrregardlessOfPossibleMove(this, oldPosition);
-                                board.placePiece(pieceAtNewPosition);
-                                if (possibleMoves.contains(position)) {
-                                    possibleMove = false;
-                                    break;
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        return possibleMove;
-    }
-
     // TODO: could maybe use the reverse move to redo move
-    // TODO: can change this to resemble CPSC 110 genrec
     // TODO: for everyother piece updatePossibleMoves, call this after to check if king is checked
     // Must have the board.placePiece(pieceRemoved) since when testing if move is valid, we remove piece
     // and so need to place it back on the board
